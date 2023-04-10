@@ -5,6 +5,7 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
     "skipLibCheck": true,
+    "types": ["@emotion/react/types/css-prop"],
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
