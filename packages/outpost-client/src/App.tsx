@@ -1,17 +1,11 @@
-import { useState } from "react";
-import { CharacterSelect } from "./components/characterSelect";
-import { Character } from "./types";
-import { characters } from "./characters";
+import Card from "@mui/material/Card";
+import { CharacterSheet } from "./components/characterSheet";
 
 function App() {
-  const [character, setCharacter] = useState<Character>(
-    characters["blinkblade"]
-  );
   return (
-    <div className="App">
-      outpost app
-      <CharacterSelect character={character} onChange={setCharacter} />
-    </div>
+    <Card css={{ flexGrow: 1, width: "100%", height: "100%" }}>
+      <CharacterSheet />
+    </Card>
   );
 }
 

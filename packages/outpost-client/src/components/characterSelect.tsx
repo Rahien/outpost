@@ -3,40 +3,36 @@ import { Character } from "../types";
 import { CharacterIcon } from "./characterIcon";
 import { characters } from "../characters";
 import { ChevronDown, ChevronUp } from "react-feather";
+import Button from "@mui/material/Button";
+import { Paper } from "@mui/material";
+import { useCharacterStore } from "../characterStore";
 
-export const CharacterSelect = ({
-  character,
-  onChange,
-}: {
-  character: Character;
-  onChange: (newCharacter: Character) => void;
-}) => {
-  const [selectedCharacter, setSelectedCharacter] =
-    useState<Character>(character);
+export const CharacterSelect = ({}: {}) => {
+  const { character, setCharacter } = useCharacterStore();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectCharacter = useCallback((character: Character) => {
-    setSelectedCharacter(character);
+    setCharacter(character);
     setIsOpen(false);
   }, []);
   return (
     <div css={{ position: "relative" }}>
       <div css={{ display: "flex" }}>
-        <CharacterIcon character={selectedCharacter} />
-        <button onClick={() => setIsOpen(!isOpen)}>
+        <CharacterIcon character={character} />
+        <Button onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <ChevronUp /> : <ChevronDown />}
-        </button>
+        </Button>
       </div>
       {isOpen && (
-        <div css={{ position: "absolute", bottom: 0 }}>
+        <Paper css={{ position: "absolute", top: 0 }}>
           {Object.values(characters).map((character) => (
-            <button
+            <Button
               key={character.name}
               onClick={() => selectCharacter(character)}
             >
               <CharacterIcon character={character} />
-            </button>
+            </Button>
           ))}
-        </div>
+        </Paper>
       )}
     </div>
   );
