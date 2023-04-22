@@ -9,8 +9,8 @@ export const CharacterIcon = ({ character }: { character: Character }) => {
         width: imageSize.large,
         height: imageSize.large,
         backgroundColor: "red",
-        backgroundPositionX: `${character.iconOffset.x}px`,
-        backgroundPositionY: `${character.iconOffset.y}px`,
+        backgroundPositionX: `${character.iconOffset?.x || 0}px`,
+        backgroundPositionY: `${character.iconOffset?.y || 0}px`,
         ariaLabel: character.name,
         backgroundSize: "352px",
       }}
