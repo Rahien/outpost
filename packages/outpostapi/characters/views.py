@@ -23,7 +23,7 @@ class  CharacterListApiView(APIView):
         '''
         data = {
             'name': request.data.get('name'),
-            'class_name': request.data.get('className'),
+            'class_name': request.data.get('class_name'),
             'user': request.user.id
         }
         serializer = CharacterSerializer(data=data)

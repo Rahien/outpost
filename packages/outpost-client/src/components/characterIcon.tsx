@@ -1,7 +1,8 @@
 import { Character } from "../types";
 import background from "../assets/classes.png";
 import { imageSize } from "../tokens";
-export const CharacterIcon = ({ character }: { character: Character }) => {
+import { CharacterClass } from "../characterStore";
+export const ClassIcon = ({ charClass }: { charClass: CharacterClass }) => {
   return (
     <div
       css={{
@@ -9,9 +10,9 @@ export const CharacterIcon = ({ character }: { character: Character }) => {
         width: imageSize.large,
         height: imageSize.large,
         backgroundColor: "red",
-        backgroundPositionX: `${character.iconOffset?.x || 0}px`,
-        backgroundPositionY: `${character.iconOffset?.y || 0}px`,
-        ariaLabel: character.name,
+        backgroundPositionX: `${charClass.iconOffset?.x || 0}px`,
+        backgroundPositionY: `${charClass.iconOffset?.y || 0}px`,
+        ariaLabel: charClass.name,
         backgroundSize: "352px",
       }}
     ></div>
