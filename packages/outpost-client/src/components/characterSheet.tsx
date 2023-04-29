@@ -65,7 +65,7 @@ export const CharacterSheet = () => {
     if (!character?.id) {
       return;
     }
-    deleteCharacter(character?.id);
+    await deleteCharacter(character?.id);
     navigate("/characters");
   };
 
@@ -76,13 +76,19 @@ export const CharacterSheet = () => {
         <ClassSelect />
         <CharacterName />
       </div>
-      <Button
-        variant="outlined"
-        color="error"
-        onClick={() => setDeleting(true)}
-      >
-        Delete Character
-      </Button>
+      <div css={{ display: "flex" }}>
+        <Button variant="outlined" onClick={() => navigate("/characters")}>
+          Back
+        </Button>
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => setDeleting(true)}
+        >
+          Delete Character
+        </Button>
+      </div>
+
       {deleting && (
         <DeletingCharacter
           character={character}
