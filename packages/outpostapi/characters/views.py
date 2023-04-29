@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from .models import Character
-from .serializers import CharacterSerializer
+from .serializers import CharacterSerializer, CharacterDetailSerializer
 
 class  CharacterListApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -58,7 +58,7 @@ class CharacterDetailApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        serializer = CharacterSerializer(character_instance)
+        serializer = CharacterDetailSerializer(character_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, character_id, *args, **kwargs):
@@ -76,7 +76,7 @@ class CharacterDetailApiView(APIView):
         data = request.data
         if data.get('user'):
           del data['user']
-        serializer = CharacterSerializer(character_instance, data=request.data, partial=True)
+        serializer = CharacterDetailSerializer(character_instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

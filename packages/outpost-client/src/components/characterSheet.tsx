@@ -76,6 +76,8 @@ export const CharacterSheet = () => {
         <ClassSelect />
         <CharacterName />
       </div>
+      <CharacterXp />
+
       <div css={{ display: "flex" }}>
         <Button variant="outlined" onClick={() => navigate("/characters")}>
           Back

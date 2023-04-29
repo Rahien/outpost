@@ -6,3 +6,11 @@ class CharacterSerializer(serializers.ModelSerializer):
         model = Character
         fields = ["id","name", "class_name", "created_at", "user"]
         read_only_fields = ["id", "created_at"]
+
+
+class CharacterDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Character
+        fields = "__all__"
+        read_only_fields = ["id", "created_at"]

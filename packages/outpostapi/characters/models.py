@@ -7,6 +7,20 @@ class Character(models.Model):
     created_at = models.DateTimeField("created at")
     class_name = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True)
+    xp = models.IntegerField(default=0)
+    gold= models.IntegerField(default=0)
+    hide = models.IntegerField(default=0)
+    metal = models.IntegerField(default=0)
+    wood = models.IntegerField(default=0)
+    arrowvine = models.IntegerField(default=0)
+    axenut = models.IntegerField(default=0)
+    corpsecap = models.IntegerField(default=0)
+    flamefruit = models.IntegerField(default=0)
+    rockroot = models.IntegerField(default=0)
+    snowthistle = models.IntegerField(default=0)
+    notes = models.TextField(blank=True, null=True)
+    perk_tags = models.IntegerField(default=0)
+
 
     def __str__(self):
       return f"{self.name} [{self.class_name}]"
