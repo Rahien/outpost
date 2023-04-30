@@ -65,4 +65,5 @@ div.MuiCard-root {
   padding: 8px;
   box-sizing: border-box;
   overflow: visible;
+  width: 100%;
 }

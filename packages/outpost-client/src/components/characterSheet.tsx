@@ -10,6 +10,7 @@ import { ResourceField } from "./resourceField";
 import { Paid, Verified } from "@mui/icons-material";
 import { spacing } from "../tokens";
 import { Title } from "./Title";
+import { CharacterNotes } from "./characterNotes";
 
 const DeletingCharacter = ({
   character,
@@ -147,6 +148,9 @@ export const CharacterSheet = () => {
             title={<Title title="Snowthistle" />}
           />
         </div>
+      </Card>
+      <Card>
+        <CharacterNotes />
       </Card>
 
       <div css={{ display: "flex" }}>
