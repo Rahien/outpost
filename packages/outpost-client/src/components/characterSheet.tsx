@@ -12,6 +12,7 @@ import { Paid, Verified } from "@mui/icons-material";
 import { spacing } from "../tokens";
 import { Title } from "./Title";
 import { CharacterNotes } from "./characterNotes";
+import { VerticalSeparator } from "./verticalSeparator";
 
 const DeletingCharacter = ({
   character,
@@ -93,7 +94,7 @@ export const CharacterSheet = () => {
       <Card
         css={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "1fr 24px 1fr",
           gap: spacing.tiny,
           width: "100%",
         }}
@@ -102,6 +103,7 @@ export const CharacterSheet = () => {
           resource="xp"
           title={<Title title="XP:" icon={<Verified />} />}
         />
+        <VerticalSeparator />
         <ResourceField
           resource="gold"
           title={<Title title="Gold:" icon={<Paid />} />}

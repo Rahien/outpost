@@ -4,7 +4,7 @@ export const Card = ({
   children,
   ...rest
 }: {
-  children: React.ReactElement;
+  children: React.ReactElement | React.ReactElement[];
 }) => {
   const border = `solid 2px black`;
   return (
