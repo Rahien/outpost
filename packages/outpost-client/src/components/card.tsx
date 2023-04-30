@@ -69,14 +69,78 @@ export const Card = ({
       >
         <div
           css={{
-            width: 0,
-            height: 0,
-            borderTop: "8px solid transparent",
-            borderBottom: "8px solid transparent",
-            marginRight: -1,
-            borderRight: "8px solid black",
+            position: "relative",
+            height: "34px",
+            width: "8px",
+            overflow: "hidden",
+            marginRight: -2,
           }}
-        ></div>
+        >
+          <div
+            css={{
+              border: `solid 2px black`,
+              width: 2,
+              height: 10,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              borderRight: "none",
+              borderBottom: "none",
+            }}
+          ></div>
+          <div
+            css={{
+              border: `solid 2px black`,
+              width: 2,
+              height: 10,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              borderTop: "none",
+              borderRight: "none",
+            }}
+          ></div>
+          <div
+            css={{
+              width: 0,
+              height: 0,
+              borderTop: "15px solid transparent",
+              borderBottom: "15px solid transparent",
+              marginLeft: -7,
+              borderRight: "15px solid black",
+              position: "relative",
+              top: 2,
+            }}
+          >
+            <div
+              css={{
+                width: 0,
+                height: 0,
+                borderTop: "12px solid transparent",
+                borderBottom: "12px solid transparent",
+                borderRight: "12px solid white",
+                position: "absolute",
+                left: 3,
+                top: -12,
+              }}
+            >
+              <div
+                css={{
+                  width: 0,
+                  height: 0,
+                  borderTop: "6px solid transparent",
+                  borderBottom: "6px solid transparent",
+                  borderRight: "6px solid black",
+                  position: "absolute",
+                  top: -6,
+                  left: 6,
+                }}
+              >
+                {/* separator triangle */}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </MuiCard>
   );
