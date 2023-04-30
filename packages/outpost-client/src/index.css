@@ -71,4 +71,5 @@ div.MuiCard-root {
   border-radius: 0;
   overflow: visible;
   margin-bottom: 8px;
+  box-sizing: border-box;
 }
