@@ -1,8 +1,7 @@
-import { EmojiEvents, Verified } from "@mui/icons-material";
+import { EmojiEvents, ExpandLess, Verified } from "@mui/icons-material";
 import { Card } from "@mui/material";
 import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
-import { ChevronUp } from "react-feather";
 
 type LevelAttainment = "current" | "yes" | "no";
 
@@ -15,7 +14,7 @@ const LevelBox = ({
   attained: LevelAttainment;
   xpRequired: number;
 }) => {
-  let background = `rgba(0,0,0,0.9)`;
+  let background = `rgba(0,0,0,0.3)`;
   let color = "black";
   if (attained === "current") {
     background = "black";
@@ -34,6 +33,7 @@ const LevelBox = ({
           color,
           width: 20,
           height: 20,
+          lineHeight: "20px",
           fontSize: 14,
           textAlign: "center",
           [mediaqueries.tinyMobile]: {
@@ -45,7 +45,7 @@ const LevelBox = ({
       >
         {level}
       </div>
-      <ChevronUp />
+      <ExpandLess />
       <div
         css={{
           width: 28,
@@ -125,11 +125,15 @@ export const CharacterXp = () => {
       >
         <div css={{ display: "flex", alignItems: "center" }}>
           <EmojiEvents />
-          <span css={{ marginLeft: spacing.tiny }}>Level:</span>
+          <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
+            Level:
+          </span>
         </div>
         <div css={{ display: "flex", alignItems: "center" }}>
           <Verified />
-          <span css={{ marginLeft: spacing.tiny }}>XP:</span>
+          <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
+            XP:
+          </span>
         </div>
       </div>
       <div

@@ -6,6 +6,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, Dialog, TextField } from "@mui/material";
 import { Character } from "../types";
 import { CharacterXp } from "./characterXp";
+import { ResourceField } from "./resourceField";
+import { Paid, Verified } from "@mui/icons-material";
+import { spacing } from "../tokens";
+import { Title } from "./Title";
 
 const DeletingCharacter = ({
   character,
@@ -78,6 +82,53 @@ export const CharacterSheet = () => {
         <CharacterName />
       </Card>
       <CharacterXp />
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: spacing.tiny,
+          width: "100%",
+        }}
+      >
+        <ResourceField
+          resource="xp"
+          title={<Title title="XP:" icon={<Verified />} />}
+        />
+        <ResourceField
+          resource="gold"
+          title={<Title title="Gold:" icon={<Paid />} />}
+        />
+      </div>
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          gap: spacing.tiny,
+          width: "100%",
+        }}
+      >
+        <ResourceField resource="hide" title={<Title title="Hide" />} />
+        <ResourceField resource="metal" title={<Title title="Metal" />} />
+        <ResourceField resource="wood" title={<Title title="Wood" />} />
+        <ResourceField
+          resource="arrowvine"
+          title={<Title title="Arrowvine" />}
+        />
+        <ResourceField resource="axenut" title={<Title title="Axenut" />} />
+        <ResourceField
+          resource="corpsecap"
+          title={<Title title="Corpsecap" />}
+        />
+        <ResourceField
+          resource="flamefruit"
+          title={<Title title="Flamefruit" />}
+        />
+        <ResourceField resource="rockroot" title={<Title title="Rockroot" />} />
+        <ResourceField
+          resource="snowthistle"
+          title={<Title title="Snowthistle" />}
+        />
+      </div>
 
       <div css={{ display: "flex" }}>
         <Button variant="outlined" onClick={() => navigate("/characters")}>
