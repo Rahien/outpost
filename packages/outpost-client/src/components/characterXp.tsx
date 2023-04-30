@@ -1,8 +1,8 @@
 import { EmojiEvents, Verified } from "@mui/icons-material";
 import { Card } from "@mui/material";
-import { spacing } from "../tokens";
+import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
-import { ChevronDown } from "react-feather";
+import { ChevronUp } from "react-feather";
 
 type LevelAttainment = "current" | "yes" | "no";
 
@@ -32,16 +32,47 @@ const LevelBox = ({
           border: `solid 1px black`,
           background,
           color,
-          width: 24,
-          height: 24,
+          width: 20,
+          height: 20,
+          fontSize: 14,
           textAlign: "center",
+          [mediaqueries.tinyMobile]: {
+            width: 18,
+            height: 18,
+            fontSize: 12,
+          },
         }}
       >
         {level}
       </div>
-      <ChevronDown />
-      <div>{xpRequired}</div>
+      <ChevronUp />
+      <div
+        css={{
+          width: 28,
+          textAlign: "center",
+          fontSize: 14,
+          [mediaqueries.tinyMobile]: {
+            width: 24,
+            fontSize: 12,
+          },
+        }}
+      >
+        {xpRequired}
+      </div>
     </div>
+  );
+};
+
+const VerticalSeparator = () => {
+  return (
+    <div
+      css={{
+        height: 67,
+        width: 1,
+        borderLeft: `solid 1px black`,
+        [mediaqueries.tinyMobile]: { height: 62 },
+      }}
+    ></div>
   );
 };
 
@@ -60,12 +91,15 @@ const CharacterLevel = () => {
       attained = "current";
     }
     return (
-      <LevelBox
-        key={index}
-        level={index + 1}
-        attained={attained}
-        xpRequired={boundary}
-      />
+      <>
+        <LevelBox
+          key={index}
+          level={index + 1}
+          attained={attained}
+          xpRequired={boundary}
+        />
+        {index < levelBoundaries.length - 1 && <VerticalSeparator />}
+      </>
     );
   });
 
@@ -73,23 +107,40 @@ const CharacterLevel = () => {
 };
 
 export const CharacterXp = () => {
-  const { character, updateCharacter } = useCharacterStore(
-    ({ character, updateCharacter }) => ({ character, updateCharacter })
-  );
   return (
-    <Card css={{ padding: spacing.medium, width: "100%" }}>
-      <div css={{ display: "flex" }}>
-        <div css={{ display: "flex", alignItems: "center", width: 200 }}>
+    <Card
+      css={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          flexShrink: 1,
+        }}
+      >
+        <div css={{ display: "flex", alignItems: "center" }}>
           <EmojiEvents />
-          <span css={{ marginLeft: spacing.small }}>Level:</span>
+          <span css={{ marginLeft: spacing.tiny }}>Level:</span>
         </div>
-        <CharacterLevel />
-      </div>
-      <div css={{ display: "flex" }}>
-        <div css={{ display: "flex", alignItems: "center", width: 200 }}>
+        <div css={{ display: "flex", alignItems: "center" }}>
           <Verified />
-          <span css={{ marginLeft: spacing.small }}>XP:</span>
+          <span css={{ marginLeft: spacing.tiny }}>XP:</span>
         </div>
+      </div>
+      <div
+        css={{
+          display: "flex",
+          alignItems: "center",
+          flexGrow: 1,
+          justifyContent: "flex-end",
+        }}
+      >
+        <CharacterLevel />
       </div>
     </Card>
   );

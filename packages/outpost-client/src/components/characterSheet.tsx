@@ -3,7 +3,7 @@ import { useCharacterStore } from "../characterStore";
 import { CharacterName } from "./characterName";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Dialog, TextField } from "@mui/material";
+import { Button, Card, Dialog, TextField } from "@mui/material";
 import { Character } from "../types";
 import { CharacterXp } from "./characterXp";
 
@@ -73,10 +73,10 @@ export const CharacterSheet = () => {
   if (!character) return null; // TODO: show loading
   return (
     <>
-      <div css={{ display: "flex" }}>
+      <Card css={{ display: "flex", width: "100%", alignItems: "center" }}>
         <ClassSelect />
         <CharacterName />
-      </div>
+      </Card>
       <CharacterXp />
 
       <div css={{ display: "flex" }}>
