@@ -60,8 +60,9 @@ button:focus-visible {
   height: 100%;
   width: 100%;
 }
-.MuiCard-root {
+div.MuiCard-root {
   margin-bottom: 8px;
   padding: 8px;
   box-sizing: border-box;
+  overflow: visible;
 }

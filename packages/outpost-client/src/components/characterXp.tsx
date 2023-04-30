@@ -2,6 +2,7 @@ import { EmojiEvents, ExpandLess, Verified } from "@mui/icons-material";
 import { Card } from "@mui/material";
 import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
+import { Fragment } from "react";
 
 type LevelAttainment = "current" | "yes" | "no";
 
@@ -91,7 +92,7 @@ const CharacterLevel = () => {
       attained = "current";
     }
     return (
-      <>
+      <Fragment key={index}>
         <LevelBox
           key={index}
           level={index + 1}
@@ -99,7 +100,7 @@ const CharacterLevel = () => {
           xpRequired={boundary}
         />
         {index < levelBoundaries.length - 1 && <VerticalSeparator />}
-      </>
+      </Fragment>
     );
   });
 

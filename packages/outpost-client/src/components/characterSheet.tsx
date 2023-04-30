@@ -50,6 +50,12 @@ const DeletingCharacter = ({
   );
 };
 
+const HorizontalDivider = () => {
+  return (
+    <div css={{ gridColumn: "span 3", borderTop: `solid 1px black` }}></div>
+  );
+};
+
 export const CharacterSheet = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -82,7 +88,7 @@ export const CharacterSheet = () => {
         <CharacterName />
       </Card>
       <CharacterXp />
-      <div
+      <Card
         css={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -98,37 +104,50 @@ export const CharacterSheet = () => {
           resource="gold"
           title={<Title title="Gold:" icon={<Paid />} />}
         />
-      </div>
-      <div
-        css={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
-          gap: spacing.tiny,
-          width: "100%",
-        }}
-      >
-        <ResourceField resource="hide" title={<Title title="Hide" />} />
-        <ResourceField resource="metal" title={<Title title="Metal" />} />
-        <ResourceField resource="wood" title={<Title title="Wood" />} />
-        <ResourceField
-          resource="arrowvine"
-          title={<Title title="Arrowvine" />}
-        />
-        <ResourceField resource="axenut" title={<Title title="Axenut" />} />
-        <ResourceField
-          resource="corpsecap"
-          title={<Title title="Corpsecap" />}
-        />
-        <ResourceField
-          resource="flamefruit"
-          title={<Title title="Flamefruit" />}
-        />
-        <ResourceField resource="rockroot" title={<Title title="Rockroot" />} />
-        <ResourceField
-          resource="snowthistle"
-          title={<Title title="Snowthistle" />}
-        />
-      </div>
+      </Card>
+      <Card css={{ width: "100%" }}>
+        <div css={{ fontWeight: "bold" }}>Resources:</div>
+        <div
+          css={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: spacing.tiny,
+            "> *:nth-of-type(2), > *:nth-of-type(6), > *:nth-of-type(10)": {
+              "> div": {
+                borderLeft: `solid 1px black`,
+                borderRight: `solid 1px black`,
+              },
+            },
+          }}
+        >
+          <ResourceField resource="hide" title={<Title title="Hide" />} />
+          <ResourceField resource="metal" title={<Title title="Metal" />} />
+          <ResourceField resource="wood" title={<Title title="Wood" />} />
+          <HorizontalDivider />
+          <ResourceField
+            resource="arrowvine"
+            title={<Title title="Arrowvine" />}
+          />
+          <ResourceField resource="axenut" title={<Title title="Axenut" />} />
+          <ResourceField
+            resource="corpsecap"
+            title={<Title title="Corpsecap" />}
+          />
+          <HorizontalDivider />
+          <ResourceField
+            resource="flamefruit"
+            title={<Title title="Flamefruit" />}
+          />
+          <ResourceField
+            resource="rockroot"
+            title={<Title title="Rockroot" />}
+          />
+          <ResourceField
+            resource="snowthistle"
+            title={<Title title="Snowthistle" />}
+          />
+        </div>
+      </Card>
 
       <div css={{ display: "flex" }}>
         <Button variant="outlined" onClick={() => navigate("/characters")}>
