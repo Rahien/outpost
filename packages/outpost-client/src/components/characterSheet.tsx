@@ -3,7 +3,8 @@ import { useCharacterStore } from "../characterStore";
 import { CharacterName } from "./characterName";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Card, Dialog, TextField } from "@mui/material";
+import { Button, Dialog, TextField } from "@mui/material";
+import { Card } from "./card";
 import { Character } from "../types";
 import { CharacterXp } from "./characterXp";
 import { ResourceField } from "./resourceField";
@@ -153,8 +154,19 @@ export const CharacterSheet = () => {
         <CharacterNotes />
       </Card>
 
-      <div css={{ display: "flex" }}>
-        <Button variant="outlined" onClick={() => navigate("/characters")}>
+      <div
+        css={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          paddingBottom: spacing.large,
+        }}
+      >
+        <Button
+          css={{ flexGrow: 1, marginRight: spacing.small }}
+          variant="outlined"
+          onClick={() => navigate("/characters")}
+        >
           Back
         </Button>
         <Button

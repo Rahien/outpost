@@ -1,8 +1,8 @@
 import { EmojiEvents, ExpandLess, Verified } from "@mui/icons-material";
-import { Card } from "@mui/material";
 import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
 import { Fragment } from "react";
+import { Card } from "./card";
 
 type LevelAttainment = "current" | "yes" | "no";
 
