@@ -3,8 +3,24 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from .models import Character
-from .serializers import CharacterSerializer, CharacterDetailSerializer
+from .models import Character, CharacterPerk, Perk
+from .serializers import CharacterSerializer, CharacterDetailSerializer, CharacterPerkSerializer
+
+def purge_character_perks(character):
+    '''
+    Helper method to delete all the perks for given character and reload the character's perks based on the new class
+    '''
+    perks = CharacterPerk.objects.filter(character = character)
+    for perk in perks:
+        perk.delete()
+
+    character_class = character.class_name
+    perks = Perk.objects.filter(class_name = character_class)
+    for perk in perks:
+        character_perk = CharacterPerk(character = character, perk = perk)
+        character_perk.save()
+
+
 
 class  CharacterListApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -27,8 +43,10 @@ class  CharacterListApiView(APIView):
             'user': request.user.id
         }
         serializer = CharacterSerializer(data=data)
+
         if serializer.is_valid():
-            serializer.save()
+            new_character = serializer.save()
+            purge_character_perks(new_character)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -73,12 +91,19 @@ class CharacterDetailApiView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        original_class = character_instance.class_name
         data = request.data
         if data.get('user'):
           del data['user']
+
         serializer = CharacterDetailSerializer(character_instance, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
+
+            if(data.get('class_name') and original_class):
+                purge_character_perks(character_instance)
+
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -97,3 +122,46 @@ class CharacterDetailApiView(APIView):
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
         )
+
+class CharacterPerkListApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, character_id, *args, **kwargs):
+        '''
+        List all the character perks for the given character and user
+        '''
+        character = Character.objects.get(id=character_id, user=request.user.id)
+        if not character:
+            return Response(
+                {"res": "Object with character id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        perks = CharacterPerk.objects.get(character_id=character_id)
+        serializer = CharacterPerkSerializer(perks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CharacterPerkDetailApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def put(self, request, character_id, perk_id, *args, **kwargs):
+        '''
+        List all the character perks for the given character and user
+        '''
+        character = Character.objects.get(id=character_id, user=request.user.id)
+        if not character:
+            return Response(
+                {"res": "Object with character id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        perk = CharacterPerk.objects.get(character_id=character_id, id=perk_id)
+        active = request.data.get('active')
+
+        if active is not None:
+            perk.active = active
+            perk.save()
+
+        serializer = CharacterPerkSerializer(perk)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+

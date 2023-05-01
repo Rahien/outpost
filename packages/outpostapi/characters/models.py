@@ -30,3 +30,28 @@ class Character(models.Model):
          self.created_at = timezone.now()
 
       return super(Character, self).save(*args, **kwargs)
+
+
+class Perk(models.Model):
+    description = models.TextField(blank=True, null=True)
+    class_name = models.CharField(max_length=200)
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+      return f"{self.description}"
+
+    class Meta:
+       ordering = ['order']
+       unique_together = ['class_name', 'order']
+
+class CharacterPerk(models.Model):
+    character = models.ForeignKey(Character, on_delete = models.CASCADE, blank = True, null = True)
+    perk = models.ForeignKey(Perk, on_delete = models.CASCADE, blank = True, null = True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+       unique_together = ['character', 'perk']
+
+
+    def __str__(self):
+      return f"{self.character.name} [perk {self.perk.id}: {self.active}]"
