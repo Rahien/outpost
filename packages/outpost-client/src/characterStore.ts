@@ -52,24 +52,63 @@ export const defaultCharacter: Omit<Character, "id"> = {
 
 export type CharacterClass = {
   name: string;
+  className: string;
   iconOffset: { x: number; y: number };
   id: string;
 };
 
 export const characterClasses: Record<string, CharacterClass> = {
   blinkblade: {
-    name: "Blinkblade",
+    name: "Quatryl Blinkblade",
     id: "blinkblade",
+    className: "Blinkblade",
     iconOffset: {
       x: 244,
       y: -2,
     },
   },
   bannerspear: {
-    name: "Bannerspear",
+    name: "Human Banner Spear",
+    className: "Banner Spear",
     id: "bannerspear",
     iconOffset: {
       x: 0,
+      y: -2,
+    },
+  },
+  boneshaper: {
+    name: "Aesther Boneshaper",
+    className: "Boneshaper",
+    id: "boneshaper",
+    iconOffset: {
+      x: 130,
+      y: -2,
+    },
+  },
+  deathwalker: {
+    name: "Valrath Deathwalker",
+    className: "Deathwalker",
+    id: "deathwalker",
+    iconOffset: {
+      x: 180,
+      y: -2,
+    },
+  },
+  drifter: {
+    name: "Inox Drifter",
+    className: "Drifter",
+    id: "drifter",
+    iconOffset: {
+      x: 300,
+      y: -2,
+    },
+  },
+  germinate: {
+    name: "Harrower Germinate",
+    className: "Germinate",
+    id: "germinate",
+    iconOffset: {
+      x: 70,
       y: -2,
     },
   },

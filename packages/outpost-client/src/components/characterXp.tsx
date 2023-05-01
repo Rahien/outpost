@@ -3,6 +3,8 @@ import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
 import { Fragment } from "react";
 import { Card } from "./card";
+import { Title } from "./Title";
+import { CharacterName } from "./characterName";
 
 type LevelAttainment = "current" | "yes" | "no";
 
@@ -109,43 +111,68 @@ const CharacterLevel = () => {
 
 export const CharacterXp = () => {
   return (
-    <Card
-      css={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-between",
-      }}
-    >
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          flexShrink: 1,
-        }}
-      >
-        <div css={{ display: "flex", alignItems: "center" }}>
-          <EmojiEvents />
-          <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
-            Level:
-          </span>
-        </div>
-        <div css={{ display: "flex", alignItems: "center" }}>
-          <Verified />
-          <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
-            XP:
-          </span>
-        </div>
-      </div>
+    <Card>
       <div
         css={{
           display: "flex",
           alignItems: "center",
-          flexGrow: 1,
-          justifyContent: "flex-end",
+          height: 56,
+
+          "> div": {
+            flexGrow: 1,
+            textAlign: "right",
+          },
+          input: {
+            textAlign: "right",
+            padding: spacing.small,
+          },
+          "> div:first-of-type": {
+            marginRight: spacing.tiny,
+            flexGrow: 0,
+          },
         }}
       >
-        <CharacterLevel />
+        <Title title="Name:" />
+        <CharacterName />
+      </div>
+      <div
+        css={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            flexShrink: 1,
+          }}
+        >
+          <div css={{ display: "flex", alignItems: "center" }}>
+            <EmojiEvents />
+            <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
+              Level:
+            </span>
+          </div>
+          <div css={{ display: "flex", alignItems: "center" }}>
+            <Verified />
+            <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
+              XP:
+            </span>
+          </div>
+        </div>
+        <div
+          css={{
+            display: "flex",
+            alignItems: "center",
+            flexGrow: 1,
+            justifyContent: "flex-end",
+          }}
+        >
+          <CharacterLevel />
+        </div>
       </div>
     </Card>
   );

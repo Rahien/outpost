@@ -88,7 +88,6 @@ export const CharacterSheet = () => {
     <>
       <Card css={{ display: "flex", width: "100%", alignItems: "center" }}>
         <ClassSelect />
-        <CharacterName />
       </Card>
       <CharacterXp />
       <Card

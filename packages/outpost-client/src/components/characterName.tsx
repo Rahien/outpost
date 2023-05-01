@@ -9,7 +9,6 @@ export const CharacterName = () => {
   if (editing) {
     return (
       <TextField
-        label="Name"
         value={name}
         onChange={(e) => setName(e.currentTarget.value)}
         onFocus={(e) => e.currentTarget.select()}
@@ -19,5 +18,12 @@ export const CharacterName = () => {
     );
   }
 
-  return <div onClick={() => setEditing(true)}>{name}</div>;
+  return (
+    <div
+      onClick={() => setEditing(true)}
+      css={{ fontWeight: "bold", borderBottom: "solid 1px black" }}
+    >
+      {name}
+    </div>
+  );
 };
