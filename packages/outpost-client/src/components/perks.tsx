@@ -11,6 +11,8 @@ import { useCharacterStore } from "../characterStore";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
+import { HorizontalLine } from "./horizontalLine";
+import { spacing } from "../tokens";
 const PerksChecks = ({ checked }: { checked: number }) => {
   const checkedBoxes = Array.from({ length: checked }).map((_, i) => i);
   const unCheckedBoxes = Array.from({ length: 3 - checked }).map((_, i) => i);
@@ -49,6 +51,8 @@ const AllPerkChecks = () => {
     <div
       css={{
         display: "grid",
+        paddingTop: spacing.small,
+        paddingBottom: spacing.small,
         gridTemplateColumns: "repeat(3, 1fr)",
       }}
     >
@@ -78,12 +82,13 @@ const PerkList = () => {
   }
 
   return (
-    <div>
+    <div css={{ paddingTop: spacing.small, paddingBottom: spacing.small }}>
       {orderedPerks.map((perk) => (
         <div
           key={perk.id}
           css={{
             display: "flex",
+            marginBottom: spacing.small,
           }}
           onClick={() => togglePerk(character.id, perk.id, !perk.active)}
         >
@@ -118,7 +123,8 @@ export const Perks = () => {
   return (
     <Card>
       <div ref={ref} onClick={() => setEditing(true)}>
-        <Title title="Perks" />
+        <Title title="Perks" center />
+        <HorizontalLine upwards />
 
         {editing ? (
           <Input
@@ -143,6 +149,8 @@ export const Perks = () => {
           <AllPerkChecks />
         )}
       </div>
+      <HorizontalLine />
+
       <PerkList />
     </Card>
   );
