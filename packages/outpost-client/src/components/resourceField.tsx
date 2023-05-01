@@ -5,13 +5,15 @@ import { Button, TextField } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { spacing } from "../tokens";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
+import { ResourceIcon } from "./resourceIcon";
+import { Title } from "./Title";
 
 export const ResourceField = ({
   resource,
   title,
 }: {
   resource: keyof Character;
-  title: React.ReactElement;
+  title?: React.ReactElement;
 }) => {
   const { character, updateCharacter } = useCharacterStore(
     ({ character, updateCharacter }) => ({
@@ -40,7 +42,7 @@ export const ResourceField = ({
       onClick={() => setEditing(!editing)}
       ref={ref}
     >
-      {title}
+      {title || <Title icon={<ResourceIcon resource={resource} />} />}
       <div
         css={{
           height: 64,

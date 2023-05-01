@@ -5,6 +5,7 @@ import { CharacterClass } from "../characterStore";
 export const ClassIcon = ({ charClass }: { charClass: CharacterClass }) => {
   return (
     <div
+      aria-label={charClass.name}
       css={{
         backgroundImage: `url(${background})`,
         width: imageSize.large,
@@ -12,7 +13,7 @@ export const ClassIcon = ({ charClass }: { charClass: CharacterClass }) => {
         backgroundColor: "red",
         backgroundPositionX: `${charClass.iconOffset?.x || 0}px`,
         backgroundPositionY: `${charClass.iconOffset?.y || 0}px`,
-        ariaLabel: charClass.name,
+
         backgroundSize: "352px",
       }}
     ></div>

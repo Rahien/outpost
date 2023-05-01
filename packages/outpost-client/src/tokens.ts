@@ -1,5 +1,6 @@
 export const imageSize = {
   large: "64px",
+  medium: "46px",
 };
 export const spacing = {
   small: "8px",

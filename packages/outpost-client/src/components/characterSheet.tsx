@@ -115,40 +115,29 @@ export const CharacterSheet = () => {
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr",
             gap: spacing.tiny,
-            "> *:nth-of-type(2), > *:nth-of-type(6), > *:nth-of-type(10)": {
+            "> *:nth-of-type(4n+1)": {
+              "> div": {
+                borderRight: `solid 1px black`,
+              },
+            },
+            "> *:nth-of-type(4n+3)": {
               "> div": {
                 borderLeft: `solid 1px black`,
-                borderRight: `solid 1px black`,
               },
             },
           }}
         >
-          <ResourceField resource="hide" title={<Title title="Hide" />} />
-          <ResourceField resource="metal" title={<Title title="Metal" />} />
-          <ResourceField resource="wood" title={<Title title="Wood" />} />
+          <ResourceField resource="hide" />
+          <ResourceField resource="metal" />
+          <ResourceField resource="wood" />
           <HorizontalDivider />
-          <ResourceField
-            resource="arrowvine"
-            title={<Title title="Arrowvine" />}
-          />
-          <ResourceField resource="axenut" title={<Title title="Axenut" />} />
-          <ResourceField
-            resource="corpsecap"
-            title={<Title title="Corpsecap" />}
-          />
+          <ResourceField resource="arrowvine" />
+          <ResourceField resource="axenut" />
+          <ResourceField resource="corpsecap" />
           <HorizontalDivider />
-          <ResourceField
-            resource="flamefruit"
-            title={<Title title="Flamefruit" />}
-          />
-          <ResourceField
-            resource="rockroot"
-            title={<Title title="Rockroot" />}
-          />
-          <ResourceField
-            resource="snowthistle"
-            title={<Title title="Snowthistle" />}
-          />
+          <ResourceField resource="flamefruit" />
+          <ResourceField resource="rockroot" />
+          <ResourceField resource="snowthistle" />
         </div>
       </Card>
       <Card>

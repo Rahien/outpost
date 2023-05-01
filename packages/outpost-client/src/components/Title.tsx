@@ -4,7 +4,7 @@ export const Title = ({
   title,
   icon,
 }: {
-  title: string;
+  title?: string;
   icon?: React.ReactElement;
 }) => {
   return (
