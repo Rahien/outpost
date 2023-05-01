@@ -1,3 +1,10 @@
+export type Perk = {
+  id: number;
+  description: string;
+  active: boolean;
+  order: number;
+};
+
 export type Character = {
   id: number;
   name: string;
@@ -15,4 +22,5 @@ export type Character = {
   snowthistle: number;
   notes: string;
   perkTags: number;
+  perks: Perk[];
 };

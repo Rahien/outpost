@@ -13,7 +13,13 @@ class CharacterPerkSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         char_perk = super().to_representation(instance)
-        return {**char_perk["perk"], "id": char_perk["id"], "active": char_perk["active"], "perk_id": char_perk["perk"]["id"]}
+        return {
+            **char_perk["perk"],
+            "id": char_perk["id"],
+            "active": char_perk["active"],
+            "perk_id": char_perk["perk"]["id"],
+            "order": char_perk["perk"]["order"]
+        }
 
     class Meta:
         model = CharacterPerk

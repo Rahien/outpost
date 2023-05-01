@@ -12,6 +12,11 @@ export type CharacterStore = {
   deleteCharacter: (id: number) => Promise<void>;
   characterList: Character[];
   fetchCharacterList: () => Promise<void>;
+  togglePerk: (
+    characterId: number,
+    id: number,
+    active: boolean
+  ) => Promise<void>;
 };
 
 export const useCharacterStore = create<CharacterStore>((set) => ({
@@ -39,9 +44,19 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
   deleteCharacter: async (id: number) => {
     await axios.delete(`${API_URL}/characters/api/${id}`);
   },
+  togglePerk: async (characterId: number, id: number, active: boolean) => {
+    const response = await axios.put(
+      `${API_URL}/characters/api/${characterId}/perks/${id}`,
+      {
+        active,
+      }
+    );
+    const character = response.data;
+    set({ character });
+  },
 }));
 
-export const defaultCharacter: Omit<Character, "id"> = {
+export const defaultCharacter: Omit<Character, "id" | "perks"> = {
   name: "my new character",
   className: "blinkblade",
   xp: 0,

@@ -161,7 +161,8 @@ class CharacterPerkDetailApiView(APIView):
             perk.active = active
             perk.save()
 
-        serializer = CharacterPerkSerializer(perk)
+        character = Character.objects.get(id=character_id, user=request.user.id)
+        serializer = CharacterDetailSerializer(character)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

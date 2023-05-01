@@ -8,7 +8,7 @@ import {
 import { Title } from "./Title";
 import { Card } from "./card";
 import { useCharacterStore } from "../characterStore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 const PerksChecks = ({ checked }: { checked: number }) => {
@@ -63,6 +63,42 @@ const AllPerkChecks = () => {
   );
 };
 
+const PerkList = () => {
+  const { character, togglePerk } = useCharacterStore(
+    ({ character, togglePerk }) => ({ character, togglePerk })
+  );
+  const orderedPerks = useMemo(() => {
+    const perks = [...(character?.perks || [])];
+    perks.sort((a, b) => (a.order < b.order ? -1 : 1));
+    return perks;
+  }, [character]);
+
+  if (!character) {
+    return null;
+  }
+
+  return (
+    <div>
+      {orderedPerks.map((perk) => (
+        <div
+          key={perk.id}
+          css={{
+            display: "flex",
+          }}
+          onClick={() => togglePerk(character.id, perk.id, !perk.active)}
+        >
+          {perk.active ? (
+            <CheckBoxOutlined />
+          ) : (
+            <CheckBoxOutlineBlankOutlined />
+          )}
+          <div>{perk.description}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const Perks = () => {
   const [editing, setEditing] = useState(false);
   const ref = useRef(null);
@@ -89,7 +125,7 @@ export const Perks = () => {
             type="number"
             value={perks}
             css={{ width: "100%" }}
-            //onBlur={() => setEditing(false)}
+            onBlur={() => setEditing(false)}
             autoFocus
             inputProps={{
               max: 18,
@@ -107,6 +143,7 @@ export const Perks = () => {
           <AllPerkChecks />
         )}
       </div>
+      <PerkList />
     </Card>
   );
 };
