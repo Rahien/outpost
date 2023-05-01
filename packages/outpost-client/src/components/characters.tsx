@@ -7,42 +7,53 @@ import {
 import { ClassIcon } from "./characterIcon";
 import { ArrowRight } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Button, Card } from "@mui/material";
+import { Button } from "@mui/material";
 import { Character } from "../types";
 import axios from "axios";
+import { Card } from "./card";
+import { VerticalSeparator } from "./verticalSeparator";
 
 const CharacterListItem = ({ character }: { character: Character }) => {
   const navigate = useNavigate();
   const url = `/characters/${character.id}`;
   return (
     <Card
-      css={{ display: "flex", alignItems: "center" }}
+      css={{
+        display: "flex",
+        alignItems: "center",
+        "> div:nth-child(2)": {
+          alignSelf: "stretch",
+        },
+      }}
       onClick={() => navigate(url)}
     >
       <ClassIcon charClass={characterClasses[character.className]} />
-      <span>{character.name}</span>
-      <Button
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          navigate(url);
+      <VerticalSeparator withLine={false} />
+      <div
+        css={{
+          fontWeight: "bold",
+          fontSize: "1.25em",
+          flexGrow: 1,
+          textAlign: "center",
         }}
       >
-        <ArrowRight />
-      </Button>
+        {character.name}
+      </div>
     </Card>
   );
 };
 
 export const Characters = () => {
   const navigate = useNavigate();
-  const { characterList, fetchCharacterList } = useCharacterStore(
-    ({ characterList, fetchCharacterList }) => ({
+  const { characterList, fetchCharacterList, setCharacter } = useCharacterStore(
+    ({ characterList, fetchCharacterList, setCharacter }) => ({
       characterList,
       fetchCharacterList,
+      setCharacter,
     })
   );
   useEffect(() => {
+    setCharacter(null);
     fetchCharacterList();
   }, [fetchCharacterList]);
 
@@ -55,7 +66,7 @@ export const Characters = () => {
   };
   return (
     <>
-      <div>
+      <div css={{ width: "100%" }}>
         {characterList.map((character) => {
           return <CharacterListItem character={character} key={character.id} />;
         })}

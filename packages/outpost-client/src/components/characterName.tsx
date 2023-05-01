@@ -1,10 +1,20 @@
 import { TextField } from "@mui/material";
 import { useCharacterStore } from "../characterStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDebounce } from "usehooks-ts";
 
 export const CharacterName = () => {
-  const { name, setName } = useCharacterStore();
+  const { character, updateCharacter } = useCharacterStore(
+    ({ character, updateCharacter }) => ({ character, updateCharacter })
+  );
   const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(character?.name || "");
+  const debouncedName = useDebounce(name, 1000);
+  useEffect(() => {
+    if (character && debouncedName !== character.name) {
+      updateCharacter({ ...character, name: debouncedName });
+    }
+  }, [character, debouncedName]);
 
   if (editing) {
     return (

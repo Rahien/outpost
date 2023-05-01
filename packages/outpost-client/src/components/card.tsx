@@ -2,13 +2,16 @@ import { Card as MuiCard } from "@mui/material";
 import { spacing } from "../tokens";
 export const Card = ({
   children,
+  onClick,
   ...rest
 }: {
   children: React.ReactElement | React.ReactElement[];
+  onClick?: () => void;
 }) => {
   const border = `solid 2px black`;
   return (
     <MuiCard
+      onClick={onClick}
       css={{
         display: "flex",
         alignItems: "stretch",

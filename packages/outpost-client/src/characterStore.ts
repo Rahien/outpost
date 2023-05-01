@@ -6,21 +6,18 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export type CharacterStore = {
   character: Character | null;
-  name: string;
-  setCharacter: (character: Character) => void;
+  setCharacter: (character: Character | null) => void;
   fetchCharacter: (id: string) => Promise<void>;
   updateCharacter: (newCharacter: Character) => Promise<void>;
   deleteCharacter: (id: number) => Promise<void>;
   characterList: Character[];
   fetchCharacterList: () => Promise<void>;
-  setName: (name: string) => void;
 };
 
 export const useCharacterStore = create<CharacterStore>((set) => ({
   character: null,
   characterList: [] as Character[],
-  name: "my new character",
-  setCharacter: (character: Character) => set({ character }),
+  setCharacter: (character: Character | null) => set({ character }),
   fetchCharacter: async (id: string) => {
     const response = await axios(`${API_URL}/characters/api/${id}`);
     const character = response.data;
@@ -42,12 +39,24 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
   deleteCharacter: async (id: number) => {
     await axios.delete(`${API_URL}/characters/api/${id}`);
   },
-  setName: (name: string) => set({ name }),
 }));
 
 export const defaultCharacter: Omit<Character, "id"> = {
   name: "my new character",
   className: "blinkblade",
+  xp: 0,
+  gold: 0,
+  metal: 0,
+  wood: 0,
+  hide: 0,
+  arrowvine: 0,
+  axenut: 0,
+  corpsecap: 0,
+  flamefruit: 0,
+  rockroot: 0,
+  snowthistle: 0,
+  notes: "",
+  perkTags: 0,
 };
 
 export type CharacterClass = {
