@@ -10,7 +10,7 @@ export const Title = ({
   return (
     <div css={{ display: "flex", alignItems: "center" }}>
       {icon}
-      <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
+      <span css={{ marginLeft: icon ? spacing.tiny : 0, fontWeight: "bold" }}>
         {title}
       </span>
     </div>
