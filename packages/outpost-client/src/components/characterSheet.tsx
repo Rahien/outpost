@@ -13,6 +13,7 @@ import { spacing } from "../tokens";
 import { Title } from "./Title";
 import { CharacterNotes } from "./characterNotes";
 import { VerticalSeparator } from "./verticalSeparator";
+import { Perks } from "./perks";
 
 const DeletingCharacter = ({
   character,
@@ -143,6 +144,8 @@ export const CharacterSheet = () => {
       <Card>
         <CharacterNotes />
       </Card>
+
+      <Perks />
 
       <div
         css={{
