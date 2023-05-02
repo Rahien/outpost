@@ -13,6 +13,7 @@ import { Input } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { HorizontalLine } from "./horizontalLine";
 import { spacing } from "../tokens";
+import { Perk } from "../types";
 const PerksChecks = ({ checked }: { checked: number }) => {
   const checkedBoxes = Array.from({ length: checked }).map((_, i) => i);
   const unCheckedBoxes = Array.from({ length: 3 - checked }).map((_, i) => i);
@@ -67,10 +68,39 @@ const AllPerkChecks = () => {
   );
 };
 
-const PerkList = () => {
+const PerkItem = ({ perk }: { perk: Perk }) => {
   const { character, togglePerk } = useCharacterStore(
     ({ character, togglePerk }) => ({ character, togglePerk })
   );
+  const decreaseActive = () => {
+    if (!character) return;
+    togglePerk(character.id, perk.id, perk.active - 1);
+  };
+  const inCreaseActive = () => {
+    if (!character) return;
+    togglePerk(character.id, perk.id, perk.active + 1);
+  };
+  return (
+    <div
+      key={perk.id}
+      css={{
+        display: "flex",
+        marginBottom: spacing.small,
+      }}
+    >
+      {Array.from({ length: perk.active }).map((_, i) => (
+        <CheckBoxOutlined onClick={decreaseActive} />
+      ))}
+      {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
+        <CheckBoxOutlineBlankOutlined onClick={inCreaseActive} />
+      ))}
+      <div>{perk.description}</div>
+    </div>
+  );
+};
+
+const PerkList = () => {
+  const { character } = useCharacterStore(({ character }) => ({ character }));
   const orderedPerks = useMemo(() => {
     const perks = [...(character?.perks || [])];
     perks.sort((a, b) => (a.order < b.order ? -1 : 1));
@@ -84,21 +114,7 @@ const PerkList = () => {
   return (
     <div css={{ paddingTop: spacing.small, paddingBottom: spacing.small }}>
       {orderedPerks.map((perk) => (
-        <div
-          key={perk.id}
-          css={{
-            display: "flex",
-            marginBottom: spacing.small,
-          }}
-          onClick={() => togglePerk(character.id, perk.id, !perk.active)}
-        >
-          {perk.active ? (
-            <CheckBoxOutlined />
-          ) : (
-            <CheckBoxOutlineBlankOutlined />
-          )}
-          <div>{perk.description}</div>
-        </div>
+        <PerkItem perk={perk} />
       ))}
     </div>
   );

@@ -155,7 +155,18 @@ class CharacterPerkDetailApiView(APIView):
             )
 
         perk = CharacterPerk.objects.get(character_id=character_id, id=perk_id)
-        active = request.data.get('active')
+        if not perk:
+            return Response(
+                {"res": "Object with perk id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        perk_info = Perk.objects.get(id=perk.perk_id)
+        if not perk_info:
+            return Response(
+                {"res": "Referenced perk does not exist"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        active = min(perk_info.max_active, max(request.data.get('active', 0), 0))
 
         if active is not None:
             perk.active = active

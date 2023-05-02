@@ -1,7 +1,8 @@
 export type Perk = {
   id: number;
   description: string;
-  active: boolean;
+  active: number;
+  maxActive: number;
   order: number;
 };
 

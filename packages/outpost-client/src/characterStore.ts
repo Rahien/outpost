@@ -15,7 +15,7 @@ export type CharacterStore = {
   togglePerk: (
     characterId: number,
     id: number,
-    active: boolean
+    active: number
   ) => Promise<void>;
 };
 
@@ -44,7 +44,7 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
   deleteCharacter: async (id: number) => {
     await axios.delete(`${API_URL}/characters/api/${id}`);
   },
-  togglePerk: async (characterId: number, id: number, active: boolean) => {
+  togglePerk: async (characterId: number, id: number, active: number) => {
     const response = await axios.put(
       `${API_URL}/characters/api/${characterId}/perks/${id}`,
       {

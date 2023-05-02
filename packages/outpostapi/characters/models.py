@@ -36,6 +36,7 @@ class Perk(models.Model):
     description = models.TextField(blank=True, null=True)
     class_name = models.CharField(max_length=200)
     order = models.IntegerField(default=0)
+    max_active = models.IntegerField(default=1)
 
     def __str__(self):
       return f"{self.description}"
@@ -47,7 +48,7 @@ class Perk(models.Model):
 class CharacterPerk(models.Model):
     character = models.ForeignKey(Character, on_delete = models.CASCADE, blank = True, null = True)
     perk = models.ForeignKey(Perk, on_delete = models.CASCADE, blank = True, null = True)
-    active = models.BooleanField(default=False)
+    active = models.IntegerField(default=0)
 
     class Meta:
        unique_together = ['character', 'perk']
