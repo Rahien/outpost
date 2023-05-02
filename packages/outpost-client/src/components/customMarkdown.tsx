@@ -3,6 +3,7 @@ import { ResourceIcon } from "./resourceIcon";
 import { RESOURCES } from "../types";
 import { characterClasses } from "../characterStore";
 import { ClassIcon } from "./characterIcon";
+import { EffectIcon, effectOffsets } from "./effectIcon";
 
 const components: Record<string, React.ComponentType> = {};
 
@@ -21,6 +22,12 @@ Object.keys(characterClasses).forEach((characterClass) => {
         size="tiny"
       />
     );
+  };
+});
+
+Object.keys(effectOffsets).forEach((effect) => {
+  components[effect] = () => {
+    return <EffectIcon effect={effect} inline size="tiny" />;
   };
 });
 
