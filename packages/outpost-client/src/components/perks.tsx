@@ -14,6 +14,7 @@ import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { HorizontalLine } from "./horizontalLine";
 import { spacing } from "../tokens";
 import { Perk } from "../types";
+import { CustomMarkdown } from "./customMarkdown";
 const PerksChecks = ({ checked }: { checked: number }) => {
   const checkedBoxes = Array.from({ length: checked }).map((_, i) => i);
   const unCheckedBoxes = Array.from({ length: 3 - checked }).map((_, i) => i);
@@ -94,7 +95,7 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
       {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
         <CheckBoxOutlineBlankOutlined onClick={inCreaseActive} />
       ))}
-      <div>{perk.description}</div>
+      <CustomMarkdown>{perk.description}</CustomMarkdown>
     </div>
   );
 };
