@@ -35,13 +35,13 @@ export const ResourceIcon = ({
 };
 
 const resourceOffsets: Record<string, { x: number; y: number }> = {
-  metal: { x: 173, y: 0 },
-  wood: { x: 46, y: 0 },
-  hide: { x: 0, y: 0 },
-  arrowvine: { x: 5, y: 97 },
-  axenut: { x: 174, y: 97 },
-  corpsecap: { x: 173, y: 45 },
-  flamefruit: { x: -4, y: 43 },
-  rockroot: { x: 46, y: 96 },
-  snowthistle: { x: 46, y: 47 },
+  metal: { x: 166, y: -2 },
+  wood: { x: 40, y: -4 },
+  hide: { x: -4, y: -4 },
+  arrowvine: { x: -1, y: 91 },
+  axenut: { x: 171, y: 91 },
+  corpsecap: { x: 171, y: 39 },
+  flamefruit: { x: -4, y: 40 },
+  rockroot: { x: 44, y: 90 },
+  snowthistle: { x: 42, y: 41 },
 };

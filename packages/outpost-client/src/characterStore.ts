@@ -87,8 +87,8 @@ export const characterClasses: Record<string, CharacterClass> = {
     id: "blinkblade",
     className: "Blinkblade",
     iconOffset: {
-      x: 244,
-      y: -2,
+      x: 269,
+      y: -7,
     },
   },
   bannerspear: {
@@ -97,7 +97,7 @@ export const characterClasses: Record<string, CharacterClass> = {
     id: "bannerspear",
     iconOffset: {
       x: 0,
-      y: -2,
+      y: -7,
     },
   },
   boneshaper: {
@@ -105,8 +105,8 @@ export const characterClasses: Record<string, CharacterClass> = {
     className: "Boneshaper",
     id: "boneshaper",
     iconOffset: {
-      x: 130,
-      y: -2,
+      x: 143,
+      y: -7,
     },
   },
   deathwalker: {
@@ -114,8 +114,8 @@ export const characterClasses: Record<string, CharacterClass> = {
     className: "Deathwalker",
     id: "deathwalker",
     iconOffset: {
-      x: 180,
-      y: -2,
+      x: 208,
+      y: -7,
     },
   },
   drifter: {
@@ -123,8 +123,8 @@ export const characterClasses: Record<string, CharacterClass> = {
     className: "Drifter",
     id: "drifter",
     iconOffset: {
-      x: 300,
-      y: -2,
+      x: 337,
+      y: -7,
     },
   },
   germinate: {
@@ -132,8 +132,8 @@ export const characterClasses: Record<string, CharacterClass> = {
     className: "Germinate",
     id: "germinate",
     iconOffset: {
-      x: 70,
-      y: -2,
+      x: 79,
+      y: -7,
     },
   },
 };

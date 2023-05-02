@@ -1,4 +1,3 @@
-import { Character } from "../types";
 import background from "../assets/classes.png";
 import { imageSize } from "../tokens";
 import { CharacterClass } from "../characterStore";
@@ -14,7 +13,7 @@ export const ClassIcon = ({
   const iconSize = parseInt(imageSize[size], 10);
   const defaultSize = parseInt(imageSize.large, 10);
   const sizeMultiplier = iconSize / defaultSize;
-  const backgroundSize = 352 * sizeMultiplier;
+  const backgroundSize = 396 * sizeMultiplier;
   return (
     <div
       aria-label={charClass.name}

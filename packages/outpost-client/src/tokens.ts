@@ -1,7 +1,7 @@
 export const imageSize = {
-  tiny: "24px",
+  tiny: "18px",
   large: "64px",
-  medium: "46px",
+  medium: "32px",
 };
 export const spacing = {
   small: "8px",
