@@ -3,8 +3,8 @@ import { useCharacterStore } from "../characterStore";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { Title } from "./Title";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { spacing } from "../tokens";
+import { CustomMarkdown } from "./customMarkdown";
 
 export const CharacterNotes = () => {
   const { character, updateCharacter } = useCharacterStore(
@@ -45,7 +45,7 @@ export const CharacterNotes = () => {
         </div>
       ) : (
         <div onClick={() => setEditing(true)}>
-          <ReactMarkdown>{value}</ReactMarkdown>
+          <CustomMarkdown>{value}</CustomMarkdown>
         </div>
       )}
     </div>

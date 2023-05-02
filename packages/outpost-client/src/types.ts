@@ -25,3 +25,15 @@ export type Character = {
   perkTags: number;
   perks: Perk[];
 };
+
+export const RESOURCES = [
+  "metal",
+  "wood",
+  "hide",
+  "arrowvine",
+  "axenut",
+  "corpsecap",
+  "flamefruit",
+  "rockroot",
+  "snowthistle",
+];
