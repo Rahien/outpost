@@ -27,6 +27,7 @@ body {
   width: 100vw;
   box-sizing: border-box;
   padding: 8px;
+  overflow: hidden;
 }
 
 h1 {
@@ -59,6 +60,7 @@ button:focus-visible {
   align-items: center;
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
 div.MuiCard-root > div:nth-of-type(2) {
   padding: 8px;
