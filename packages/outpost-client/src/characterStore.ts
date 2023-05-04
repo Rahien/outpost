@@ -127,10 +127,10 @@ export const characterClasses: Record<string, CharacterClass> = {
       y: -7,
     },
   },
-  germinate: {
-    name: "Harrower Germinate",
-    className: "Germinate",
-    id: "germinate",
+  geminate: {
+    name: "Harrower Geminate",
+    className: "Geminate",
+    id: "geminate",
     iconOffset: {
       x: 79,
       y: -7,

@@ -1,5 +1,5 @@
 export const imageSize = {
-  tiny: "18px",
+  tiny: "22px",
   large: "64px",
   medium: "32px",
 };

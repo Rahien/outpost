@@ -1,10 +1,11 @@
-import { EmojiEvents, ExpandLess, Verified } from "@mui/icons-material";
+import { ExpandLess, Verified } from "@mui/icons-material";
 import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
 import { Fragment } from "react";
 import { Card } from "./card";
 import { Title } from "./Title";
 import { CharacterName } from "./characterName";
+import levelIcon from "../assets/general/fh-level-crown-bw-icon.png";
 
 type LevelAttainment = "current" | "yes" | "no";
 
@@ -151,7 +152,7 @@ export const CharacterXp = () => {
           }}
         >
           <div css={{ display: "flex", alignItems: "center" }}>
-            <EmojiEvents />
+            <img src={levelIcon} css={{ height: 20, width: 20 }} />
             <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
               Level:
             </span>

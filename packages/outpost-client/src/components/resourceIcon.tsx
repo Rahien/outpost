@@ -1,4 +1,13 @@
-import background from "../assets/resources.png";
+import arrowvine from "../assets/loot/fh-arrowvine-bw-icon.png";
+import axenut from "../assets/loot/fh-axenut-bw-icon.png";
+import corpsecap from "../assets/loot/fh-corpsecap-bw-icon.png";
+import flamefruit from "../assets/loot/fh-flamefruit-bw-icon.png";
+import rockroot from "../assets/loot/fh-rockroot-bw-icon.png";
+import snowthistle from "../assets/loot/fh-snowthistle-bw-icon.png";
+import hide from "../assets/loot/fh-hide-bw-icon.png";
+import metal from "../assets/loot/fh-metal-bw-icon.png";
+import wood from "../assets/loot/fh-lumber-bw-icon.png";
+
 import { imageSize } from "../tokens";
 export const ResourceIcon = ({
   resource,
@@ -14,34 +23,28 @@ export const ResourceIcon = ({
   const sizeMultiplier = iconSize / defaultSize;
   const backgroundSize = 310 * sizeMultiplier;
   return (
-    <div
+    <img
       aria-label={resource}
+      src={resourceImages[resource]}
       css={{
-        backgroundImage: `url(${background})`,
         width: imageSize[size],
         height: imageSize[size],
-        backgroundPositionX: `${
-          (resourceOffsets[resource]?.x || 0) * sizeMultiplier
-        }px`,
-        backgroundPositionY: `${
-          (resourceOffsets[resource]?.y || 0) * sizeMultiplier
-        }px`,
-        backgroundSize: `${backgroundSize}px`,
         display: inline ? "inline-block" : "block",
         verticalAlign: "middle",
+        objectFit: "contain",
       }}
-    ></div>
+    />
   );
 };
 
-const resourceOffsets: Record<string, { x: number; y: number }> = {
-  metal: { x: 166, y: -2 },
-  wood: { x: 40, y: -4 },
-  hide: { x: -4, y: -4 },
-  arrowvine: { x: -1, y: 91 },
-  axenut: { x: 171, y: 91 },
-  corpsecap: { x: 171, y: 39 },
-  flamefruit: { x: -4, y: 40 },
-  rockroot: { x: 44, y: 90 },
-  snowthistle: { x: 42, y: 41 },
+const resourceImages: Record<string, string> = {
+  metal,
+  wood,
+  hide,
+  arrowvine,
+  axenut,
+  corpsecap,
+  flamefruit,
+  rockroot,
+  snowthistle,
 };

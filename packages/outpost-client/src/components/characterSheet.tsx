@@ -1,6 +1,5 @@
 import { ClassSelect } from "./characterClassSelect";
 import { useCharacterStore } from "../characterStore";
-import { CharacterName } from "./characterName";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Dialog, TextField } from "@mui/material";
@@ -8,12 +7,13 @@ import { Card } from "./card";
 import { Character } from "../types";
 import { CharacterXp } from "./characterXp";
 import { ResourceField } from "./resourceField";
-import { Paid, Verified } from "@mui/icons-material";
-import { spacing } from "../tokens";
+import { Verified } from "@mui/icons-material";
+import { imageSize, spacing } from "../tokens";
 import { Title } from "./Title";
 import { CharacterNotes } from "./characterNotes";
 import { VerticalSeparator } from "./verticalSeparator";
 import { Perks } from "./perks";
+import coinIcon from "../assets/general/fh-money-bw-icon.png";
 
 const DeletingCharacter = ({
   character,
@@ -106,7 +106,21 @@ export const CharacterSheet = () => {
         <VerticalSeparator />
         <ResourceField
           resource="gold"
-          title={<Title title="Gold:" icon={<Paid />} />}
+          title={
+            <Title
+              title="Gold:"
+              icon={
+                <img
+                  src={coinIcon}
+                  css={{
+                    width: imageSize.tiny,
+                    height: imageSize.tiny,
+                    objectFit: "contain",
+                  }}
+                />
+              }
+            />
+          }
         />
       </Card>
       <Card css={{ width: "100%" }}>
@@ -124,6 +138,9 @@ export const CharacterSheet = () => {
             "> *:nth-of-type(4n+3)": {
               "> div": {
                 borderLeft: `solid 1px black`,
+                img: {
+                  marginLeft: spacing.tiny,
+                },
               },
             },
           }}
