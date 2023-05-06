@@ -31,7 +31,12 @@ export const CharacterName = () => {
   return (
     <div
       onClick={() => setEditing(true)}
-      css={{ fontWeight: "bold", borderBottom: "solid 1px black" }}
+      css={{
+        fontWeight: "bold",
+        borderBottom: "solid 1px black",
+        fontFamily: "PirataOne-Gloomhaven",
+        fontSize: "24px",
+      }}
     >
       {name}
     </div>

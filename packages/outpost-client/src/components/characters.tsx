@@ -32,9 +32,10 @@ const CharacterListItem = ({ character }: { character: Character }) => {
       <div
         css={{
           fontWeight: "bold",
-          fontSize: "1.25em",
+          fontSize: "24px",
           flexGrow: 1,
           textAlign: "center",
+          fontFamily: "PirataOne-Gloomhaven",
         }}
       >
         {character.name}
