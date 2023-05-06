@@ -330,15 +330,17 @@ Object.keys(components).forEach((key) => {
 
 export const CustomMarkdown = ({ children }: { children: string }) => {
   return (
-    <Markdown
-      options={{
-        overrides,
-        createElement(type, props, children) {
-          return React.createElement(type, props, children);
-        },
-      }}
-    >
-      {children}
-    </Markdown>
+    <div css={{ minHeight: "1em" }}>
+      <Markdown
+        options={{
+          overrides,
+          createElement(type, props, children) {
+            return React.createElement(type, props, children);
+          },
+        }}
+      >
+        {children}
+      </Markdown>
+    </div>
   );
 };
