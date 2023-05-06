@@ -4,8 +4,8 @@ import { RESOURCES } from "../types";
 import { characterClasses } from "../characterStore";
 import { ClassIcon } from "./characterIcon";
 
-import anyElement from "../assets/elements/fh-wild-color-icon.png";
-import anyElementBw from "../assets/elements/fh-wild-bw-icon.png";
+import any from "../assets/elements/fh-wild-color-icon.png";
+import anyBw from "../assets/elements/fh-wild-bw-icon.png";
 import air from "../assets/elements/fh-air-color-icon.png";
 import airBw from "../assets/elements/fh-air-bw-icon.png";
 import dark from "../assets/elements/fh-dark-color-icon.png";
@@ -122,10 +122,11 @@ import pressureUp from "../assets/class/fh-metal-mosaic-pressure-up-bw-icon.png"
 import resonance from "../assets/class/fh-shattersong-resonance-bw-icon.png";
 
 import { imageSize } from "../tokens";
+import React from "react";
 
-const icons: Record<string, string> = {
-  anyElement,
-  anyElementBw,
+const icons: Record<string, string | React.ReactElement> = {
+  any,
+  anyBw,
   air,
   airBw,
   dark,
@@ -262,10 +263,33 @@ Object.keys(characterClasses).forEach((characterClass) => {
 
 Object.keys(icons).forEach((icon) => {
   components[icon] = () => {
-    return (
+    if (typeof icons[icon] === "string") {
+      return (
+        <img
+          src={icons[icon] as string}
+          alt={icon}
+          css={{
+            height: imageSize.tiny,
+            verticalAlign: "middle",
+            width: imageSize.tiny,
+            objectFit: "contain",
+          }}
+        />
+      );
+    }
+    return icons[icon] as React.ReactElement;
+  };
+});
+
+const consumeIcon = (icon: string) => {
+  if (typeof icons[icon] !== "string") return <></>;
+  return (
+    <div
+      css={{ position: "relative", display: "inline-block" }}
+      aria-label={`consume${icon}`}
+    >
       <img
-        src={icons[icon]}
-        alt={icon}
+        src={icons[icon] as any}
         css={{
           height: imageSize.tiny,
           verticalAlign: "middle",
@@ -273,13 +297,35 @@ Object.keys(icons).forEach((icon) => {
           objectFit: "contain",
         }}
       />
-    );
-  };
-});
+      <img
+        src={lost}
+        css={{
+          height: 6,
+          verticalAlign: "middle",
+          width: 6,
+          objectFit: "contain",
+          position: "absolute",
+          bottom: -2,
+          right: -2,
+          background: "black",
+          borderRadius: "50%",
+          padding: 2,
+          filter: "grayscale(100%) brightness(2) ",
+        }}
+      />
+    </div>
+  );
+};
 
 const overrides: Record<string, { component: React.ComponentType }> = {};
 Object.keys(components).forEach((key) => {
   overrides[key] = { component: components[key] };
+});
+
+["any", "dark", "earth", "fire", "ice", "light", "air"].forEach((element) => {
+  overrides[`consume${element[0].toUpperCase()}${element.substring(1)}`] = {
+    component: () => consumeIcon(element),
+  };
 });
 
 export const CustomMarkdown = ({ children }: { children: string }) => {
@@ -287,6 +333,9 @@ export const CustomMarkdown = ({ children }: { children: string }) => {
     <Markdown
       options={{
         overrides,
+        createElement(type, props, children) {
+          return React.createElement(type, props, children);
+        },
       }}
     >
       {children}
