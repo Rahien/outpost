@@ -73,30 +73,24 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
   const { character, togglePerk } = useCharacterStore(
     ({ character, togglePerk }) => ({ character, togglePerk })
   );
-  const decreaseActive = () => {
-    if (!character) return;
-    togglePerk(character.id, perk.id, perk.active - 1);
-  };
   const inCreaseActive = () => {
     if (!character) return;
-    togglePerk(character.id, perk.id, perk.active + 1);
+    togglePerk(character.id, perk.id, (perk.active + 1) % (perk.maxActive + 1));
   };
   return (
     <div
       key={perk.id}
+      onClick={inCreaseActive}
       css={{
         display: "flex",
         marginBottom: spacing.small,
       }}
     >
       {Array.from({ length: perk.active }).map((_, i) => (
-        <CheckBoxOutlined onClick={decreaseActive} css={{ marginTop: -2 }} />
+        <CheckBoxOutlined css={{ marginTop: -2 }} />
       ))}
       {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
-        <CheckBoxOutlineBlankOutlined
-          onClick={inCreaseActive}
-          css={{ marginTop: -2 }}
-        />
+        <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} />
       ))}
       <CustomMarkdown>{perk.description}</CustomMarkdown>
     </div>

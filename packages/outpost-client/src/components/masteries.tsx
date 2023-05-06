@@ -75,19 +75,16 @@ const MasteryItem = ({ mastery }: { mastery: Mastery }) => {
   };
   return (
     <div
-      key={mastery.id}
+      onClick={toggleActive}
       css={{
         display: "flex",
         marginBottom: spacing.small,
       }}
     >
       {mastery.active ? (
-        <CheckBoxOutlined onClick={toggleActive} css={{ marginTop: -2 }} />
+        <CheckBoxOutlined css={{ marginTop: -2 }} />
       ) : (
-        <CheckBoxOutlineBlankOutlined
-          onClick={toggleActive}
-          css={{ marginTop: -2 }}
-        />
+        <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} />
       )}
       <CustomMarkdown>{mastery.description}</CustomMarkdown>
     </div>
@@ -109,7 +106,7 @@ const MasteryList = () => {
   return (
     <div css={{ paddingTop: spacing.small, paddingBottom: spacing.small }}>
       {orderedMasteries.map((mastery) => (
-        <MasteryItem mastery={mastery} />
+        <MasteryItem mastery={mastery} key={mastery.id} />
       ))}
     </div>
   );
