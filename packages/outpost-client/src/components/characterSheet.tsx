@@ -15,6 +15,7 @@ import { VerticalSeparator } from "./verticalSeparator";
 import { Perks } from "./perks";
 import coinIcon from "../assets/general/fh-money-bw-icon.png";
 import { Masteries } from "./masteries";
+import { Traits } from "./traits";
 
 const DeletingCharacter = ({
   character,
@@ -161,6 +162,10 @@ export const CharacterSheet = () => {
       </Card>
       <Card>
         <CharacterNotes />
+      </Card>
+
+      <Card css={{ display: "flex", alignItems: "stretch" }}>
+        <Traits />
       </Card>
 
       <Perks />

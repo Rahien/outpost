@@ -94,6 +94,7 @@ export type CharacterClass = {
   className: string;
   iconOffset: { x: number; y: number };
   id: string;
+  traits: string[];
 };
 
 export const characterClasses: Record<string, CharacterClass> = {
@@ -105,6 +106,7 @@ export const characterClasses: Record<string, CharacterClass> = {
       x: 269,
       y: -7,
     },
+    traits: ["Educated", "Nimble", "Resourceful"],
   },
   bannerspear: {
     name: "Human Banner Spear",
@@ -114,6 +116,7 @@ export const characterClasses: Record<string, CharacterClass> = {
       x: 0,
       y: -7,
     },
+    traits: ["Armored", "Persuasive", "Resourceful"],
   },
   boneshaper: {
     name: "Aesther Boneshaper",
@@ -123,6 +126,7 @@ export const characterClasses: Record<string, CharacterClass> = {
       x: 143,
       y: -7,
     },
+    traits: ["Arcane", "Educated", "Intimidating"],
   },
   deathwalker: {
     name: "Valrath Deathwalker",
@@ -132,6 +136,7 @@ export const characterClasses: Record<string, CharacterClass> = {
       x: 208,
       y: -7,
     },
+    traits: ["Arcane", "Outcast", "Persuasive"],
   },
   drifter: {
     name: "Inox Drifter",
@@ -141,6 +146,7 @@ export const characterClasses: Record<string, CharacterClass> = {
       x: 337,
       y: -7,
     },
+    traits: ["Outcast", "Resourceful", "Strong"],
   },
   geminate: {
     name: "Harrower Geminate",
@@ -150,5 +156,6 @@ export const characterClasses: Record<string, CharacterClass> = {
       x: 79,
       y: -7,
     },
+    traits: ["Arcane", "Chaotic", "Nimble"],
   },
 };
