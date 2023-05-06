@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import axios from "axios";
 import { Characters } from "./components/characters";
 import { useLocalStorage } from "usehooks-ts";
+import "./assets/PirataOne-Gloomhaven.ttf";
 
 const withAuthentication = (Component: React.ComponentType) => (props: any) => {
   const { token, initialized } = useUserStore();

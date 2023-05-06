@@ -15,6 +15,8 @@ export const Title = ({
         display: "flex",
         alignItems: "center",
         justifyContent: center ? "center" : "flex-start",
+        fontFamily: "PirataOne-Gloomhaven",
+        fontSize: "24px",
       }}
     >
       {icon}

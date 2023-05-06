@@ -43,8 +43,9 @@ export const ClassSelect = ({}: {}) => {
             alignSelf: "center",
             flexGrow: 1,
             textAlign: "center",
-            fontSize: "1.25em",
+            fontSize: "34px",
             fontWeight: "bold",
+            fontFamily: "PirataOne-Gloomhaven",
           }}
         >
           {characterClasses[character.className]?.name ||

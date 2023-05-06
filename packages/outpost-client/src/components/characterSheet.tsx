@@ -124,7 +124,7 @@ export const CharacterSheet = () => {
         />
       </Card>
       <Card css={{ width: "100%" }}>
-        <div css={{ fontWeight: "bold" }}>Resources:</div>
+        <Title title="Resources:" />
         <div
           css={{
             display: "grid",

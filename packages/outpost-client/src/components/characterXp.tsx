@@ -152,16 +152,15 @@ export const CharacterXp = () => {
           }}
         >
           <div css={{ display: "flex", alignItems: "center" }}>
-            <img src={levelIcon} css={{ height: 20, width: 20 }} />
-            <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
-              Level:
-            </span>
+            <img
+              src={levelIcon}
+              css={{ height: 20, width: 20, marginRight: spacing.tiny }}
+            />
+            <Title title="Level:" />
           </div>
           <div css={{ display: "flex", alignItems: "center" }}>
-            <Verified />
-            <span css={{ marginLeft: spacing.tiny, fontWeight: "bold" }}>
-              XP:
-            </span>
+            <Verified css={{ marginRight: spacing.tiny }} />
+            <Title title="XP:" />
           </div>
         </div>
         <div
