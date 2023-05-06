@@ -6,6 +6,13 @@ export type Perk = {
   order: number;
 };
 
+export type Mastery = {
+  id: number;
+  description: string;
+  active: boolean;
+  order: number;
+};
+
 export type Character = {
   id: number;
   name: string;
@@ -24,6 +31,7 @@ export type Character = {
   notes: string;
   perkTags: number;
   perks: Perk[];
+  masteries: Mastery[];
 };
 
 export const RESOURCES = [

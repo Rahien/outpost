@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from .models import Character, CharacterPerk, Perk
+from .models import Character, CharacterPerk, Perk, Mastery, CharacterMastery
 from .serializers import CharacterSerializer, CharacterDetailSerializer, CharacterPerkSerializer
 
 def purge_character_perks(character):
@@ -20,7 +20,28 @@ def purge_character_perks(character):
         character_perk = CharacterPerk(character = character, perk = perk)
         character_perk.save()
 
+def purge_character_masteries(character):
+    '''
+    Helper method to delete all the masteries for given character and reload the character's masteries based on the new class
+    '''
+    masteries = CharacterMastery.objects.filter(character = character)
+    for mastery in masteries:
+        mastery.delete()
 
+    character_class = character.class_name
+    masteries = Mastery.objects.filter(class_name = character_class)
+    for mastery in masteries:
+        character_mastery = CharacterMastery(character = character, mastery = mastery)
+        character_mastery.save()
+
+def get_character_for_user(character_id, user_id):
+    character = Character.objects.get(id=character_id, user=user_id)
+    if not character:
+        return ( None, Response(
+            {"res": "Object with character id does not exists"},
+            status=status.HTTP_400_BAD_REQUEST
+        ))
+    return (character, None)
 
 class  CharacterListApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -47,6 +68,7 @@ class  CharacterListApiView(APIView):
         if serializer.is_valid():
             new_character = serializer.save()
             purge_character_perks(new_character)
+            purge_character_masteries(new_character)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -56,25 +78,13 @@ class  CharacterListApiView(APIView):
 class CharacterDetailApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self, character_id, user_id):
-        '''
-        Helper method to get the object with given character_id
-        '''
-        try:
-            return Character.objects.get(id=character_id, user = user_id)
-        except Character.DoesNotExist:
-            return None
-
     def get(self, request, character_id, *args, **kwargs):
         '''
         Retrieves the Character with given character_id
         '''
-        character_instance = self.get_object(character_id, request.user.id)
-        if not character_instance:
-            return Response(
-                {"res": "Object with character id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        (character_instance, error) = get_character_for_user(character_id, request.user.id)
+        if error:
+            return error
 
         serializer = CharacterDetailSerializer(character_instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -83,13 +93,9 @@ class CharacterDetailApiView(APIView):
         '''
         Updates the character with given character_id if exists
         '''
-        character_instance = self.get_object(character_id, request.user.id)
-
-        if not character_instance:
-            return Response(
-                {"res": "Object with character id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        (character_instance, error) = get_character_for_user(character_id, request.user.id)
+        if error:
+            return error
 
         original_class = character_instance.class_name
         data = request.data
@@ -103,6 +109,7 @@ class CharacterDetailApiView(APIView):
 
             if(data.get('class_name') and original_class):
                 purge_character_perks(character_instance)
+                purge_character_masteries(character_instance)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -111,12 +118,10 @@ class CharacterDetailApiView(APIView):
         '''
         Deletes the character with given character_id if exists
         '''
-        character_instance = self.get_object(character_id, request.user.id)
-        if not character_instance:
-            return Response(
-                {"res": "Object with character id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        (character_instance, error) = get_character_for_user(character_id, request.user.id)
+        if error:
+            return error
+
         character_instance.delete()
         return Response(
             {"res": "Object deleted!"},
@@ -129,12 +134,9 @@ class CharacterPerkListApiView(APIView):
         '''
         List all the character perks for the given character and user
         '''
-        character = Character.objects.get(id=character_id, user=request.user.id)
-        if not character:
-            return Response(
-                {"res": "Object with character id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        (_, error) = get_character_for_user(character_id, request.user.id)
+        if error:
+            return error
 
         perks = CharacterPerk.objects.get(character_id=character_id)
         serializer = CharacterPerkSerializer(perks, many=True)
@@ -147,12 +149,9 @@ class CharacterPerkDetailApiView(APIView):
         '''
         List all the character perks for the given character and user
         '''
-        character = Character.objects.get(id=character_id, user=request.user.id)
-        if not character:
-            return Response(
-                {"res": "Object with character id does not exists"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+        (character, error) = get_character_for_user(character_id, request.user.id)
+        if error:
+            return error
 
         perk = CharacterPerk.objects.get(character_id=character_id, id=perk_id)
         if not perk:
@@ -171,6 +170,36 @@ class CharacterPerkDetailApiView(APIView):
         if active is not None:
             perk.active = active
             perk.save()
+
+        character = Character.objects.get(id=character_id, user=request.user.id)
+        serializer = CharacterDetailSerializer(character)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CharacterMasteryDetailApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, character_id, mastery_id, *args, **kwargs):
+        (character, error) = get_character_for_user(character_id, request.user.id)
+        if error:
+            return error
+
+        mastery = CharacterMastery.objects.get(character_id=character_id, id=mastery_id)
+        if not mastery:
+            return Response(
+                {"res": "Object with mastery id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        mastery_info = Mastery.objects.get(id=mastery.mastery_id)
+        if not mastery_info:
+            return Response(
+                {"res": "Referenced mastery does not exist"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        active = request.data.get('active', False)
+
+        mastery.active = active
+        mastery.save()
 
         character = Character.objects.get(id=character_id, user=request.user.id)
         serializer = CharacterDetailSerializer(character)

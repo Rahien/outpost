@@ -56,3 +56,29 @@ class CharacterPerk(models.Model):
 
     def __str__(self):
       return f"{self.character.name} [perk {self.perk.id}: {self.active}]"
+
+class Mastery(models.Model):
+    description = models.TextField(blank=True, null=True)
+    class_name = models.CharField(max_length=200)
+    order = models.IntegerField(default=0)
+
+    def __str__(self):
+      return f"{self.description}"
+
+    class Meta:
+      verbose_name_plural = "masteries"
+      ordering = ['order']
+      unique_together = ['class_name', 'order']
+
+class CharacterMastery(models.Model):
+    character = models.ForeignKey(Character, on_delete = models.CASCADE, blank = True, null = True)
+    mastery = models.ForeignKey(Mastery, on_delete = models.CASCADE, blank = True, null = True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+       verbose_name_plural = "character masteries"
+       unique_together = ['character', 'mastery']
+
+
+    def __str__(self):
+      return f"{self.character.name} [mastery {self.mastery.id}: {self.active}]"

@@ -14,6 +14,7 @@ import { CharacterNotes } from "./characterNotes";
 import { VerticalSeparator } from "./verticalSeparator";
 import { Perks } from "./perks";
 import coinIcon from "../assets/general/fh-money-bw-icon.png";
+import { Masteries } from "./masteries";
 
 const DeletingCharacter = ({
   character,
@@ -163,6 +164,7 @@ export const CharacterSheet = () => {
       </Card>
 
       <Perks />
+      <Masteries />
 
       <div
         css={{

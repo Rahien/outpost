@@ -90,10 +90,13 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
       }}
     >
       {Array.from({ length: perk.active }).map((_, i) => (
-        <CheckBoxOutlined onClick={decreaseActive} />
+        <CheckBoxOutlined onClick={decreaseActive} css={{ marginTop: -2 }} />
       ))}
       {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
-        <CheckBoxOutlineBlankOutlined onClick={inCreaseActive} />
+        <CheckBoxOutlineBlankOutlined
+          onClick={inCreaseActive}
+          css={{ marginTop: -2 }}
+        />
       ))}
       <CustomMarkdown>{perk.description}</CustomMarkdown>
     </div>

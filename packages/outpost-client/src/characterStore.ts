@@ -17,6 +17,11 @@ export type CharacterStore = {
     id: number,
     active: number
   ) => Promise<void>;
+  toggleMastery: (
+    characterId: number,
+    id: number,
+    active: boolean
+  ) => Promise<void>;
 };
 
 export const useCharacterStore = create<CharacterStore>((set) => ({
@@ -54,9 +59,19 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
     const character = response.data;
     set({ character });
   },
+  toggleMastery: async (characterId: number, id: number, active: boolean) => {
+    const response = await axios.put(
+      `${API_URL}/characters/api/${characterId}/masteries/${id}`,
+      {
+        active,
+      }
+    );
+    const character = response.data;
+    set({ character });
+  },
 }));
 
-export const defaultCharacter: Omit<Character, "id" | "perks"> = {
+export const defaultCharacter: Omit<Character, "id" | "perks" | "masteries"> = {
   name: "my new character",
   className: "blinkblade",
   xp: 0,
