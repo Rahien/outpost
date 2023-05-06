@@ -64,7 +64,9 @@ export const ResourceField = ({
             }
           />
         ) : (
-          <div css={{ fontSize: "20px" }}>{value}</div>
+          <div css={{ fontSize: "24px", fontFamily: "PirataOne-Gloomhaven" }}>
+            {value}
+          </div>
         )}
       </div>
     </div>

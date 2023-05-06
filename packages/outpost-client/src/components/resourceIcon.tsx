@@ -16,7 +16,7 @@ export const ResourceIcon = ({
 }: {
   resource: string;
   inline?: boolean;
-  size: keyof typeof imageSize;
+  size?: keyof typeof imageSize;
 }) => {
   const iconSize = parseInt(imageSize[size], 10);
   const defaultSize = parseInt(imageSize.medium, 10);

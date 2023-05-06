@@ -28,7 +28,12 @@ const LevelBox = ({
   }
   return (
     <div
-      css={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        fontFamily: "PirataOne-Gloomhaven",
+      }}
     >
       <div
         css={{
