@@ -13,6 +13,7 @@ import axios from "axios";
 import { Card } from "./card";
 import { VerticalSeparator } from "./verticalSeparator";
 import { spacing } from "../tokens";
+import { Title } from "./Title";
 
 const CharacterListItem = ({ character }: { character: Character }) => {
   const navigate = useNavigate();
@@ -68,7 +69,15 @@ export const Characters = () => {
   };
   return (
     <>
-      <div css={{ width: "100%" }}>
+      <div
+        css={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        {characterList.length === 0 && <Title title="No characters yet..." />}
         {characterList.map((character) => {
           return <CharacterListItem character={character} key={character.id} />;
         })}

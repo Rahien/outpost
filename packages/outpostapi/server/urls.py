@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from characters import urls as character_urls
+from .views import RegisterView
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
@@ -28,5 +29,7 @@ urlpatterns = [
         name ='token_obtain_pair'),
     path('api/token/refresh/',
         jwt_views.TokenRefreshView.as_view(),
-        name ='token_refresh')
+        name ='token_refresh'),
+    path('api/register/', RegisterView.as_view(), name='auth_register'),
+
 ]

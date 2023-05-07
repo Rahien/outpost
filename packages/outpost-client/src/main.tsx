@@ -11,6 +11,7 @@ import { Characters } from "./components/characters";
 import { useLocalStorage } from "usehooks-ts";
 import "./assets/PirataOne-Gloomhaven.ttf";
 import { Logout } from "./logout";
+import { Register } from "./register";
 
 const withAuthentication = (Component: React.ComponentType) => (props: any) => {
   const { token, initialized } = useUserStore();
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "*",
