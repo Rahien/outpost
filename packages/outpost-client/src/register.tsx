@@ -107,6 +107,13 @@ export const Register = () => {
             <Button onClick={login} variant="outlined" disabled={!allOk}>
               Register
             </Button>
+            <Button
+              onClick={() => navigate("/login")}
+              variant="outlined"
+              css={{ marginLeft: spacing.small }}
+            >
+              Back
+            </Button>
           </div>
         </div>
       </Card>
