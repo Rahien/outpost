@@ -29,28 +29,50 @@ const DeletingCharacter = ({
   const [verifyName, setVerifyName] = useState<string>("");
   return (
     <Dialog open={true} onClose={onClose}>
-      <h3>Are you sure you want to delete {character.name}?</h3>
-      <p>To delete the character, type the character name below:</p>
-      <TextField
-        value={verifyName}
-        label="Character Name To Delete"
-        onChange={(e) => setVerifyName(e.currentTarget.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && verifyName === character.name) {
-            onDelete();
-          }
-        }}
-      />
-      <div>
-        <Button
-          variant="outlined"
-          color="error"
-          disabled={verifyName != character.name}
-          onClick={onDelete}
-        >
-          Delete
-        </Button>
-        <Button>Cancel</Button>
+      <div css={{ padding: spacing.small, paddingBottom: 0 }}>
+        <Card>
+          <div css={{ padding: spacing.small }}>
+            <Title title="Are you sure?" />
+            <p>
+              To delete the character, type the character name "{character.name}
+              " below:
+            </p>
+            <TextField
+              value={verifyName}
+              css={{ width: "100%" }}
+              label="Character Name To Delete"
+              onChange={(e) => setVerifyName(e.currentTarget.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && verifyName === character.name) {
+                  onDelete();
+                }
+              }}
+            />
+            <div
+              css={{
+                marginTop: spacing.medium,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="error"
+                disabled={verifyName != character.name}
+                onClick={onDelete}
+              >
+                Delete
+              </Button>
+              <Button
+                variant="outlined"
+                css={{ marginLeft: spacing.small }}
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </Card>
       </div>
     </Dialog>
   );

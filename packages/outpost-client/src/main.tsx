@@ -10,6 +10,7 @@ import axios from "axios";
 import { Characters } from "./components/characters";
 import { useLocalStorage } from "usehooks-ts";
 import "./assets/PirataOne-Gloomhaven.ttf";
+import { Logout } from "./logout";
 
 const withAuthentication = (Component: React.ComponentType) => (props: any) => {
   const { token, initialized } = useUserStore();
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
   {
     path: "*",

@@ -1,9 +1,11 @@
-import { Button, Card, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { spacing } from "./tokens";
 import { useUserStore } from "./userStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Title } from "./components/Title";
+import { Card } from "./components/card";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -35,35 +37,59 @@ export const Login = () => {
   };
 
   return (
-    <Card css={{ padding: spacing.medium }}>
-      <h1>Login</h1>
+    <div
+      css={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        "> div > div:nth-of-type(2)": {
+          padding: spacing.large,
+        },
+      }}
+    >
+      <Card>
+        <Title title="Login" />
 
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          "> *": { marginBottom: spacing.small },
-        }}
-      >
-        <TextField
-          label="Username"
-          value={username}
-          onChange={(e) => setUsername(e.currentTarget.value)}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.currentTarget.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              login();
-            }
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: spacing.large,
+            "> div.MuiTextField-root": { marginBottom: spacing.small },
           }}
-        />
+        >
+          <TextField
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.currentTarget.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                login();
+              }
+            }}
+          />
 
-        <Button onClick={login}>Login</Button>
-      </div>
-    </Card>
+          <div
+            css={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Button onClick={login} variant="outlined">
+              Login
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </div>
   );
 };

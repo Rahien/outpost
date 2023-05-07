@@ -12,6 +12,7 @@ import { Character } from "../types";
 import axios from "axios";
 import { Card } from "./card";
 import { VerticalSeparator } from "./verticalSeparator";
+import { spacing } from "../tokens";
 
 const CharacterListItem = ({ character }: { character: Character }) => {
   const navigate = useNavigate();
@@ -72,7 +73,25 @@ export const Characters = () => {
           return <CharacterListItem character={character} key={character.id} />;
         })}
       </div>
-      <Button onClick={() => createNewCharacter()}>Create New</Button>
+      <div
+        css={{
+          marginTop: spacing.medium,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Button onClick={() => navigate("/logout")} variant="outlined">
+          Log out
+        </Button>
+        <Button
+          onClick={() => createNewCharacter()}
+          variant="outlined"
+          css={{ marginLeft: spacing.small }}
+        >
+          Create New
+        </Button>
+      </div>
     </>
   );
 };
