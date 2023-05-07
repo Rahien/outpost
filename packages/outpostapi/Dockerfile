@@ -6,6 +6,5 @@ RUN apt install -y python3-pip python3-dev libpq-dev postgresql postgresql-contr
 COPY requirements.txt /app
 RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . /app
-ENTRYPOINT ["python3"]
 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/bin/bash", "-c", "echo python manage.py migrate; echo python manage.py runserver 0.0.0.0:8000"]
