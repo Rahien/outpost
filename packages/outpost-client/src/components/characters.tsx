@@ -60,7 +60,7 @@ export const Characters = () => {
 
   const createNewCharacter = async () => {
     const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/characters/api`,
+      `${import.meta.env.VITE_API_URL}/characters`,
       defaultCharacter
     );
     navigate(`/characters/${data.id}`);

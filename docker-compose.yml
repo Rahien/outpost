@@ -16,11 +16,12 @@ services:
       dockerfile: Dockerfile
     environment:
       - DB_HOST=db
+      - ALLOWED_HOSTS=api
     ports:
       - "8000:8000"
   client:
     build:
-      context: package/outpost-client
+      context: packages/outpost-client
       dockerfile: Dockerfile
     ports:
       - "5173:80"

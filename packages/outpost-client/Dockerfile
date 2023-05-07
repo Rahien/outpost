@@ -4,6 +4,8 @@ COPY package.json yarn.lock ./
 
 RUN yarn
 
+ENV VITE_API_URL=/api
+
 COPY . .
 
 RUN yarn build

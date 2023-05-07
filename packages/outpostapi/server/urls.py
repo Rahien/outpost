@@ -20,13 +20,13 @@ from characters import urls as character_urls
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('characters/', include(character_urls)),
-    path('token/',
+    path('api/admin/', admin.site.urls),
+    path('api/auth/', include('rest_framework.urls')),
+    path('api/characters/', include(character_urls)),
+    path('api/token/',
         jwt_views.TokenObtainPairView.as_view(),
         name ='token_obtain_pair'),
-    path('token/refresh/',
+    path('api/token/refresh/',
         jwt_views.TokenRefreshView.as_view(),
         name ='token_refresh')
 ]

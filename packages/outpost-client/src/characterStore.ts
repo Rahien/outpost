@@ -29,29 +29,29 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
   characterList: [] as Character[],
   setCharacter: (character: Character | null) => set({ character }),
   fetchCharacter: async (id: string) => {
-    const response = await axios(`${API_URL}/characters/api/${id}`);
+    const response = await axios(`${API_URL}/characters/${id}`);
     const character = response.data;
     set({ character });
   },
   fetchCharacterList: async () => {
-    const response = await axios(`${API_URL}/characters/api`);
+    const response = await axios(`${API_URL}/characters`);
     const characterList = response.data;
     set({ characterList });
   },
   updateCharacter: async (newCharacter: Character) => {
     const response = await axios.patch(
-      `${API_URL}/characters/api/${newCharacter.id}`,
+      `${API_URL}/characters/${newCharacter.id}`,
       newCharacter
     );
     const character = response.data;
     set({ character });
   },
   deleteCharacter: async (id: number) => {
-    await axios.delete(`${API_URL}/characters/api/${id}`);
+    await axios.delete(`${API_URL}/characters/${id}`);
   },
   togglePerk: async (characterId: number, id: number, active: number) => {
     const response = await axios.put(
-      `${API_URL}/characters/api/${characterId}/perks/${id}`,
+      `${API_URL}/characters/${characterId}/perks/${id}`,
       {
         active,
       }
@@ -61,7 +61,7 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
   },
   toggleMastery: async (characterId: number, id: number, active: boolean) => {
     const response = await axios.put(
-      `${API_URL}/characters/api/${characterId}/masteries/${id}`,
+      `${API_URL}/characters/${characterId}/masteries/${id}`,
       {
         active,
       }
