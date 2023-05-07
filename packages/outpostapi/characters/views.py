@@ -107,7 +107,7 @@ class CharacterDetailApiView(APIView):
         if serializer.is_valid():
             serializer.save()
 
-            if(data.get('class_name') and original_class):
+            if data.get('class_name') and original_class != data.get('class_name'):
                 purge_character_perks(character_instance)
                 purge_character_masteries(character_instance)
 
