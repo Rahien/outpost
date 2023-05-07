@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-iuezi493sk3sas2c3_zs5aa25f_fxb=2h!#86n%xj74tj@(ecp'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = [
-    'localhost',
+    os.environ.get('ALLOWED_HOSTS'),
 ]
 
 
@@ -96,15 +100,15 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'postgres',
+        'NAME': os.environ.get('DB_NAME'),
 
-        'USER': 'postgres',
+        'USER': os.environ.get('DB_USER'),
 
-        'PASSWORD': 'postgres',
+        'PASSWORD': os.environ.get('DB_PASS'),
 
-        'HOST': 'localhost',
+        'HOST': os.environ.get('DB_HOST'),
 
-        'PORT': '5432',
+        'PORT': os.environ.get('DB_PORT'),
 
     }
 
