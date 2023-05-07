@@ -32,10 +32,10 @@ const PerksChecks = ({ checked }: { checked: number }) => {
       </div>
 
       {checkedBoxes.map((_, i) => (
-        <CheckBoxOutlined />
+        <CheckBoxOutlined key={i} />
       ))}
       {unCheckedBoxes.map((_, i) => (
-        <CheckBoxOutlineBlank />
+        <CheckBoxOutlineBlank key={i} />
       ))}
     </div>
   );
@@ -59,11 +59,11 @@ const AllPerkChecks = () => {
       }}
     >
       {Array.from({ length: allFilled }).map((_, i) => (
-        <PerksChecks checked={3} />
+        <PerksChecks checked={3} key={i} />
       ))}
       {remainder > 0 && <PerksChecks checked={remainder} />}
       {Array.from({ length: allEmpty }).map((_, i) => (
-        <PerksChecks checked={0} />
+        <PerksChecks checked={0} key={i} />
       ))}
     </div>
   );
@@ -87,10 +87,10 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
       }}
     >
       {Array.from({ length: perk.active }).map((_, i) => (
-        <CheckBoxOutlined css={{ marginTop: -2 }} />
+        <CheckBoxOutlined css={{ marginTop: -2 }} key={i} />
       ))}
       {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
-        <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} />
+        <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} key={i} />
       ))}
       <CustomMarkdown>{perk.description}</CustomMarkdown>
     </div>
@@ -112,7 +112,7 @@ const PerkList = () => {
   return (
     <div css={{ paddingTop: spacing.small, paddingBottom: spacing.small }}>
       {orderedPerks.map((perk) => (
-        <PerkItem perk={perk} />
+        <PerkItem perk={perk} key={perk.id} />
       ))}
     </div>
   );

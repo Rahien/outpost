@@ -115,7 +115,11 @@ const CharacterLevel = () => {
   return <>{boxes}</>;
 };
 
-export const CharacterXp = () => {
+export const CharacterXp = ({
+  setEditXp,
+}: {
+  setEditXp: (v: boolean) => void;
+}) => {
   return (
     <Card>
       <div
@@ -142,6 +146,7 @@ export const CharacterXp = () => {
         <CharacterName />
       </div>
       <div
+        onClick={() => setEditXp(true)}
         css={{
           width: "100%",
           display: "flex",

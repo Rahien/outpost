@@ -1,9 +1,7 @@
-import { MouseEventHandler, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCharacterStore } from "../characterStore";
 import { Character } from "../types";
-import { Button, TextField } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { spacing } from "../tokens";
+import { TextField } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { ResourceIcon } from "./resourceIcon";
 import { Title } from "./Title";
@@ -11,9 +9,13 @@ import { Title } from "./Title";
 export const ResourceField = ({
   resource,
   title,
+  edit,
+  setEdit,
 }: {
   resource: keyof Character;
   title?: React.ReactElement;
+  edit?: boolean;
+  setEdit?: (editing: boolean) => void;
 }) => {
   const { character, updateCharacter, updating } = useCharacterStore(
     ({ character, updateCharacter, updating }) => ({
@@ -25,7 +27,19 @@ export const ResourceField = ({
   const ref = useRef(null);
   useOnClickOutside(ref, () => setEditing(false));
 
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState(edit);
+  useEffect(() => {
+    if (edit !== undefined && edit !== editing) {
+      setEditing(edit);
+    }
+  }, [edit]);
+  useEffect(() => {
+    if (!setEdit || editing === edit || editing === undefined) {
+      return;
+    }
+    setEdit(editing);
+  }, [editing]);
+
   const [value, setValue] = useState(
     character ? (character[resource] as unknown as number) : 0
   );
@@ -40,7 +54,7 @@ export const ResourceField = ({
   return (
     <div
       css={{ flexGrow: 1, flexShrink: 0 }}
-      onClick={() => setEditing(!editing)}
+      onClick={() => setEditing(true)}
       ref={ref}
     >
       {title || <Title icon={<ResourceIcon resource={resource} />} />}
@@ -63,6 +77,11 @@ export const ResourceField = ({
             onChange={(e) =>
               setValue(parseInt(e.currentTarget.value || "0", 10))
             }
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setEditing(false);
+              }
+            }}
           />
         ) : (
           <div css={{ fontSize: "24px", fontFamily: "PirataOne-Gloomhaven" }}>

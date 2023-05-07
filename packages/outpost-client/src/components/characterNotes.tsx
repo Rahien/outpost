@@ -25,7 +25,7 @@ export const CharacterNotes = () => {
     }
   }, [character, debouncedValue]);
   return (
-    <div ref={ref}>
+    <div ref={ref} onClick={() => setEditing(true)}>
       <Title title="Notes:" />
       {editing ? (
         <div css={{ position: "relative" }}>
@@ -37,7 +37,11 @@ export const CharacterNotes = () => {
           />
           <Button
             variant="outlined"
-            onClick={() => setEditing(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setEditing(false);
+            }}
             css={{
               position: "absolute",
               bottom: spacing.tiny,
@@ -48,7 +52,7 @@ export const CharacterNotes = () => {
           </Button>
         </div>
       ) : (
-        <div onClick={() => setEditing(true)}>
+        <div>
           <CustomMarkdown>{value}</CustomMarkdown>
         </div>
       )}

@@ -8,7 +8,7 @@ import { characterClasses, useCharacterStore } from "../characterStore";
 import { VerticalSeparator } from "./verticalSeparator";
 import { useOnClickOutside } from "usehooks-ts";
 
-export const ClassSelect = ({}: {}) => {
+export const ClassSelect = () => {
   const { character, updateCharacter } = useCharacterStore(
     ({ character, updateCharacter }) => ({ character, updateCharacter })
   );

@@ -28,6 +28,11 @@ export const CharacterName = () => {
         onFocus={(e) => e.currentTarget.select()}
         autoFocus
         onBlur={() => setEditing(false)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setEditing(false);
+          }
+        }}
       />
     );
   }

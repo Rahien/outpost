@@ -88,6 +88,7 @@ export const CharacterSheet = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
+  const [editXp, setEditXp] = useState(false);
   const { character, fetchCharacter, deleteCharacter } = useCharacterStore(
     ({ character, fetchCharacter, deleteCharacter }) => ({
       character,
@@ -114,7 +115,7 @@ export const CharacterSheet = () => {
       <Card css={{ display: "flex", width: "100%", alignItems: "center" }}>
         <ClassSelect />
       </Card>
-      <CharacterXp />
+      <CharacterXp setEditXp={setEditXp} />
       <Card
         css={{
           display: "grid",
@@ -125,6 +126,8 @@ export const CharacterSheet = () => {
       >
         <ResourceField
           resource="xp"
+          edit={editXp}
+          setEdit={setEditXp}
           title={<Title title="XP:" icon={<Verified />} />}
         />
         <VerticalSeparator />
