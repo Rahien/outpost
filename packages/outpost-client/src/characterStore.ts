@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export type CharacterStore = {
   character: Character | null;
+  updating: boolean;
   setCharacter: (character: Character | null) => void;
   fetchCharacter: (id: string) => Promise<void>;
   updateCharacter: (newCharacter: Character) => Promise<void>;
@@ -26,6 +27,7 @@ export type CharacterStore = {
 
 export const useCharacterStore = create<CharacterStore>((set) => ({
   character: null,
+  updating: false,
   characterList: [] as Character[],
   setCharacter: (character: Character | null) => set({ character }),
   fetchCharacter: async (id: string) => {
@@ -39,12 +41,13 @@ export const useCharacterStore = create<CharacterStore>((set) => ({
     set({ characterList });
   },
   updateCharacter: async (newCharacter: Character) => {
+    set({ updating: true });
     const response = await axios.patch(
       `${API_URL}/characters/${newCharacter.id}`,
       newCharacter
     );
     const character = response.data;
-    set({ character });
+    set({ character, updating: false });
   },
   deleteCharacter: async (id: number) => {
     await axios.delete(`${API_URL}/characters/${id}`);

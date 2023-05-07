@@ -15,10 +15,11 @@ export const ResourceField = ({
   resource: keyof Character;
   title?: React.ReactElement;
 }) => {
-  const { character, updateCharacter } = useCharacterStore(
-    ({ character, updateCharacter }) => ({
+  const { character, updateCharacter, updating } = useCharacterStore(
+    ({ character, updateCharacter, updating }) => ({
       character,
       updateCharacter,
+      updating,
     })
   );
   const ref = useRef(null);
@@ -31,7 +32,7 @@ export const ResourceField = ({
   const debouncedValue = useDebounce(value, 1000);
 
   useEffect(() => {
-    if (character && debouncedValue !== character[resource]) {
+    if (character && debouncedValue !== character[resource] && !updating) {
       updateCharacter({ ...character, [resource]: debouncedValue });
     }
   }, [debouncedValue, character]);

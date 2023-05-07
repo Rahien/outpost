@@ -122,13 +122,17 @@ export const Perks = () => {
   const [editing, setEditing] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setEditing(false));
-  const { character, updateCharacter } = useCharacterStore(
-    ({ character, updateCharacter }) => ({ character, updateCharacter })
+  const { character, updateCharacter, updating } = useCharacterStore(
+    ({ character, updateCharacter, updating }) => ({
+      character,
+      updateCharacter,
+      updating,
+    })
   );
   const [perks, setPerks] = useState(character?.perkTags || 0);
   const debouncedPerks = useDebounce(perks, 1000);
   useEffect(() => {
-    if (!character || character.perkTags === perks) {
+    if (!character || character.perkTags === perks || updating) {
       return;
     }
     updateCharacter({ ...character, perkTags: perks });

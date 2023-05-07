@@ -7,8 +7,12 @@ import { spacing } from "../tokens";
 import { CustomMarkdown } from "./customMarkdown";
 
 export const CharacterNotes = () => {
-  const { character, updateCharacter } = useCharacterStore(
-    ({ character, updateCharacter }) => ({ character, updateCharacter })
+  const { character, updateCharacter, updating } = useCharacterStore(
+    ({ character, updateCharacter, updating }) => ({
+      character,
+      updateCharacter,
+      updating,
+    })
   );
   const [value, setValue] = useState<string>(character?.notes || "");
   const [editing, setEditing] = useState(false);
@@ -16,7 +20,7 @@ export const CharacterNotes = () => {
   useOnClickOutside(ref, () => setEditing(false));
   const debouncedValue = useDebounce(value, 1000);
   useEffect(() => {
-    if (character && debouncedValue !== character.notes) {
+    if (character && debouncedValue !== (character?.notes || "") && !updating) {
       updateCharacter({ ...character, notes: debouncedValue });
     }
   }, [character, debouncedValue]);
