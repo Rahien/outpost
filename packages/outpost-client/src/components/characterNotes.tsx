@@ -28,7 +28,7 @@ export const CharacterNotes = () => {
     <div ref={ref} onClick={() => setEditing(true)}>
       <Title title="Notes:" />
       {editing ? (
-        <div css={{ position: "relative" }}>
+        <div css={{ position: "relative", marginTop: spacing.small }}>
           <TextField
             css={{ width: "100%" }}
             value={value}
@@ -52,7 +52,7 @@ export const CharacterNotes = () => {
           </Button>
         </div>
       ) : (
-        <div>
+        <div css={{ marginTop: spacing.small }}>
           <CustomMarkdown>{value}</CustomMarkdown>
         </div>
       )}

@@ -9,7 +9,7 @@ import { Title } from "./Title";
 import { Card } from "./card";
 import { useCharacterStore } from "../characterStore";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Input } from "@mui/material";
+import { Button, Input } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { HorizontalLine } from "./horizontalLine";
 import { spacing } from "../tokens";
@@ -118,6 +118,57 @@ const PerkList = () => {
   );
 };
 
+const PerkInput = ({
+  perks,
+  setPerks,
+}: {
+  perks: number;
+  setPerks: (v: number) => void;
+}) => {
+  return (
+    <div
+      css={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        button: {
+          color: "black",
+          fontWeight: "bold",
+          fontSize: 42,
+          lineHeight: "30px",
+          fontFamily: "PirataOne-Gloomhaven",
+          outline: "none",
+        },
+      }}
+    >
+      <Button
+        onClick={() => setPerks(Math.max(perks - 1, 0))}
+        css={{ paddingLeft: 100 }}
+      >
+        -
+      </Button>
+      <div
+        css={{
+          fontFamily: "PirataOne-Gloomhaven",
+          fontSize: 30,
+          height: 64,
+          lineHeight: "64px",
+          marginLeft: spacing.small,
+          marginRight: spacing.small,
+        }}
+      >
+        {perks}
+      </div>
+      <Button
+        onClick={() => setPerks(Math.min(perks + 1, 18))}
+        css={{ paddingRight: 100 }}
+      >
+        +
+      </Button>
+    </div>
+  );
+};
+
 export const Perks = () => {
   const [editing, setEditing] = useState(false);
   const ref = useRef(null);
@@ -145,24 +196,7 @@ export const Perks = () => {
         <HorizontalLine upwards />
 
         {editing ? (
-          <Input
-            type="number"
-            value={perks}
-            css={{ width: "100%" }}
-            onBlur={() => setEditing(false)}
-            autoFocus
-            inputProps={{
-              max: 18,
-              min: 0,
-              step: 1,
-            }}
-            onFocus={(e) => e.currentTarget.select()}
-            onChange={(e) => {
-              setPerks(
-                Math.max(0, Math.min(18, parseInt(e.currentTarget.value, 10)))
-              );
-            }}
-          />
+          <PerkInput setPerks={setPerks} perks={perks} />
         ) : (
           <AllPerkChecks />
         )}
