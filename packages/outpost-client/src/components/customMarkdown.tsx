@@ -317,7 +317,7 @@ const consumeIcon = (icon: string) => {
   );
 };
 
-const overrides: Record<string, { component: React.ComponentType }> = {};
+export const overrides: Record<string, { component: React.ComponentType }> = {};
 Object.keys(components).forEach((key) => {
   overrides[key] = { component: components[key] };
 });
