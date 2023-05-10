@@ -17,23 +17,35 @@ export const Login = () => {
     })
   );
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const login = async () => {
     const requestOptions = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/token/`,
-      {
-        username,
-        password,
-      },
-      requestOptions
-    );
-    axios.defaults.headers.common["Authorization"] = `Bearer ${data["access"]}`;
+    setErrorMessage("");
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/token/`,
+        {
+          username,
+          password,
+        },
+        requestOptions
+      );
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data["access"]}`;
 
-    setToken(data.access, data.refresh);
-    navigate("/");
+      setToken(data.access, data.refresh);
+      navigate("/");
+    } catch (e: any) {
+      if (e?.response?.status === 401) {
+        setErrorMessage("Invalid username or password");
+      } else {
+        setErrorMessage("Something went wrong");
+      }
+    }
   };
 
   return (
@@ -76,6 +88,16 @@ export const Login = () => {
               }
             }}
           />
+          <div
+            css={{
+              color: "red",
+              textAlign: "center",
+              marginBottom: spacing.small,
+              minHeight: "1.2em",
+            }}
+          >
+            {errorMessage}
+          </div>
 
           <div
             css={{

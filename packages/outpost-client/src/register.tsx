@@ -13,35 +13,45 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const { setUsername: storeUsername, setToken } = useUserStore(
-    ({ username, setUsername, setToken }) => ({
-      username,
-      setUsername,
-      setToken,
-    })
-  );
+  const { setToken } = useUserStore(({ username, setToken }) => ({
+    username,
+    setToken,
+  }));
 
   const passwordOk = password === password2 && password !== "";
   const allOk = passwordOk && username.trim() !== "" && email.trim() !== "";
+  const [errorMessage, setErrorMessage] = useState("");
   const login = async () => {
     const requestOptions = {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     };
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/register/`,
-      {
-        username,
-        email,
-        password,
-      },
-      requestOptions
-    );
-    axios.defaults.headers.common["Authorization"] = `Bearer ${data["access"]}`;
+    setErrorMessage("");
+    try {
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/register/`,
+        {
+          username,
+          email,
+          password,
+        },
+        requestOptions
+      );
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${data["access"]}`;
 
-    setUsername(username);
-    setToken(data.access, data.refresh);
-    navigate("/");
+      setUsername(username);
+      setToken(data.access, data.refresh);
+      navigate("/");
+    } catch (e: any) {
+      setErrorMessage(
+        e?.response?.data?.username ||
+          e?.response?.data?.email ||
+          e?.response?.data?.password ||
+          "Something went wrong"
+      );
+    }
   };
 
   return (
@@ -96,6 +106,17 @@ export const Register = () => {
               }
             }}
           />
+
+          <div
+            css={{
+              color: "red",
+              textAlign: "center",
+              marginBottom: spacing.small,
+              minHeight: "1.2em",
+            }}
+          >
+            {errorMessage}
+          </div>
 
           <div
             css={{
