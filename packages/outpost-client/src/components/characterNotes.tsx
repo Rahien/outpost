@@ -51,6 +51,7 @@ const MultiLineTextField = React.forwardRef((props, ref) => {
         onScroll,
         onSelect,
       }}
+      placeholder="Write some notes or use :fire: to create fire!"
       value={value}
       inputRef={ref}
     />
@@ -74,6 +75,21 @@ export const CharacterNotes = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editing]);
+
+  const autoCompleteConfig = {
+    dataProvider: (token: string) => {
+      return Object.keys(overrides)
+        .filter((key) => key.toLowerCase().startsWith(token.toLowerCase()))
+        .map((key) => {
+          return {
+            name: key,
+            component: overrides[key].component,
+          } as AutoCompleteItem;
+        });
+    },
+    component: AutoCompleteSuggestion,
+    output: (item: AutoCompleteItem, _trigger: any) => `<${item.name}/>`,
+  };
   return (
     <div ref={ref} onClick={() => setEditing(true)}>
       <Title title="Notes:" />
@@ -128,20 +144,8 @@ export const CharacterNotes = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             trigger={{
-              "<": {
-                dataProvider: (token: string) => {
-                  return Object.keys(overrides)
-                    .filter((key) => key.startsWith(token))
-                    .map((key) => {
-                      return {
-                        name: key,
-                        component: overrides[key].component,
-                      } as AutoCompleteItem;
-                    });
-                },
-                component: AutoCompleteSuggestion,
-                output: (item, _trigger) => `<${item.name}/>`,
-              },
+              "<": autoCompleteConfig,
+              ":": autoCompleteConfig,
             }}
           />
 
