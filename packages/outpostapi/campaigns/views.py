@@ -55,6 +55,27 @@ class CampaignDetailApiView(APIView):
         serializer = CampaignDetailSerializer(campaign)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def patch(self, request, campaign_id, *args, **kwargs):
+        '''
+        Updates the campaign with given campaign_id if exists
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        data = request.data
+        if data.get('user'):
+            del data['user']
+
+        serializer = CampaignDetailSerializer(
+            campaign, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def delete(self, request, campaign_id, *args, **kwargs):
         '''
         Deletes the Campaign with given campaign_id

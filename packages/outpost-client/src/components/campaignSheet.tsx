@@ -1,9 +1,61 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "./button";
 import { VerifyDeleteDialog } from "./verifyDeleteDialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useCampaignStore } from "../campaignStore";
 import { spacing } from "../tokens";
+import { Card } from "./card";
+import { Title } from "./Title";
+import { CampaignResourceField } from "./resourceField";
+import { ThemeContext } from "./themeProvider";
+
+const HorizontalDivider = () => {
+  const { color } = useContext(ThemeContext);
+  return (
+    <div css={{ gridColumn: "span 3", borderTop: `solid 1px ${color}` }}></div>
+  );
+};
+
+const CampaignResources = () => {
+  const { color } = useContext(ThemeContext);
+  return (
+    <Card css={{ width: "100%" }}>
+      <Title title="Resources:" />
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          gap: spacing.tiny,
+          "> *:nth-of-type(4n+1)": {
+            "> div": {
+              borderRight: `solid 1px ${color}`,
+            },
+          },
+          "> *:nth-of-type(4n+3)": {
+            "> div": {
+              borderLeft: `solid 1px ${color}`,
+              img: {
+                marginLeft: spacing.tiny,
+              },
+            },
+          },
+        }}
+      >
+        <CampaignResourceField resource="wood" />
+        <CampaignResourceField resource="metal" />
+        <CampaignResourceField resource="hide" />
+        <HorizontalDivider />
+        <CampaignResourceField resource="arrowvine" />
+        <CampaignResourceField resource="axenut" />
+        <CampaignResourceField resource="corpsecap" />
+        <HorizontalDivider />
+        <CampaignResourceField resource="flamefruit" />
+        <CampaignResourceField resource="rockroot" />
+        <CampaignResourceField resource="snowthistle" />
+      </div>
+    </Card>
+  );
+};
 
 export const CampaignSheet = () => {
   const { id } = useParams();
@@ -33,6 +85,7 @@ export const CampaignSheet = () => {
   return (
     <>
       <div>campaign sheet for {campaign.name}</div>
+      <CampaignResources />
       <div
         css={{
           display: "flex",

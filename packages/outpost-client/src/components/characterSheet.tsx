@@ -7,7 +7,7 @@ import { Button } from "./button";
 import { Card } from "./card";
 import { Character } from "../types";
 import { CharacterXp } from "./characterXp";
-import { ResourceField } from "./resourceField";
+import { CharacterResourceField } from "./resourceField";
 import { Verified } from "@mui/icons-material";
 import { imageSize, spacing } from "../tokens";
 import { Title } from "./Title";
@@ -68,14 +68,14 @@ export const CharacterSheet = () => {
           width: "100%",
         }}
       >
-        <ResourceField
+        <CharacterResourceField
           resource="xp"
           edit={editXp}
           setEdit={setEditXp}
           title={<Title title="XP:" icon={<Verified />} />}
         />
         <VerticalSeparator />
-        <ResourceField
+        <CharacterResourceField
           resource="gold"
           title={
             <Title
@@ -116,17 +116,17 @@ export const CharacterSheet = () => {
             },
           }}
         >
-          <ResourceField resource="wood" />
-          <ResourceField resource="metal" />
-          <ResourceField resource="hide" />
+          <CharacterResourceField resource="wood" />
+          <CharacterResourceField resource="metal" />
+          <CharacterResourceField resource="hide" />
           <HorizontalDivider />
-          <ResourceField resource="arrowvine" />
-          <ResourceField resource="axenut" />
-          <ResourceField resource="corpsecap" />
+          <CharacterResourceField resource="arrowvine" />
+          <CharacterResourceField resource="axenut" />
+          <CharacterResourceField resource="corpsecap" />
           <HorizontalDivider />
-          <ResourceField resource="flamefruit" />
-          <ResourceField resource="rockroot" />
-          <ResourceField resource="snowthistle" />
+          <CharacterResourceField resource="flamefruit" />
+          <CharacterResourceField resource="rockroot" />
+          <CharacterResourceField resource="snowthistle" />
         </div>
       </Card>
       <Card>

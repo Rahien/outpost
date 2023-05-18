@@ -1,29 +1,39 @@
 import { useEffect, useRef, useState } from "react";
 import { useCharacterStore } from "../characterStore";
-import { Character } from "../types";
+import { Campaign, Character } from "../types";
 import { TextField } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { ResourceIcon } from "./resourceIcon";
 import { Title } from "./Title";
+import { useCampaignStore } from "../campaignStore";
 
-export const ResourceField = ({
+const ResourceField = ({
   resource,
   title,
   edit,
   setEdit,
-}: {
-  resource: keyof Character;
-  title?: React.ReactElement;
-  edit?: boolean;
-  setEdit?: (editing: boolean) => void;
-}) => {
-  const { character, updateCharacter, updating } = useCharacterStore(
-    ({ character, updateCharacter, updating }) => ({
-      character,
-      updateCharacter,
-      updating,
-    })
-  );
+  entity,
+  update,
+  updating,
+}:
+  | {
+      resource: keyof Character;
+      title?: React.ReactElement;
+      edit?: boolean;
+      setEdit?: (editing: boolean) => void;
+      entity: Character;
+      update: (newCharacter: Character) => void;
+      updating: boolean;
+    }
+  | {
+      resource: keyof Campaign;
+      title?: React.ReactElement;
+      edit?: boolean;
+      setEdit?: (editing: boolean) => void;
+      entity: Campaign;
+      update: (newCampaign: Campaign) => void;
+      updating: boolean;
+    }) => {
   const ref = useRef(null);
   useOnClickOutside(ref, () => setEditing(false));
 
@@ -41,15 +51,18 @@ export const ResourceField = ({
   }, [editing]);
 
   const [value, setValue] = useState(
-    character ? (character[resource] as unknown as number) : 0
+    entity[resource as keyof typeof entity] as unknown as number
   );
   const debouncedValue = useDebounce(value, 1000);
 
   useEffect(() => {
-    if (character && debouncedValue !== character[resource] && !updating) {
-      updateCharacter({ ...character, [resource]: debouncedValue });
+    if (
+      debouncedValue !== entity[resource as keyof typeof entity] &&
+      !updating
+    ) {
+      update({ ...entity, [resource]: debouncedValue } as Character & Campaign);
     }
-  }, [debouncedValue, character]);
+  }, [debouncedValue, entity]);
 
   return (
     <div
@@ -73,7 +86,7 @@ export const ResourceField = ({
             value={value}
             autoFocus
             onFocus={(e) => e.currentTarget.select()}
-            //onBlur={() => setEditing(false)}
+            onBlur={() => setEditing(false)}
             onChange={(e) =>
               setValue(parseInt(e.currentTarget.value || "0", 10))
             }
@@ -90,5 +103,69 @@ export const ResourceField = ({
         )}
       </div>
     </div>
+  );
+};
+
+export const CharacterResourceField = ({
+  resource,
+  title,
+  edit,
+  setEdit,
+}: {
+  resource: keyof Character;
+  title?: React.ReactElement;
+  edit?: boolean;
+  setEdit?: (editing: boolean) => void;
+}) => {
+  const { character, updateCharacter, updating } = useCharacterStore(
+    ({ character, updateCharacter, updating }) => ({
+      character,
+      updateCharacter,
+      updating,
+    })
+  );
+  if (!character) return null;
+  return (
+    <ResourceField
+      resource={resource}
+      title={title}
+      edit={edit}
+      setEdit={setEdit}
+      entity={character}
+      update={updateCharacter}
+      updating={updating}
+    />
+  );
+};
+
+export const CampaignResourceField = ({
+  resource,
+  title,
+  edit,
+  setEdit,
+}: {
+  resource: keyof Campaign;
+  title?: React.ReactElement;
+  edit?: boolean;
+  setEdit?: (editing: boolean) => void;
+}) => {
+  const { campaign, updateCampaign, updating } = useCampaignStore(
+    ({ campaign, updateCampaign, updating }) => ({
+      campaign,
+      updateCampaign,
+      updating,
+    })
+  );
+  if (!campaign) return null;
+  return (
+    <ResourceField
+      resource={resource}
+      title={title}
+      edit={edit}
+      setEdit={setEdit}
+      entity={campaign}
+      update={updateCampaign}
+      updating={updating}
+    />
   );
 };
