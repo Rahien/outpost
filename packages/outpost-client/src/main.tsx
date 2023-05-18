@@ -12,6 +12,7 @@ import { useLocalStorage } from "usehooks-ts";
 import "./assets/PirataOne-Gloomhaven.ttf";
 import { Logout } from "./logout";
 import { Register } from "./register";
+import { Campaigns } from "./components/campaigns";
 
 const withAuthentication = (Component: React.ComponentType) => (props: any) => {
   const { token, initialized } = useUserStore();
@@ -27,11 +28,20 @@ const withAuthentication = (Component: React.ComponentType) => (props: any) => {
 
 const AuthenticatedCharacterSheet = withAuthentication(CharacterSheet);
 const AuthenticatedCharacters = withAuthentication(Characters);
+const AuthenticatedCampaigns = withAuthentication(Campaigns);
 
 const router = createBrowserRouter([
   {
     path: "/characters/:id",
     element: <AuthenticatedCharacterSheet />,
+  },
+  {
+    path: "/characters",
+    element: <AuthenticatedCharacters />,
+  },
+  {
+    path: "/campaigns",
+    element: <AuthenticatedCampaigns />,
   },
   {
     path: "/",

@@ -3,15 +3,18 @@ import { spacing } from "../tokens";
 export const Card = ({
   children,
   onClick,
+  cardClass,
   ...rest
 }: {
   children: React.ReactElement | React.ReactElement[];
   onClick?: () => void;
+  cardClass?: string;
 }) => {
   const border = `solid 2px black`;
   return (
     <MuiCard
       onClick={onClick}
+      className={cardClass}
       css={{
         display: "flex",
         alignItems: "stretch",

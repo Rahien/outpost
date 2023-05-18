@@ -14,6 +14,7 @@ import { Card } from "./card";
 import { VerticalSeparator } from "./verticalSeparator";
 import { spacing } from "../tokens";
 import { Title } from "./Title";
+import { Navigation } from "./navigation";
 
 const CharacterListItem = ({ character }: { character: Character }) => {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ export const Characters = () => {
   };
   return (
     <>
+      <Navigation />
       <div
         css={{
           width: "100%",
