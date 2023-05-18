@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useState } from "react";
 import { spacing } from "./tokens";
 import { useUserStore } from "./userStore";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Title } from "./components/Title";
 import { Card } from "./components/card";
+import { Button } from "./components/button";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -106,13 +107,10 @@ export const Login = () => {
               justifyContent: "center",
             }}
           >
-            <Button onClick={login} variant="outlined">
-              Login
-            </Button>
+            <Button onClick={login}>Login</Button>
             <Button
               onClick={() => navigate("/register")}
               css={{ marginLeft: spacing.small }}
-              variant="outlined"
             >
               Register
             </Button>
