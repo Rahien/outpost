@@ -1,12 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import { useCharacterStore } from "../characterStore";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import { Title } from "./Title";
 import { spacing } from "../tokens";
 import { CustomMarkdown, overrides } from "./customMarkdown";
 import React from "react";
+import { ThemeContext } from "./themeProvider";
 
 type AutoCompleteItem = {
   name: string;
@@ -59,6 +60,7 @@ const MultiLineTextField = React.forwardRef((props, ref) => {
 });
 
 export const CharacterNotes = () => {
+  const { color } = useContext(ThemeContext);
   const { character, updateCharacter } = useCharacterStore(
     ({ character, updateCharacter }) => ({
       character,
@@ -105,7 +107,7 @@ export const CharacterNotes = () => {
               marginTop: 44,
               zIndex: 100,
               background: "white",
-              border: "1px solid black",
+              border: `1px solid ${color}`,
               boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
               padding: 0,
               ".rta__list": {

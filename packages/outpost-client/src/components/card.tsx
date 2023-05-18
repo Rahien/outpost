@@ -1,5 +1,7 @@
 import { Card as MuiCard } from "@mui/material";
 import { spacing } from "../tokens";
+import { useContext } from "react";
+import { ThemeContext } from "./themeProvider";
 export const Card = ({
   children,
   onClick,
@@ -10,7 +12,8 @@ export const Card = ({
   onClick?: () => void;
   cardClass?: string;
 }) => {
-  const border = `solid 2px black`;
+  const { color, background } = useContext(ThemeContext);
+  const border = `solid 2px ${color}`;
   return (
     <MuiCard
       onClick={onClick}
@@ -84,7 +87,7 @@ export const Card = ({
         >
           <div
             css={{
-              border: `solid 2px black`,
+              border: `solid 2px ${color}`,
               width: 2,
               height: 10,
               position: "absolute",
@@ -96,7 +99,7 @@ export const Card = ({
           ></div>
           <div
             css={{
-              border: `solid 2px black`,
+              border: `solid 2px ${color}`,
               width: 2,
               height: 10,
               position: "absolute",
@@ -113,7 +116,7 @@ export const Card = ({
               borderTop: "15px solid transparent",
               borderBottom: "15px solid transparent",
               marginLeft: -7,
-              borderRight: "15px solid black",
+              borderRight: `15px solid ${color}`,
               position: "relative",
               top: 2,
             }}
@@ -124,7 +127,7 @@ export const Card = ({
                 height: 0,
                 borderTop: "12px solid transparent",
                 borderBottom: "12px solid transparent",
-                borderRight: "12px solid white",
+                borderRight: `12px solid ${background}`,
                 position: "absolute",
                 left: 3,
                 top: -12,
@@ -136,7 +139,7 @@ export const Card = ({
                   height: 0,
                   borderTop: "6px solid transparent",
                   borderBottom: "6px solid transparent",
-                  borderRight: "6px solid black",
+                  borderRight: `6px solid ${color}`,
                   position: "absolute",
                   top: -6,
                   left: 6,

@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import { spacing } from "../tokens";
+import { ThemeContext } from "./themeProvider";
 
 export const VerticalSeparator = ({
   withLine = true,
 }: {
   withLine?: boolean;
 }) => {
+  const { color, background } = useContext(ThemeContext);
   return (
     <div
       css={{
@@ -20,7 +23,7 @@ export const VerticalSeparator = ({
           height: 0,
           borderLeft: `12px solid transparent`,
           borderRight: `12px solid transparent`,
-          borderTop: `12px solid black`,
+          borderTop: `12px solid ${color}`,
           position: "relative",
           marginTop: `-10px`,
         }}
@@ -31,7 +34,7 @@ export const VerticalSeparator = ({
             height: 0,
             borderLeft: `8px solid transparent`,
             borderRight: `8px solid transparent`,
-            borderTop: `8px solid white`,
+            borderTop: `8px solid ${background}`,
             position: "absolute",
             top: -12,
             left: -8,
@@ -43,7 +46,7 @@ export const VerticalSeparator = ({
               height: 0,
               borderLeft: `4px solid transparent`,
               borderRight: `4px solid transparent`,
-              borderTop: `4px solid black`,
+              borderTop: `4px solid ${color}`,
               position: "absolute",
               top: -8,
               left: -4,
@@ -57,7 +60,7 @@ export const VerticalSeparator = ({
           css={{
             flexGrow: 1,
             width: 0,
-            borderLeft: `solid 2px black`,
+            borderLeft: `solid 2px ${color}`,
             marginTop: spacing.tiny,
             marginBottom: spacing.tiny,
           }}
@@ -69,7 +72,7 @@ export const VerticalSeparator = ({
           height: 0,
           borderLeft: `12px solid transparent`,
           borderRight: `12px solid transparent`,
-          borderBottom: `12px solid black`,
+          borderBottom: `12px solid ${color}`,
           position: "relative",
           marginBottom: `-10px`,
         }}
@@ -80,7 +83,7 @@ export const VerticalSeparator = ({
             height: 0,
             borderLeft: `8px solid transparent`,
             borderRight: `8px solid transparent`,
-            borderBottom: `8px solid white`,
+            borderBottom: `8px solid ${background}`,
             position: "absolute",
             bottom: -12,
             left: -8,
@@ -92,7 +95,7 @@ export const VerticalSeparator = ({
               height: 0,
               borderLeft: `4px solid transparent`,
               borderRight: `4px solid transparent`,
-              borderBottom: `4px solid black`,
+              borderBottom: `4px solid ${color}`,
               position: "absolute",
               bottom: -8,
               left: -4,

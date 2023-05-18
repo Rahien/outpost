@@ -13,6 +13,7 @@ import "./assets/PirataOne-Gloomhaven.ttf";
 import { Logout } from "./logout";
 import { Register } from "./register";
 import { Campaigns } from "./components/campaigns";
+import { ThemeProvider } from "./components/themeProvider";
 
 const withAuthentication = (Component: React.ComponentType) => (props: any) => {
   const { token, initialized } = useUserStore();
@@ -155,8 +156,10 @@ const AuthenticationKeepAlive = ({
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <AuthenticationKeepAlive>
-      <RouterProvider router={router} />
-    </AuthenticationKeepAlive>
+    <ThemeProvider>
+      <AuthenticationKeepAlive>
+        <RouterProvider router={router} />
+      </AuthenticationKeepAlive>
+    </ThemeProvider>
   </React.StrictMode>
 );

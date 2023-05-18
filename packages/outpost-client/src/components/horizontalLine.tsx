@@ -1,5 +1,9 @@
+import { useContext } from "react";
+import { ThemeContext } from "./themeProvider";
+
 export const HorizontalLine = ({ upwards = false }: { upwards?: boolean }) => {
-  const border = `solid 2px black`;
+  const { color } = useContext(ThemeContext);
+  const border = `solid 2px ${color}`;
   return (
     <div
       css={{

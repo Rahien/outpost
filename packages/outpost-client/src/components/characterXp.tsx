@@ -1,11 +1,12 @@
 import { ExpandLess, Verified } from "@mui/icons-material";
 import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Card } from "./card";
 import { Title } from "./Title";
 import { CharacterName } from "./characterName";
 import levelIcon from "../assets/general/fh-level-crown-bw-icon.png";
+import { ThemeContext } from "./themeProvider";
 
 type LevelAttainment = "current" | "yes" | "no";
 

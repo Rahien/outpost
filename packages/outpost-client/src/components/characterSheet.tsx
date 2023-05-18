@@ -1,6 +1,6 @@
 import { ClassSelect } from "./characterClassSelect";
 import { useCharacterStore } from "../characterStore";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Dialog, TextField } from "@mui/material";
 import { Card } from "./card";
@@ -16,6 +16,7 @@ import { Perks } from "./perks";
 import coinIcon from "../assets/general/fh-money-bw-icon.png";
 import { Masteries } from "./masteries";
 import { Traits } from "./traits";
+import { ThemeContext } from "./themeProvider";
 
 const DeletingCharacter = ({
   character,
@@ -79,12 +80,14 @@ const DeletingCharacter = ({
 };
 
 const HorizontalDivider = () => {
+  const { color } = useContext(ThemeContext);
   return (
-    <div css={{ gridColumn: "span 3", borderTop: `solid 1px black` }}></div>
+    <div css={{ gridColumn: "span 3", borderTop: `solid 1px ${color}` }}></div>
   );
 };
 
 export const CharacterSheet = () => {
+  const { color } = useContext(ThemeContext);
   const { id } = useParams();
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
@@ -159,12 +162,12 @@ export const CharacterSheet = () => {
             gap: spacing.tiny,
             "> *:nth-of-type(4n+1)": {
               "> div": {
-                borderRight: `solid 1px black`,
+                borderRight: `solid 1px ${color}`,
               },
             },
             "> *:nth-of-type(4n+3)": {
               "> div": {
-                borderLeft: `solid 1px black`,
+                borderLeft: `solid 1px ${color}`,
                 img: {
                   marginLeft: spacing.tiny,
                 },
