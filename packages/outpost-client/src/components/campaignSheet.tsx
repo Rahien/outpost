@@ -8,6 +8,7 @@ import { Card } from "./card";
 import { Title } from "./Title";
 import { CampaignResourceField } from "./resourceField";
 import { ThemeContext } from "./themeProvider";
+import { VerticalSeparator } from "./verticalSeparator";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -86,6 +87,24 @@ export const CampaignSheet = () => {
     <>
       <div>campaign sheet for {campaign.name}</div>
       <CampaignResources />
+      <Card
+        coreCss={{
+          display: "grid",
+          gridTemplateColumns: "1fr 24px 1fr",
+          gap: spacing.tiny,
+          width: "100%",
+        }}
+      >
+        <CampaignResourceField
+          resource="inspiration"
+          title={<Title title="Inspiration:" />}
+        />
+        <VerticalSeparator />
+        <CampaignResourceField
+          resource="totalDefense"
+          title={<Title title="Total Defense:" />}
+        />
+      </Card>
       <div
         css={{
           display: "flex",
