@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'characters.apps.CharactersConfig',
+    'campaigns.apps.CampaignsConfig',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',

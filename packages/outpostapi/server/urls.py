@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from characters import urls as character_urls
+from campaigns import urls as campaign_urls
 from .views import RegisterView
 from rest_framework_simplejwt import views as jwt_views
 
@@ -24,6 +25,7 @@ urlpatterns = [
     path('api/admin/', admin.site.urls),
     path('api/auth/', include('rest_framework.urls')),
     path('api/characters/', include(character_urls)),
+    path('api/campaigns/', include(campaign_urls)),
     path('api/token/',
         jwt_views.TokenObtainPairView.as_view(),
         name ='token_obtain_pair'),
