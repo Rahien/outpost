@@ -2,22 +2,29 @@ import { Card as MuiCard } from "@mui/material";
 import { spacing } from "../tokens";
 import { useContext } from "react";
 import { ThemeContext } from "./themeProvider";
+import { Interpolation, Theme } from "@emotion/react";
 export const Card = ({
   children,
   onClick,
   cardClass,
+  css,
+  className,
+  coreCss,
   ...rest
 }: {
-  children: React.ReactElement | React.ReactElement[];
-  onClick?: () => void;
+  children: React.ReactNode | React.ReactNode[];
+  onClick?: (() => void) | ((e: React.MouseEvent) => void);
   cardClass?: string;
+  css?: Interpolation<Theme>;
+  coreCss?: Interpolation<Theme>;
+  className?: string;
 }) => {
   const { color, background } = useContext(ThemeContext);
   const border = `solid 2px ${color}`;
   return (
     <MuiCard
       onClick={onClick}
-      className={cardClass}
+      className={cardClass || className}
       css={{
         display: "flex",
         alignItems: "stretch",
@@ -25,6 +32,8 @@ export const Card = ({
         width: "100%",
         marginBottom: spacing.small,
         boxShadow: "none",
+        color: color,
+        ...((css || {}) as any),
       }}
     >
       <div
@@ -34,6 +43,7 @@ export const Card = ({
           flexDirection: "column",
           justifyContent: "space-between",
           marginRight: 2,
+          alignSelf: "stretch",
         }}
       >
         <div
@@ -56,12 +66,11 @@ export const Card = ({
         ></div>
       </div>
       <div
-        {...rest}
         css={{
           border: border,
           borderLeft: "none",
           borderRight: "none",
-          ...((rest as unknown as any).css || {}),
+          ...((coreCss || {}) as any),
         }}
       >
         {children}
@@ -74,6 +83,7 @@ export const Card = ({
           display: "flex",
           justifyContent: "center",
           flexDirection: "column",
+          alignSelf: "stretch",
         }}
       >
         <div

@@ -7,7 +7,7 @@ import {
 import { ClassIcon } from "./characterIcon";
 import { ArrowRight } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button } from "./button";
 import { Character } from "../types";
 import axios from "axios";
 import { Card } from "./card";
@@ -21,7 +21,7 @@ const CharacterListItem = ({ character }: { character: Character }) => {
   const url = `/characters/${character.id}`;
   return (
     <Card
-      css={{
+      coreCss={{
         display: "flex",
         alignItems: "center",
         "> div:nth-child(2)": {
@@ -92,12 +92,11 @@ export const Characters = () => {
           justifyContent: "center",
         }}
       >
-        <Button onClick={() => navigate("/logout")} variant="outlined">
+        <Button onClick={() => navigate("/logout")} color="#800000">
           Log out
         </Button>
         <Button
           onClick={() => createNewCharacter()}
-          variant="outlined"
           css={{ marginLeft: spacing.small }}
         >
           Create New

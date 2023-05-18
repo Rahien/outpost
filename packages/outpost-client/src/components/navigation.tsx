@@ -37,7 +37,7 @@ export const Navigation = () => {
       css={{
         display: "flex",
         width: "100%",
-        "> *": {
+        "> *.MuiCard-root": {
           flexGrow: 0,
           width: "fit-content",
           marginRight: spacing.medium,

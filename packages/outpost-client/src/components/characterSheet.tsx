@@ -2,7 +2,8 @@ import { ClassSelect } from "./characterClassSelect";
 import { useCharacterStore } from "../characterStore";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Dialog, TextField } from "@mui/material";
+import { Dialog, TextField } from "@mui/material";
+import { Button } from "./button";
 import { Card } from "./card";
 import { Character } from "../types";
 import { CharacterXp } from "./characterXp";
@@ -57,18 +58,13 @@ const DeletingCharacter = ({
               }}
             >
               <Button
-                variant="outlined"
-                color="error"
+                color="#800000"
                 disabled={verifyName != character.name}
                 onClick={onDelete}
               >
                 Delete
               </Button>
-              <Button
-                variant="outlined"
-                css={{ marginLeft: spacing.small }}
-                onClick={onClose}
-              >
+              <Button css={{ marginLeft: spacing.small }} onClick={onClose}>
                 Cancel
               </Button>
             </div>
@@ -120,7 +116,7 @@ export const CharacterSheet = () => {
       </Card>
       <CharacterXp setEditXp={setEditXp} />
       <Card
-        css={{
+        coreCss={{
           display: "grid",
           gridTemplateColumns: "1fr 24px 1fr",
           gap: spacing.tiny,
@@ -192,7 +188,7 @@ export const CharacterSheet = () => {
         <CharacterNotes />
       </Card>
 
-      <Card css={{ display: "flex", alignItems: "stretch" }}>
+      <Card coreCss={{ display: "flex", alignItems: "stretch" }}>
         <Traits />
       </Card>
 
@@ -209,16 +205,11 @@ export const CharacterSheet = () => {
       >
         <Button
           css={{ flexGrow: 1, marginRight: spacing.small }}
-          variant="outlined"
           onClick={() => navigate("/characters")}
         >
           Back
         </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          onClick={() => setDeleting(true)}
-        >
+        <Button color="#800000" onClick={() => setDeleting(true)}>
           Delete Character
         </Button>
       </div>
