@@ -78,7 +78,7 @@ export const CharacterNotes = () => {
 
   const autoCompleteConfig = {
     dataProvider: (token: string) => {
-      return Object.keys(overrides)
+      const matches = Object.keys(overrides)
         .filter((key) => key.toLowerCase().startsWith(token.toLowerCase()))
         .map((key) => {
           return {
@@ -86,6 +86,8 @@ export const CharacterNotes = () => {
             component: overrides[key].component,
           } as AutoCompleteItem;
         });
+      matches.sort((a, b) => a.name.localeCompare(b.name));
+      return matches.slice(0, 5);
     },
     component: AutoCompleteSuggestion,
     output: (item: AutoCompleteItem, _trigger: any) => `<${item.name}/>`,
