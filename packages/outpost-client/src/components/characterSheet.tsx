@@ -171,9 +171,9 @@ export const CharacterSheet = () => {
             },
           }}
         >
-          <ResourceField resource="hide" />
-          <ResourceField resource="metal" />
           <ResourceField resource="wood" />
+          <ResourceField resource="metal" />
+          <ResourceField resource="hide" />
           <HorizontalDivider />
           <ResourceField resource="arrowvine" />
           <ResourceField resource="axenut" />
