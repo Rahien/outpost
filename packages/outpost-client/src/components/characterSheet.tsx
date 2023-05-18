@@ -18,62 +18,7 @@ import coinIcon from "../assets/general/fh-money-bw-icon.png";
 import { Masteries } from "./masteries";
 import { Traits } from "./traits";
 import { ThemeContext } from "./themeProvider";
-
-const DeletingCharacter = ({
-  character,
-  onDelete,
-  onClose,
-}: {
-  character: Character;
-  onClose: () => void;
-  onDelete: () => void;
-}) => {
-  const [verifyName, setVerifyName] = useState<string>("");
-  return (
-    <Dialog open={true} onClose={onClose}>
-      <div css={{ padding: spacing.small, paddingBottom: 0 }}>
-        <Card>
-          <div css={{ padding: spacing.small }}>
-            <Title title="Are you sure?" />
-            <p>
-              To delete the character, type the character name "{character.name}
-              " below:
-            </p>
-            <TextField
-              value={verifyName}
-              css={{ width: "100%" }}
-              label="Character Name To Delete"
-              onChange={(e) => setVerifyName(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && verifyName === character.name) {
-                  onDelete();
-                }
-              }}
-            />
-            <div
-              css={{
-                marginTop: spacing.medium,
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                color="#800000"
-                disabled={verifyName != character.name}
-                onClick={onDelete}
-              >
-                Delete
-              </Button>
-              <Button css={{ marginLeft: spacing.small }} onClick={onClose}>
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </Dialog>
-  );
-};
+import { VerifyDeleteDialog } from "./verifyDeleteDialog";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -215,8 +160,9 @@ export const CharacterSheet = () => {
       </div>
 
       {deleting && (
-        <DeletingCharacter
-          character={character}
+        <VerifyDeleteDialog
+          name={character.name}
+          type={"character"}
           onDelete={handleDelete}
           onClose={() => setDeleting(false)}
         />
