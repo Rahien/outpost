@@ -34,6 +34,30 @@ export type Character = {
   masteries: Mastery[];
 };
 
+export type Campaign = {
+  id: number;
+  name: string;
+  metal: number;
+  wood: number;
+  hide: number;
+  arrowvine: number;
+  axenut: number;
+  corpsecap: number;
+  flamefruit: number;
+  rockroot: number;
+  snowthistle: number;
+  notes: string;
+  inspiration: number;
+  morale: number;
+  soldiers: number;
+  barracksLevel: number;
+  totalDefense: number;
+  prosperity: number;
+  perkTags: number;
+  perks: Perk[];
+  characters: Character[];
+};
+
 export const RESOURCES = [
   "metal",
   "wood",

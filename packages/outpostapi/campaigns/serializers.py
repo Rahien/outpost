@@ -2,23 +2,25 @@ from rest_framework import serializers
 from campaigns.models import Campaign, Event, TownGuardPerk
 from characters.serializers import PerkSerializer
 
+
 class TownGuardPerkSerializer(serializers.ModelSerializer):
-      perk = PerkSerializer(read_only=True, many=False)
+    perk = PerkSerializer(read_only=True, many=False)
 
-      def to_representation(self, instance):
-          c_perk = super().to_representation(instance)
-          return {
-              **c_perk["perk"],
-              "id": c_perk["id"],
-              "active": c_perk["active"],
-              "perk_id": c_perk["perk"]["id"],
-              "order": c_perk["perk"]["order"]
-          }
+    def to_representation(self, instance):
+        c_perk = super().to_representation(instance)
+        return {
+            **c_perk["perk"],
+            "id": c_perk["id"],
+            "active": c_perk["active"],
+            "perk_id": c_perk["perk"]["id"],
+            "order": c_perk["perk"]["order"]
+        }
 
-      class Meta:
-          model = TownGuardPerk
-          fields = ["perk", "campaign_id", "id", "active"]
-          read_only_fields = ["id"]
+    class Meta:
+        model = TownGuardPerk
+        fields = ["perk", "campaign_id", "id", "active"]
+        read_only_fields = ["id"]
+
 
 class EventSerializer(serializers.ModelSerializer):
 
@@ -33,10 +35,12 @@ class CampaignSerializer(serializers.ModelSerializer):
     class Meta:
         model = Campaign
         fields = ['id', 'name', 'prosperity', 'created_at']
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "created_at"]
+
 
 class CampaignDetailSerializer(serializers.ModelSerializer):
-    perks = TownGuardPerkSerializer(read_only=True, many=True, source="townguardperk_set")
+    perks = TownGuardPerkSerializer(
+        read_only=True, many=True, source="townguardperk_set")
     events = EventSerializer(read_only=True, many=True, source="event_set")
 
     class Meta:

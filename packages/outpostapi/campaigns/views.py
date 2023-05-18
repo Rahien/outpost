@@ -36,7 +36,7 @@ class CampaignListApiView(APIView):
             new_campaign.users.add(request.user.id)
             new_campaign.save()
 
-            return Response(CampaignDetailSerializer(data=new_campaign), status=status.HTTP_201_CREATED)
+            return Response(CampaignDetailSerializer(new_campaign).data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

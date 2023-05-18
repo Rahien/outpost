@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -26,6 +27,15 @@ class Campaign(models.Model):
     perk_tags = models.IntegerField(default=0)
     characters = models.ManyToManyField(Character, through='CampaignCharacter')
     users = models.ManyToManyField(User, through='CampaignUser')
+
+    def __str__(self):
+        return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_at = timezone.now()
+
+        return super(Campaign, self).save(*args, **kwargs)
 
 
 class CampaignCharacter(models.Model):

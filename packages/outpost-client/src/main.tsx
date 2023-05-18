@@ -14,6 +14,7 @@ import { Logout } from "./logout";
 import { Register } from "./register";
 import { Campaigns } from "./components/campaigns";
 import { ThemeProvider } from "./components/themeProvider";
+import { CampaignSheet } from "./components/campaignSheet";
 
 const withAuthentication = (Component: React.ComponentType) => (props: any) => {
   const { token, initialized } = useUserStore();
@@ -28,6 +29,7 @@ const withAuthentication = (Component: React.ComponentType) => (props: any) => {
 };
 
 const AuthenticatedCharacterSheet = withAuthentication(CharacterSheet);
+const AuthenticatedCampaignSheet = withAuthentication(CampaignSheet);
 const AuthenticatedCharacters = withAuthentication(Characters);
 const AuthenticatedCampaigns = withAuthentication(Campaigns);
 
@@ -39,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/characters",
     element: <AuthenticatedCharacters />,
+  },
+  {
+    path: "/campaigns/:id",
+    element: <AuthenticatedCampaignSheet />,
   },
   {
     path: "/campaigns",
