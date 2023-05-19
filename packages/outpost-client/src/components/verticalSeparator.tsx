@@ -1,20 +1,27 @@
 import { useContext } from "react";
 import { spacing } from "../tokens";
 import { ThemeContext } from "./themeProvider";
+import { Interpolation, Theme } from "@emotion/react";
 
 export const VerticalSeparator = ({
   withLine = true,
+  css = {},
+  className,
 }: {
   withLine?: boolean;
+  css?: Interpolation<Theme>;
+  className?: string;
 }) => {
   const { color, background } = useContext(ThemeContext);
   return (
     <div
+      className={className}
       css={{
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "column",
         alignItems: "center",
+        ...(css as any),
       }}
     >
       <div

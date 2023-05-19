@@ -9,6 +9,8 @@ import { Title } from "./Title";
 import { CampaignResourceField } from "./resourceField";
 import { ThemeContext } from "./themeProvider";
 import { VerticalSeparator } from "./verticalSeparator";
+import { CampaignNotes } from "./characterNotes";
+import { CampaignName, CharacterName } from "./characterName";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -85,7 +87,34 @@ export const CampaignSheet = () => {
   if (!campaign) return null; // TODO: show loading
   return (
     <>
-      <div>campaign sheet for {campaign.name}</div>
+      <Card
+        coreCss={{
+          display: "flex",
+          alignItems: "center",
+
+          "> div:last-of-type": {
+            textAlign: "right",
+            flexGrow: 1,
+            height: 37,
+            lineHeight: "37px",
+          },
+          input: {
+            textAlign: "right",
+            padding: spacing.small,
+          },
+          "> div:first-of-type": {
+            marginRight: spacing.tiny,
+            flexGrow: 0,
+          },
+        }}
+      >
+        <Title title="Party Name:" css={{ flexGrow: 0 }} />
+        <VerticalSeparator
+          css={{ alignSelf: "stretch", flexGrow: 0 }}
+          withLine={false}
+        />
+        <CampaignName />
+      </Card>
       <CampaignResources />
       <Card
         coreCss={{
@@ -104,6 +133,9 @@ export const CampaignSheet = () => {
           resource="totalDefense"
           title={<Title title="Total Defense:" />}
         />
+      </Card>
+      <Card>
+        <CampaignNotes />
       </Card>
       <div
         css={{

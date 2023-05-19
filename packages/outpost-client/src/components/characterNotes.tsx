@@ -8,6 +8,8 @@ import { spacing } from "../tokens";
 import { CustomMarkdown, overrides } from "./customMarkdown";
 import React from "react";
 import { ThemeContext } from "./themeProvider";
+import { Campaign, Character } from "../types";
+import { useCampaignStore } from "../campaignStore";
 
 type AutoCompleteItem = {
   name: string;
@@ -59,21 +61,23 @@ const MultiLineTextField = React.forwardRef((props, ref) => {
   );
 });
 
-export const CharacterNotes = () => {
+const EntityNotes = ({
+  entity,
+  update,
+}:
+  | {
+      entity: Character;
+      update: (newEntity: Character) => Promise<void>;
+    }
+  | { entity: Campaign; update: (newEntity: Campaign) => Promise<void> }) => {
   const { color } = useContext(ThemeContext);
-  const { character, updateCharacter } = useCharacterStore(
-    ({ character, updateCharacter }) => ({
-      character,
-      updateCharacter,
-    })
-  );
-  const [value, setValue] = useState<string>(character?.notes || "");
+  const [value, setValue] = useState<string>(entity.notes || "");
   const [editing, setEditing] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setEditing(false));
   useEffect(() => {
-    if (!editing && character && value !== character.notes) {
-      updateCharacter({ ...character, notes: value });
+    if (!editing && value !== entity.notes) {
+      update({ ...entity, notes: value } as Character & Campaign);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editing]);
@@ -176,4 +180,26 @@ export const CharacterNotes = () => {
       )}
     </div>
   );
+};
+
+export const CharacterNotes = () => {
+  const { character, updateCharacter } = useCharacterStore(
+    ({ character, updateCharacter }) => ({
+      character,
+      updateCharacter,
+    })
+  );
+  if (!character) return null;
+  return <EntityNotes entity={character} update={updateCharacter} />;
+};
+
+export const CampaignNotes = () => {
+  const { campaign, updateCampaign } = useCampaignStore(
+    ({ campaign, updateCampaign }) => ({
+      campaign,
+      updateCampaign,
+    })
+  );
+  if (!campaign) return null;
+  return <EntityNotes entity={campaign} update={updateCampaign} />;
 };
