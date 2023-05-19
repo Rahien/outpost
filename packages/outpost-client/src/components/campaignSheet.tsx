@@ -11,6 +11,7 @@ import { ThemeContext } from "./themeProvider";
 import { VerticalSeparator } from "./verticalSeparator";
 import { CampaignNotes } from "./characterNotes";
 import { CampaignName, CharacterName } from "./characterName";
+import { CampaignMorale } from "./campaignMorale";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -134,6 +135,7 @@ export const CampaignSheet = () => {
           title={<Title title="Total Defense:" />}
         />
       </Card>
+      <CampaignMorale />
       <Card>
         <CampaignNotes />
       </Card>

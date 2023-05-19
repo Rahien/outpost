@@ -85,7 +85,7 @@ export const defaultCampaign: Omit<Campaign, "id" | "perks" | "characters"> = {
   perkTags: 0,
   prosperity: 0,
   inspiration: 0,
-  morale: 0,
+  morale: 6,
   totalDefense: 0,
   barracksLevel: 0,
   soldiers: 0,
