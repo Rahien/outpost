@@ -42,13 +42,18 @@ const PerksChecks = ({ checked }: { checked: number }) => {
   );
 };
 
-const AllPerkChecks = () => {
-  const { character } = useCharacterStore(({ character }) => ({ character }));
-  const perks = character?.perkTags || 0;
+export const AllPerkChecks = ({
+  perkCount,
+  maxPerks,
+}: {
+  perkCount: number;
+  maxPerks: number;
+}) => {
+  const perks = perkCount;
 
   const allFilled = perks / 3;
   const remainder = perks % 3;
-  const allEmpty = 6 - allFilled;
+  const allEmpty = maxPerks / 3 - allFilled;
 
   return (
     <div
@@ -153,7 +158,7 @@ export const Perks = () => {
             max={18}
           />
         ) : (
-          <AllPerkChecks />
+          <AllPerkChecks perkCount={character?.perkTags || 0} maxPerks={18} />
         )}
       </div>
       <HorizontalLine />

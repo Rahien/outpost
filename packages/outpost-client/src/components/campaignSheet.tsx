@@ -12,6 +12,7 @@ import { VerticalSeparator } from "./verticalSeparator";
 import { CampaignNotes } from "./characterNotes";
 import { CampaignName, CharacterName } from "./characterName";
 import { CampaignMorale } from "./campaignMorale";
+import { TownGuardPerks } from "./townGuardPerks";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -139,6 +140,7 @@ export const CampaignSheet = () => {
       <Card>
         <CampaignNotes />
       </Card>
+      <TownGuardPerks />
       <div
         css={{
           display: "flex",
