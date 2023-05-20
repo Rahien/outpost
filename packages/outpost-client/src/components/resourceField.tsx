@@ -6,6 +6,7 @@ import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { ResourceIcon } from "./resourceIcon";
 import { Title } from "./Title";
 import { useCampaignStore } from "../campaignStore";
+import { NumberValueInput } from "./numberValueInput";
 
 const ResourceField = ({
   resource,
@@ -77,25 +78,14 @@ const ResourceField = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          button: {
+            padding: 0,
+            minWidth: 30,
+          },
         }}
       >
         {editing ? (
-          <TextField
-            type="number"
-            label="Value"
-            value={value}
-            autoFocus
-            onFocus={(e) => e.currentTarget.select()}
-            onBlur={() => setEditing(false)}
-            onChange={(e) =>
-              setValue(parseInt(e.currentTarget.value || "0", 10))
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                setEditing(false);
-              }
-            }}
-          />
+          <NumberValueInput value={value} setValue={setValue} min={0} />
         ) : (
           <div css={{ fontSize: "24px", fontFamily: "PirataOne-Gloomhaven" }}>
             {value}

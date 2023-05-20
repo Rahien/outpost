@@ -15,6 +15,7 @@ import { HorizontalLine } from "./horizontalLine";
 import { spacing } from "../tokens";
 import { Perk } from "../types";
 import { CustomMarkdown } from "./customMarkdown";
+import { NumberValueInput } from "./numberValueInput";
 const PerksChecks = ({ checked }: { checked: number }) => {
   const checkedBoxes = Array.from({ length: checked }).map((_, i) => i);
   const unCheckedBoxes = Array.from({ length: 3 - checked }).map((_, i) => i);
@@ -118,57 +119,6 @@ const PerkList = () => {
   );
 };
 
-const PerkInput = ({
-  perks,
-  setPerks,
-}: {
-  perks: number;
-  setPerks: (v: number) => void;
-}) => {
-  return (
-    <div
-      css={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        button: {
-          color: "black",
-          fontWeight: "bold",
-          fontSize: 42,
-          lineHeight: "30px",
-          fontFamily: "PirataOne-Gloomhaven",
-          outline: "none",
-        },
-      }}
-    >
-      <Button
-        onClick={() => setPerks(Math.max(perks - 1, 0))}
-        css={{ paddingLeft: 100 }}
-      >
-        -
-      </Button>
-      <div
-        css={{
-          fontFamily: "PirataOne-Gloomhaven",
-          fontSize: 30,
-          height: 64,
-          lineHeight: "64px",
-          marginLeft: spacing.small,
-          marginRight: spacing.small,
-        }}
-      >
-        {perks}
-      </div>
-      <Button
-        onClick={() => setPerks(Math.min(perks + 1, 18))}
-        css={{ paddingRight: 100 }}
-      >
-        +
-      </Button>
-    </div>
-  );
-};
-
 export const Perks = () => {
   const [editing, setEditing] = useState(false);
   const ref = useRef(null);
@@ -196,7 +146,12 @@ export const Perks = () => {
         <HorizontalLine upwards />
 
         {editing ? (
-          <PerkInput setPerks={setPerks} perks={perks} />
+          <NumberValueInput
+            setValue={setPerks}
+            value={perks}
+            min={0}
+            max={18}
+          />
         ) : (
           <AllPerkChecks />
         )}

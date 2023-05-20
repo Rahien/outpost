@@ -7,6 +7,7 @@ import { VerticalSeparator } from "./verticalSeparator";
 
 import sectionIcon from "../assets/general/fh-section-bw-icon.png";
 import { imageSize } from "../tokens";
+import { CampaignSoldiers } from "./campaignSoldiers";
 
 const moraleDefense = [
   { morale: 0, defense: -10 },
@@ -43,7 +44,13 @@ export const CampaignMorale = () => {
   }, [campaign]);
 
   return (
-    <Card coreCss={{ display: "flex" }}>
+    <Card
+      coreCss={{
+        display: "grid",
+        gridTemplateColumns: "1fr 20px 1fr 20px 1fr",
+        columns: 3,
+      }}
+    >
       <div css={{ flex: 1 }}>
         <CampaignResourceField
           resource="morale"
@@ -86,6 +93,8 @@ export const CampaignMorale = () => {
           }}
         />
       </div>
+      <VerticalSeparator />
+      <CampaignSoldiers />
     </Card>
   );
 };

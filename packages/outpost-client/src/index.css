@@ -75,7 +75,7 @@ button:focus-visible {
   padding-bottom: 32px;
 }
 div.MuiCard-root > div:nth-of-type(2) {
-  padding: 8px;
+  padding: 8px 0;
   box-sizing: border-box;
   overflow: visible;
   width: 100%;
