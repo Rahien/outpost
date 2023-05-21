@@ -3,18 +3,37 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 
-from campaigns.models import Campaign, TownGuardPerk, ActiveTownGuardPerk
+from campaigns.models import Campaign, Event, TownGuardPerk, ActiveTownGuardPerk
 from campaigns.serializers import CampaignDetailSerializer, CampaignSerializer
 
 
 def add_campaign_perks(campaign):
     '''
-    Helper method to delete all the perks for given character and reload the character's perks based on the new class
+    Helper method to add default campaign perks
     '''
     perks = TownGuardPerk.objects.all()
     for perk in perks:
         campaign_perk = ActiveTownGuardPerk(campaign=campaign, perk=perk)
         campaign_perk.save()
+
+
+def add_campaign_events(campaign):
+    '''
+    Helper method to add default campaign events
+    '''
+    events = [
+        Event(campaign=campaign, section="32.3", week=5),
+        Event(campaign=campaign, section="183.3", week=10),
+        Event(campaign=campaign, section="21.4", week=10),
+        Event(campaign=campaign, section="129.3", week=20),
+        Event(campaign=campaign, section="183.3", week=25),
+        Event(campaign=campaign, section="183.3", week=30),
+        Event(campaign=campaign, section="184.1", week=40),
+        Event(campaign=campaign, section="137.2", week=80),
+    ]
+
+    for event in events:
+        event.save()
 
 
 class CampaignListApiView(APIView):
@@ -40,6 +59,7 @@ class CampaignListApiView(APIView):
             new_campaign.users.add(request.user.id)
             new_campaign.save()
             add_campaign_perks(new_campaign)
+            add_campaign_events(new_campaign)
 
             return Response(CampaignDetailSerializer(new_campaign).data, status=status.HTTP_201_CREATED)
 

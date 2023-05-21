@@ -14,6 +14,7 @@ import { CampaignName, CharacterName } from "./characterName";
 import { CampaignMorale } from "./campaignMorale";
 import { TownGuardPerks } from "./townGuardPerks";
 import { ProsperityTrack } from "./prosperityTrack";
+import { Calendar } from "./calendar";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -118,6 +119,7 @@ export const CampaignSheet = () => {
         />
         <CampaignName />
       </Card>
+      <Calendar />
       <CampaignResources />
       <Card
         coreCss={{

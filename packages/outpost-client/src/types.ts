@@ -42,6 +42,12 @@ export type Character = {
   masteries: Mastery[];
 };
 
+export type Event = {
+  id: number;
+  section: string;
+  week: number;
+};
+
 export type Campaign = {
   id: number;
   name: string;
@@ -62,8 +68,10 @@ export type Campaign = {
   totalDefense: number;
   prosperity: number;
   perkTags: number;
+  currentWeek: number;
   perks: TownGuardPerk[];
   characters: Character[];
+  events: Event[];
 };
 
 export const RESOURCES = [

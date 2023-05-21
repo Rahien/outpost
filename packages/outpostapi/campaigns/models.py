@@ -40,6 +40,7 @@ class Campaign(models.Model):
     perk_tags = models.IntegerField(default=0)
     characters = models.ManyToManyField(Character, through='CampaignCharacter')
     users = models.ManyToManyField(User, through='CampaignUser')
+    current_week = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.name}"
@@ -79,7 +80,6 @@ class CampaignUser(models.Model):
 
 class Event(models.Model):
     week = models.IntegerField(default=0)
-    description = models.TextField(blank=True, null=True)
     section = models.CharField(max_length=200)
     campaign = models.ForeignKey(
         Campaign, on_delete=models.CASCADE, blank=True, null=True)

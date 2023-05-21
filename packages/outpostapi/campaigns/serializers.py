@@ -43,7 +43,7 @@ class CampaignSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'prosperity', 'created_at']
+        fields = ['id', 'name', 'prosperity', 'created_at', 'current_week']
         read_only_fields = ["id", "created_at"]
 
 
