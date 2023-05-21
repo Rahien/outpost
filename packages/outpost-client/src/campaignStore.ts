@@ -13,7 +13,7 @@ export type CampaignStore = {
   deleteCampaign: (id: number) => Promise<void>;
   campaignList: Campaign[];
   fetchCampaignList: () => Promise<void>;
-  togglePerk: (campaignId: number, id: number, active: number) => Promise<void>;
+  updatePerk: (campaignId: number, id: number, active: string) => Promise<void>;
   toggleMastery: (
     campaignId: number,
     id: number,
@@ -48,7 +48,7 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
   deleteCampaign: async (id: number) => {
     await axios.delete(`${API_URL}/campaigns/${id}`);
   },
-  togglePerk: async (campaignId: number, id: number, active: number) => {
+  updatePerk: async (campaignId: number, id: number, active: string) => {
     const response = await axios.put(
       `${API_URL}/campaigns/${campaignId}/perks/${id}`,
       {

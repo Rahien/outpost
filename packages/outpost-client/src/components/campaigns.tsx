@@ -9,14 +9,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const Campaigns = () => {
-  const { campaignList, fetchCampaignList } = useCampaignStore(
-    ({ campaignList, fetchCampaignList }) => ({
+  const { campaignList, fetchCampaignList, setCampaign } = useCampaignStore(
+    ({ campaignList, fetchCampaignList, setCampaign }) => ({
       campaignList,
       fetchCampaignList,
+      setCampaign,
     })
   );
   const navigate = useNavigate();
   useEffect(() => {
+    setCampaign(null);
     fetchCampaignList();
   }, []);
   const createNewCampaign = async () => {

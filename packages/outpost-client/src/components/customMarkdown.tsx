@@ -122,7 +122,8 @@ import pressureUp from "../assets/class/fh-metal-mosaic-pressure-up-bw-icon.png"
 import resonance from "../assets/class/fh-shattersong-resonance-bw-icon.png";
 
 import { imageSize } from "../tokens";
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "./themeProvider";
 
 const icons: Record<string, string | React.ReactElement> = {
   any,
@@ -327,6 +328,34 @@ Object.keys(components).forEach((key) => {
     component: () => consumeIcon(element),
   };
 });
+
+const CustomMod = ({ mod }: { mod: number }) => {
+  const { color } = useContext(ThemeContext);
+  return (
+    <div
+      css={{
+        border: `solid 1.5px ${color}`,
+        width: 22,
+        height: 22,
+        borderRadius: "100%",
+        lineHeight: "20px",
+        textAlign: "center",
+        fontFamily: "PirataOne-Gloomhaven",
+        paddingTop: 0,
+        boxSizing: "border-box",
+        display: "inline-block",
+        fontSize: 12,
+      }}
+    >
+      {mod >= 0 ? "+" : ""}
+      {mod}
+    </div>
+  );
+};
+overrides["modPlus10"] = { component: () => <CustomMod mod={10} /> };
+overrides["modPlus30"] = { component: () => <CustomMod mod={30} /> };
+overrides["modMinus10"] = { component: () => <CustomMod mod={-10} /> };
+overrides["modMinus20"] = { component: () => <CustomMod mod={-20} /> };
 
 export const CustomMarkdown = ({ children }: { children: string }) => {
   return (

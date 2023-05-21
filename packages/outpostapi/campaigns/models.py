@@ -5,6 +5,19 @@ from django.contrib.auth.models import User
 from characters.models import Character, Perk
 
 
+class TownGuardPerk(models.Model):
+    description = models.TextField(blank=True, null=True)
+    order = models.IntegerField(default=0)
+    # semicolon separated list of available sections
+    sections = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.description}"
+
+    class Meta:
+        ordering = ['order']
+
+
 class Campaign(models.Model):
     name = models.CharField(max_length=200)
     created_at = models.DateTimeField("created at")
@@ -72,12 +85,13 @@ class Event(models.Model):
         Campaign, on_delete=models.CASCADE, blank=True, null=True)
 
 
-class TownGuardPerk(models.Model):
+class ActiveTownGuardPerk(models.Model):
     campaign = models.ForeignKey(
         Campaign, on_delete=models.CASCADE, blank=True, null=True)
     perk = models.ForeignKey(
-        Perk, on_delete=models.CASCADE, blank=True, null=True)
-    active = models.IntegerField(default=0)
+        TownGuardPerk, on_delete=models.CASCADE, blank=True, null=True)
+    # semicolon separated list of active sections
+    active = models.TextField(blank=True, null=True)
 
     class Meta:
         unique_together = ['campaign', 'perk']

@@ -6,6 +6,14 @@ export type Perk = {
   order: number;
 };
 
+export type TownGuardPerk = {
+  id: number;
+  description: string;
+  active: string;
+  sections: string;
+  order: number;
+};
+
 export type Mastery = {
   id: number;
   description: string;
@@ -54,7 +62,7 @@ export type Campaign = {
   totalDefense: number;
   prosperity: number;
   perkTags: number;
-  perks: Perk[];
+  perks: TownGuardPerk[];
   characters: Character[];
 };
 

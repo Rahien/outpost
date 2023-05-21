@@ -3,10 +3,18 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 
-from campaigns.models import Campaign
+from campaigns.models import Campaign, TownGuardPerk, ActiveTownGuardPerk
 from campaigns.serializers import CampaignDetailSerializer, CampaignSerializer
 
-# Create your views here.
+
+def add_campaign_perks(campaign):
+    '''
+    Helper method to delete all the perks for given character and reload the character's perks based on the new class
+    '''
+    perks = TownGuardPerk.objects.all()
+    for perk in perks:
+        campaign_perk = ActiveTownGuardPerk(campaign=campaign, perk=perk)
+        campaign_perk.save()
 
 
 class CampaignListApiView(APIView):
@@ -24,17 +32,14 @@ class CampaignListApiView(APIView):
         '''
         Create the Campaign with given data
         '''
-        data = {
-
-            'name': request.data.get('name'),
-            'user': request.user.id
-        }
-        serializer = CampaignSerializer(data=data)
+        data = request.data
+        serializer = CampaignDetailSerializer(data=data)
 
         if serializer.is_valid():
             new_campaign = serializer.save()
             new_campaign.users.add(request.user.id)
             new_campaign.save()
+            add_campaign_perks(new_campaign)
 
             return Response(CampaignDetailSerializer(new_campaign).data, status=status.HTTP_201_CREATED)
 
@@ -86,3 +91,43 @@ class CampaignDetailApiView(APIView):
 
         campaign.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class TownGuardPerkDetailApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, campaign_id, perk_id, *args, **kwargs):
+        '''
+        update the town guard perk for this campaign
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        perk = ActiveTownGuardPerk.objects.get(
+            campaign_id=campaign_id, id=perk_id)
+        if not perk:
+            return Response(
+                {"res": "Object with perk id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        perk_info = TownGuardPerk.objects.get(id=perk.perk_id)
+        if not perk_info:
+            return Response(
+                {"res": "Referenced perk does not exist"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        active = request.data.get('active', '').split(';')
+        available = perk_info.sections.split(';')
+        active = list(filter(lambda x: x in available, active))
+
+        active = ';'.join(active)
+
+        perk.active = active
+        perk.save()
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)

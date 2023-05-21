@@ -2,13 +2,15 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 class Character(models.Model):
     name = models.CharField(max_length=200)
     created_at = models.DateTimeField("created at")
     class_name = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
     xp = models.IntegerField(default=0)
-    gold= models.IntegerField(default=0)
+    gold = models.IntegerField(default=0)
     hide = models.IntegerField(default=0)
     metal = models.IntegerField(default=0)
     wood = models.IntegerField(default=0)
@@ -21,15 +23,14 @@ class Character(models.Model):
     notes = models.TextField(blank=True, null=True)
     perk_tags = models.IntegerField(default=0)
 
-
     def __str__(self):
-      return f"{self.name} [{self.class_name}]"
+        return f"{self.name} [{self.class_name}]"
 
     def save(self, *args, **kwargs):
-      if not self.id:
-         self.created_at = timezone.now()
+        if not self.id:
+            self.created_at = timezone.now()
 
-      return super(Character, self).save(*args, **kwargs)
+        return super(Character, self).save(*args, **kwargs)
 
 
 class Perk(models.Model):
@@ -39,23 +40,26 @@ class Perk(models.Model):
     max_active = models.IntegerField(default=1)
 
     def __str__(self):
-      return f"{self.description}"
+        return f"{self.description}"
 
     class Meta:
-       ordering = ['order']
-       unique_together = ['class_name', 'order']
+        ordering = ['order']
+        unique_together = ['class_name', 'order']
+
 
 class CharacterPerk(models.Model):
-    character = models.ForeignKey(Character, on_delete = models.CASCADE, blank = True, null = True)
-    perk = models.ForeignKey(Perk, on_delete = models.CASCADE, blank = True, null = True)
+    character = models.ForeignKey(
+        Character, on_delete=models.CASCADE, blank=True, null=True)
+    perk = models.ForeignKey(
+        Perk, on_delete=models.CASCADE, blank=True, null=True)
     active = models.IntegerField(default=0)
 
     class Meta:
-       unique_together = ['character', 'perk']
-
+        unique_together = ['character', 'perk']
 
     def __str__(self):
-      return f"{self.character.name} [perk {self.perk.id}: {self.active}]"
+        return f"{self.character.name} [perk {self.perk.id}: {self.active}]"
+
 
 class Mastery(models.Model):
     description = models.TextField(blank=True, null=True)
@@ -63,22 +67,24 @@ class Mastery(models.Model):
     order = models.IntegerField(default=0)
 
     def __str__(self):
-      return f"{self.description}"
+        return f"{self.description}"
 
     class Meta:
-      verbose_name_plural = "masteries"
-      ordering = ['order']
-      unique_together = ['class_name', 'order']
+        verbose_name_plural = "masteries"
+        ordering = ['order']
+        unique_together = ['class_name', 'order']
+
 
 class CharacterMastery(models.Model):
-    character = models.ForeignKey(Character, on_delete = models.CASCADE, blank = True, null = True)
-    mastery = models.ForeignKey(Mastery, on_delete = models.CASCADE, blank = True, null = True)
+    character = models.ForeignKey(
+        Character, on_delete=models.CASCADE, blank=True, null=True)
+    mastery = models.ForeignKey(
+        Mastery, on_delete=models.CASCADE, blank=True, null=True)
     active = models.BooleanField(default=False)
 
     class Meta:
-       verbose_name_plural = "character masteries"
-       unique_together = ['character', 'mastery']
-
+        verbose_name_plural = "character masteries"
+        unique_together = ['character', 'mastery']
 
     def __str__(self):
-      return f"{self.character.name} [mastery {self.mastery.id}: {self.active}]"
+        return f"{self.character.name} [mastery {self.mastery.id}: {self.active}]"
