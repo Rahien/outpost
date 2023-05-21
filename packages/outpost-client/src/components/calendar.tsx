@@ -2,25 +2,41 @@ import summerIcon from "../assets/general/fh-building-operation-bw-icon.png";
 import winterIcon from "../assets/general/fh-frosthaven-identifier-bw-icon.png";
 import { imageSize, spacing } from "../tokens";
 import { ThemeContext } from "./themeProvider";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import sectionIcon from "../assets/general/fh-section-bw-icon.png";
 import lostIcon from "../assets/general/fh-lost-color-icon.png";
 import { useCampaignStore } from "../campaignStore";
+import { Title } from "./Title";
+import { NumberValueInput } from "./numberValueInput";
+import { Button } from "./button";
+import { Card } from "./card";
 
 const calendarDayHeight = 45;
 
-const CalendarEvent = ({ section }: { section: string }) => {
+const CalendarEvent = ({
+  section,
+  detailed,
+}: {
+  section: string;
+  detailed?: boolean;
+}) => {
   return (
     <div
       css={{
         display: "flex",
         alignItems: "center",
-        fontSize: 10,
+        fontSize: detailed ? 14 : 10,
         lineHeight: "12px",
         marginBottom: 2,
+        padding: detailed ? spacing.medium : 0,
+        paddingLeft: 0,
+        paddingRight: 0,
       }}
     >
-      <img src={sectionIcon} css={{ width: 8, marginRight: spacing.tiny }} />
+      <img
+        src={sectionIcon}
+        css={{ width: detailed ? 14 : 8, marginRight: spacing.tiny }}
+      />
       <div>{section}</div>
     </div>
   );
@@ -107,10 +123,11 @@ const Season = ({ startingWeek }: { startingWeek: number }) => {
   );
 };
 
-export const Calendar = () => {
+const DisplayCalendar = ({ onClick }: { onClick: () => void }) => {
   const { color, background } = useContext(ThemeContext);
   return (
     <div
+      onClick={onClick}
       css={{
         width: "100%",
         backgroundColor: color,
@@ -180,4 +197,139 @@ export const Calendar = () => {
       </div>
     </div>
   );
+};
+
+const EditCalendar = ({ onClose }: { onClose: () => void }) => {
+  const { campaign, updateCampaign } = useCampaignStore(
+    ({ campaign, updateCampaign }) => ({ campaign, updateCampaign })
+  );
+  const currentEvents = campaign?.events?.filter((event) => {
+    return event.week === campaign.currentWeek;
+  });
+  const upComingEvents = campaign?.events
+    ?.filter((event) => {
+      return event.week > campaign.currentWeek;
+    })
+    ?.splice(0, 20);
+  const [deletingEvent, setDeletingEvent] = useState<string | null>(null);
+  const [addingEvent, setAddingEvent] = useState(false);
+  if (!campaign) return null;
+  return (
+    <Card>
+      <div>
+        <Title title="Current Week" />
+        <NumberValueInput
+          value={campaign.currentWeek}
+          setValue={(value) => {
+            updateCampaign({ ...campaign, currentWeek: value });
+          }}
+          min={0}
+          max={80}
+        />
+      </div>
+      {currentEvents && currentEvents.length > 0 ? (
+        <div>
+          <Title title="This Week's Events" />
+          <div
+            css={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: spacing.tiny,
+              marginTop: spacing.small,
+              marginBottom: spacing.small,
+            }}
+          >
+            {currentEvents?.map((event) => {
+              return (
+                <div
+                  css={{ display: "flex", alignItems: "center", fontSize: 14 }}
+                >
+                  <img
+                    src={sectionIcon}
+                    css={{ width: 14, marginRight: spacing.tiny }}
+                  />
+                  <div css={{ paddingTop: 2, fontSize: 16 }}>
+                    {event.section}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <Title title="No events this week" />
+      )}
+      {upComingEvents && upComingEvents.length > 0 && (
+        <div css={{ marginTop: spacing.medium }}>
+          <Title title="Upcoming Events" />
+          <div
+            css={{
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              marginTop: spacing.small,
+              marginBottom: spacing.small,
+            }}
+          >
+            {upComingEvents?.map((event) => {
+              return (
+                <div
+                  css={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: 14,
+                    padding: spacing.tiny,
+                    paddingTop: 0,
+                  }}
+                >
+                  <img
+                    src={sectionIcon}
+                    css={{ width: 14, marginRight: spacing.tiny }}
+                  />
+                  <div css={{ paddingTop: 2, fontSize: 16 }}>
+                    {event.section}
+                  </div>
+                  <div
+                    css={{
+                      marginLeft: 4,
+                      fontSize: 14,
+                      flexGrow: 1,
+                      paddingTop: 2,
+                    }}
+                  >
+                    in {event.week - campaign.currentWeek} weeks
+                  </div>
+                  <img
+                    src={lostIcon}
+                    css={{ width: 14, marginLeft: spacing.tiny }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: spacing.small,
+        }}
+      >
+        <Button onClick={() => setAddingEvent(true)}>Add Event</Button>
+        <Button onClick={onClose}>
+          <Title title="Close" />
+        </Button>
+      </div>
+    </Card>
+  );
+};
+
+export const Calendar = () => {
+  const [editing, setEditing] = useState(false);
+
+  if (editing) {
+    return <EditCalendar onClose={() => setEditing(false)} />;
+  } else {
+    return <DisplayCalendar onClick={() => setEditing(true)} />;
+  }
 };
