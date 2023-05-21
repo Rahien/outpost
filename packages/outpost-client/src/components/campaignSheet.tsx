@@ -13,6 +13,7 @@ import { CampaignNotes } from "./characterNotes";
 import { CampaignName, CharacterName } from "./characterName";
 import { CampaignMorale } from "./campaignMorale";
 import { TownGuardPerks } from "./townGuardPerks";
+import { ProsperityTrack } from "./prosperityTrack";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -140,6 +141,7 @@ export const CampaignSheet = () => {
       <Card>
         <CampaignNotes />
       </Card>
+      <ProsperityTrack />
       <TownGuardPerks />
       <div
         css={{
