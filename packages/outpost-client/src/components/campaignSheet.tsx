@@ -64,8 +64,11 @@ const CampaignResources = () => {
   );
 };
 
+type tabs = "resources" | "calendar" | "perks";
+
 export const CampaignSheet = () => {
   const { id } = useParams();
+  const [activeTab, setActiveTab] = useState("resources");
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
   const { campaign, fetchCampaign, deleteCampaign } = useCampaignStore(
@@ -119,32 +122,72 @@ export const CampaignSheet = () => {
         />
         <CampaignName />
       </Card>
-      <Calendar />
-      <CampaignResources />
-      <Card
-        coreCss={{
+      <div
+        css={{
           display: "grid",
-          gridTemplateColumns: "1fr 24px 1fr",
+          gridTemplateColumns: "repeat(2, 1fr)",
           gap: spacing.tiny,
           width: "100%",
+          marginBottom: spacing.small,
+          "> div": {
+            marginBottom: 0,
+            padding: 2,
+          },
+          ".active": {
+            filter: "invert(90%)",
+          },
         }}
       >
-        <CampaignResourceField
-          resource="inspiration"
-          title={<Title title="Inspiration:" />}
-        />
-        <VerticalSeparator />
-        <CampaignResourceField
-          resource="totalDefense"
-          title={<Title title="Total Defense:" />}
-        />
-      </Card>
-      <CampaignMorale />
-      <Card>
-        <CampaignNotes />
-      </Card>
-      <ProsperityTrack />
-      <TownGuardPerks />
+        <Button
+          onClick={() => setActiveTab("resources")}
+          className={activeTab === "resources" ? "active" : "inactive"}
+        >
+          <Title title="Resources" />
+        </Button>
+        <Button
+          onClick={() => setActiveTab("calendar")}
+          className={activeTab === "calendar" ? "active" : "inactive"}
+        >
+          <Title title="Calendar" />
+        </Button>
+        <Button
+          onClick={() => setActiveTab("perks")}
+          className={activeTab === "perks" ? "active" : "inactive"}
+        >
+          <Title title="Perks" />
+        </Button>
+      </div>
+
+      {activeTab === "calendar" && <Calendar />}
+      {activeTab === "resources" && (
+        <>
+          <CampaignResources />
+          <Card
+            coreCss={{
+              display: "grid",
+              gridTemplateColumns: "1fr 24px 1fr",
+              gap: spacing.tiny,
+              width: "100%",
+            }}
+          >
+            <CampaignResourceField
+              resource="inspiration"
+              title={<Title title="Inspiration:" />}
+            />
+            <VerticalSeparator />
+            <CampaignResourceField
+              resource="totalDefense"
+              title={<Title title="Total Defense:" />}
+            />
+          </Card>
+          <CampaignMorale />
+          <ProsperityTrack />
+          <Card>
+            <CampaignNotes />
+          </Card>
+        </>
+      )}
+      {activeTab === "perks" && <TownGuardPerks />}
       <div
         css={{
           display: "flex",

@@ -203,7 +203,7 @@ export const TownGuardPerks = () => {
           "> *:last-of-type": { flexGrow: 1 },
         }}
       >
-        <Title title="Perks" center />
+        <Title title="Town Guard Perks" center />
         <HorizontalLine upwards />
 
         <div
