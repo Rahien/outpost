@@ -14,11 +14,12 @@ export type CampaignStore = {
   campaignList: Campaign[];
   fetchCampaignList: () => Promise<void>;
   updatePerk: (campaignId: number, id: number, active: string) => Promise<void>;
-  toggleMastery: (
+  createEvent: (
     campaignId: number,
-    id: number,
-    active: boolean
+    section: string,
+    week: number
   ) => Promise<void>;
+  deleteEvent: (campaignId: number, id: number) => Promise<void>;
 };
 
 export const useCampaignStore = create<CampaignStore>((set) => ({
@@ -58,19 +59,30 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
     const campaign = response.data;
     set({ campaign });
   },
-  toggleMastery: async (campaignId: number, id: number, active: boolean) => {
-    const response = await axios.put(
-      `${API_URL}/campaigns/${campaignId}/masteries/${id}`,
+  createEvent: async (campaignId: number, section: string, week: number) => {
+    const response = await axios.post(
+      `${API_URL}/campaigns/${campaignId}/events`,
       {
-        active,
+        section,
+        week,
       }
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
+  deleteEvent: async (campaignId: number, id: number) => {
+    const response = await axios.delete(
+      `${API_URL}/campaigns/${campaignId}/events/${id}`
     );
     const campaign = response.data;
     set({ campaign });
   },
 }));
 
-export const defaultCampaign: Omit<Campaign, "id" | "perks" | "characters"> = {
+export const defaultCampaign: Omit<
+  Campaign,
+  "id" | "perks" | "characters" | "events"
+> = {
   name: "My new campaign",
   metal: 0,
   wood: 0,
@@ -89,4 +101,5 @@ export const defaultCampaign: Omit<Campaign, "id" | "perks" | "characters"> = {
   totalDefense: 0,
   barracksLevel: 0,
   soldiers: 0,
+  currentWeek: 0,
 };

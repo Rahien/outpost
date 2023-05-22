@@ -4,7 +4,7 @@ from rest_framework import status, permissions
 from rest_framework.views import APIView
 
 from campaigns.models import Campaign, Event, TownGuardPerk, ActiveTownGuardPerk
-from campaigns.serializers import CampaignDetailSerializer, CampaignSerializer
+from campaigns.serializers import CampaignDetailSerializer, CampaignSerializer, EventSerializer
 
 
 def add_campaign_perks(campaign):
@@ -146,6 +146,58 @@ class TownGuardPerkDetailApiView(APIView):
 
         perk.active = active
         perk.save()
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class EventListApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, campaign_id, *args, **kwargs):
+        '''
+        Creates an event for the campaign
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        data = request.data
+        data['campaign'] = campaign_id
+        serializer = EventSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            campaign = Campaign.objects.get(
+                id=campaign_id)
+            serializer = CampaignDetailSerializer(campaign)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+class EventDetailApiView(APIView):
+
+    def delete(self, request, campaign_id, event_id, *args, **kwargs):
+        '''
+        Deletes the event with given event_id
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        event = Event.objects.get(id=event_id)
+        if not event:
+            return Response(
+                {"res": "Object with event id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        event.delete()
 
         campaign = Campaign.objects.get(
             id=campaign_id)

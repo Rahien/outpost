@@ -10,6 +10,8 @@ import { Title } from "./Title";
 import { NumberValueInput } from "./numberValueInput";
 import { Button } from "./button";
 import { Card } from "./card";
+import { Dialog, TextField } from "@mui/material";
+import { Event } from "../types";
 
 const calendarDayHeight = 45;
 
@@ -100,7 +102,7 @@ const Season = ({ startingWeek }: { startingWeek: number }) => {
         return (
           <div key={week} className={completed ? "completed" : "todo"}>
             {truncatedEvents.map((event) => {
-              return <CalendarEvent section={event.section} />;
+              return <CalendarEvent section={event.section} key={event.id} />;
             })}
             {events.length > 3 && <div>...</div>}
             {completed && (
@@ -199,6 +201,157 @@ const DisplayCalendar = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
+const AddEventModal = ({ onCancel: onClose }: { onCancel: () => void }) => {
+  const { createEvent, campaign } = useCampaignStore(
+    ({ createEvent, campaign }) => ({
+      createEvent,
+      campaign,
+    })
+  );
+  const [section, setSection] = useState("");
+  const [week, setWeek] = useState(0);
+  const { color } = useContext(ThemeContext);
+  if (!campaign) return null;
+  return (
+    <Dialog open={true} onClose={onClose}>
+      <div
+        css={{
+          padding: spacing.tiny,
+          width: "100%",
+          boxSizing: "border-box",
+          paddingBottom: 0,
+        }}
+      >
+        <Card>
+          <Title
+            title="Create Event"
+            css={{ fontSize: 30, marginBottom: spacing.medium }}
+          />
+          <div css={{ button: { width: 90 } }}>
+            <Title title="Week:" />
+            <NumberValueInput
+              value={week}
+              setValue={setWeek}
+              min={0}
+              max={80}
+            />
+          </div>
+          <div>
+            <Title title="Section:" />
+            <div css={{ position: "relative" }}>
+              <img
+                src={sectionIcon}
+                css={{
+                  position: "absolute",
+                  left: 0,
+                  top: 6,
+                  width: 16,
+                }}
+              />
+              <TextField
+                value={section}
+                css={{
+                  border: "none",
+                  borderBottom: `solid 2px ${color}`,
+                  marginTop: spacing.tiny,
+                  paddingLeft: 28,
+                  marginBottom: spacing.medium,
+                  input: {
+                    padding: 0,
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    fontFamily: "PirataOne-Gloomhaven",
+                  },
+                  fieldset: {
+                    border: "none",
+                    outline: "none",
+                  },
+                }}
+                onChange={(e) => setSection(e.currentTarget.value)}
+              />
+            </div>
+          </div>
+          <div css={{ width: "100%", display: "flex", gap: spacing.tiny }}>
+            <Button
+              onClick={() => {
+                createEvent(campaign.id, section, week);
+                onClose();
+              }}
+            >
+              Add Event
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </div>
+        </Card>
+      </div>
+    </Dialog>
+  );
+};
+
+const DeleteEventModal = ({
+  onCancel: onClose,
+  event,
+}: {
+  onCancel: () => void;
+  event: Event;
+}) => {
+  const { deleteEvent, campaign } = useCampaignStore(
+    ({ deleteEvent, campaign }) => ({
+      deleteEvent,
+      campaign,
+    })
+  );
+  if (!campaign) return null;
+  return (
+    <Dialog open={true} onClose={onClose}>
+      <div
+        css={{
+          padding: spacing.tiny,
+          width: "100%",
+          boxSizing: "border-box",
+          paddingBottom: 0,
+        }}
+      >
+        <Card>
+          <Title
+            title="Are you sure?"
+            css={{ fontSize: 30, marginBottom: spacing.medium }}
+          />
+          <div
+            css={{
+              fontFamily: "PirataOne-Gloomhaven",
+              fontSize: 18,
+              marginBottom: spacing.medium,
+            }}
+          >
+            Are you sure you want to delete event {event.section} in{" "}
+            {event.week - campaign.currentWeek} weeks?
+          </div>
+          <div
+            css={{
+              width: "100%",
+              display: "flex",
+              gap: spacing.tiny,
+              "> div": { marginBottom: 0 },
+            }}
+          >
+            <Button
+              color="#800000"
+              onClick={() => {
+                deleteEvent(campaign.id, event.id);
+                onClose();
+              }}
+            >
+              Delete Event
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </div>
+        </Card>
+      </div>
+    </Dialog>
+  );
+};
+
 const EditCalendar = ({ onClose }: { onClose: () => void }) => {
   const { campaign, updateCampaign } = useCampaignStore(
     ({ campaign, updateCampaign }) => ({ campaign, updateCampaign })
@@ -206,12 +359,14 @@ const EditCalendar = ({ onClose }: { onClose: () => void }) => {
   const currentEvents = campaign?.events?.filter((event) => {
     return event.week === campaign.currentWeek;
   });
-  const upComingEvents = campaign?.events
-    ?.filter((event) => {
-      return event.week > campaign.currentWeek;
-    })
-    ?.splice(0, 20);
-  const [deletingEvent, setDeletingEvent] = useState<string | null>(null);
+  let upComingEvents = campaign?.events?.filter((event) => {
+    return event.week > campaign.currentWeek;
+  });
+  upComingEvents = upComingEvents?.sort((a, b) => {
+    return a.week - b.week;
+  });
+  upComingEvents = upComingEvents?.splice(0, 20);
+  const [deletingEvent, setDeletingEvent] = useState<Event | null>(null);
   const [addingEvent, setAddingEvent] = useState(false);
   if (!campaign) return null;
   return (
@@ -273,6 +428,7 @@ const EditCalendar = ({ onClose }: { onClose: () => void }) => {
             {upComingEvents?.map((event) => {
               return (
                 <div
+                  onClick={() => setDeletingEvent(event)}
                   css={{
                     display: "flex",
                     alignItems: "center",
@@ -313,6 +469,9 @@ const EditCalendar = ({ onClose }: { onClose: () => void }) => {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
           gap: spacing.small,
+          "> div": {
+            marginBottom: 0,
+          },
         }}
       >
         <Button onClick={() => setAddingEvent(true)}>Add Event</Button>
@@ -320,6 +479,13 @@ const EditCalendar = ({ onClose }: { onClose: () => void }) => {
           <Title title="Close" />
         </Button>
       </div>
+      {addingEvent && <AddEventModal onCancel={() => setAddingEvent(false)} />}
+      {deletingEvent && (
+        <DeleteEventModal
+          onCancel={() => setDeletingEvent(null)}
+          event={deletingEvent}
+        />
+      )}
     </Card>
   );
 };
