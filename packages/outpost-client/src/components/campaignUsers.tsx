@@ -10,6 +10,7 @@ import { PlayerInvite } from "../types";
 import strengthenIcon from "../assets/conditions/fh-strengthen-bw-icon.png";
 import muddleIcon from "../assets/conditions/fh-muddle-bw-icon.png";
 import poisonIcon from "../assets/conditions/fh-poison-bw-icon.png";
+import { HorizontalLine } from "./horizontalLine";
 
 const InviteDialog = ({ onClose }: { onClose: () => void }) => {
   const { invitePlayer, campaign } = useCampaignStore(
@@ -191,8 +192,15 @@ export const CampaignUsers = () => {
   if (!campaign) return null;
   return (
     <Card>
-      <Title title="Players" css={{ marginBottom: spacing.small }} />
-      <div css={{ display: "flex", flexDirection: "column" }}>
+      <Title title="Players" css={{ textAlign: "center", display: "block" }} />
+      <HorizontalLine upwards />
+      <div
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: spacing.small,
+        }}
+      >
         {campaign.players.map((player) => (
           <Player key={player.id} username={player.username} />
         ))}

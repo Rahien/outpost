@@ -2,6 +2,7 @@ export const imageSize = {
   tiny: "22px",
   large: "64px",
   medium: "32px",
+  mlarge: "48px",
 };
 export const spacing = {
   small: "8px",

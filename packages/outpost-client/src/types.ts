@@ -48,6 +48,17 @@ export type Event = {
   week: number;
 };
 
+export type CampaignCharacter = {
+  id: number;
+  name: string;
+  className: string;
+  perkCount: number;
+  masteryCount: number;
+  xp: number;
+  user: number;
+  retiredAt: string;
+};
+
 export type Campaign = {
   id: number;
   name: string;
@@ -70,7 +81,7 @@ export type Campaign = {
   perkTags: number;
   currentWeek: number;
   perks: TownGuardPerk[];
-  characters: Character[];
+  characters: CampaignCharacter[];
   events: Event[];
   players: Player[];
   invites: PlayerInvite[];

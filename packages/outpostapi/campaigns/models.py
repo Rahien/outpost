@@ -57,6 +57,7 @@ class CampaignCharacter(models.Model):
         Campaign, on_delete=models.CASCADE, blank=True, null=True)
     character = models.ForeignKey(
         Character, on_delete=models.CASCADE, blank=True, null=True)
+    retired_at = models.DateTimeField("retired at", blank=True, null=True)
 
     class Meta:
         unique_together = ['campaign', 'character']

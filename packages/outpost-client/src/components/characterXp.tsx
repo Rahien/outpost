@@ -1,12 +1,11 @@
 import { ExpandLess, Verified } from "@mui/icons-material";
 import { mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import { Card } from "./card";
 import { Title } from "./Title";
 import { CharacterName } from "./characterName";
 import levelIcon from "../assets/general/fh-level-crown-bw-icon.png";
-import { ThemeContext } from "./themeProvider";
 
 type LevelAttainment = "current" | "yes" | "no";
 
@@ -86,7 +85,7 @@ const VerticalSeparator = () => {
   );
 };
 
-const levelBoundaries = [0, 45, 95, 150, 210, 275, 345, 420, 500];
+export const levelBoundaries = [0, 45, 95, 150, 210, 275, 345, 420, 500];
 
 const CharacterLevel = () => {
   const { character } = useCharacterStore(({ character }) => ({ character }));

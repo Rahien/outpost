@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from campaigns.models import Campaign, CampaignInvite, CampaignUser, Event, TownGuardPerk, ActiveTownGuardPerk
+from campaigns.models import Campaign, CampaignCharacter, CampaignInvite, CampaignUser, Event, TownGuardPerk, ActiveTownGuardPerk
 from django.contrib.auth.models import User
 
-from characters.serializers import CharacterSerializer
+from characters.serializers import CharacterMasterySerializer, CharacterPerkSerializer, CharacterSerializer
+from characters.models import Character
 
 
 class TownGuardPerkSerializer(serializers.ModelSerializer):
@@ -68,13 +69,46 @@ class CampaignInviteSerializer(serializers.ModelSerializer):
                             "rejected_at", 'invited_by', 'user']
 
 
+class CampaignCharacterInfoSerializer(serializers.ModelSerializer):
+    perks = CharacterPerkSerializer(
+        read_only=True, many=True, source="characterperk_set")
+    masteries = CharacterMasterySerializer(
+        read_only=True, many=True, source="charactermastery_set")
+
+    class Meta:
+        model = Character
+        fields = ['id', 'name', 'class_name',
+                  'xp', 'masteries', 'user', 'perks']
+
+
+class CampaignCharacterSerializer(serializers.ModelSerializer):
+    character = CampaignCharacterInfoSerializer(read_only=True, many=False)
+
+    def to_representation(self, instance):
+        c = super().to_representation(instance)
+        return {
+            "id": c['character']["id"],
+            "xp": c['character']["xp"],
+            "perk_count": len([p for p in c['character']['perks'] if p['active']]),
+            "mastery_count": len([m for m in c['character']['masteries'] if m['active']]),
+            "retired_at": c['retired_at'],
+            "class_name": c['character']['class_name'],
+            "user": c['character']['user'],
+            "name": c['character']['name'],
+        }
+
+    class Meta:
+        model = CampaignCharacter
+        fields = '__all__'
+
+
 class CampaignDetailSerializer(serializers.ModelSerializer):
     perks = ActiveTownGuardPerkSerializer(
         read_only=True, many=True, source="activetownguardperk_set")
     events = EventSerializer(read_only=True, many=True, source="event_set")
     players = UserSerializer(read_only=True, many=True, source="users")
-    characters = CharacterSerializer(
-        read_only=True, many=True)
+    characters = CampaignCharacterSerializer(
+        read_only=True, many=True, source="campaigncharacter_set")
     invites = CampaignInviteSerializer(
         read_only=True, many=True, source="campaigninvite_set")
 
