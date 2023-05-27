@@ -72,6 +72,21 @@ export type Campaign = {
   perks: TownGuardPerk[];
   characters: Character[];
   events: Event[];
+  players: Player[];
+  invites: PlayerInvite[];
+};
+
+export type PlayerInvite = {
+  id: number;
+  accepted_at: string;
+  rejected_at: string;
+  created_at: string;
+  user: Player;
+};
+
+export type Player = {
+  id: number;
+  username: string;
 };
 
 export const RESOURCES = [

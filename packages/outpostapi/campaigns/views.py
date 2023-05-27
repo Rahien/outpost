@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 
-from campaigns.models import Campaign, Event, TownGuardPerk, ActiveTownGuardPerk
-from campaigns.serializers import CampaignDetailSerializer, CampaignSerializer, EventSerializer
+from campaigns.models import Campaign, CampaignInvite, Event, TownGuardPerk, ActiveTownGuardPerk
+from campaigns.serializers import CampaignDetailSerializer, CampaignInviteSerializer, CampaignSerializer, EventSerializer
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 def add_campaign_perks(campaign):
@@ -203,3 +205,109 @@ class EventDetailApiView(APIView):
             id=campaign_id)
         serializer = CampaignDetailSerializer(campaign)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CampaignInviteListApiView(APIView):
+
+    def post(self, request, campaign_id, *args, **kwargs):
+        '''
+        Creates an invite for the campaign
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        target_user = User.objects.filter(
+            username=request.data['username']).first()
+        if not target_user:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        existing_invite = CampaignInvite.objects.filter(
+            user_id=target_user.id, campaign_id=campaign_id, accepted_at=None, rejected_at=None)
+        if campaign.users.filter(id=target_user.id).exists() or existing_invite:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        CampaignInvite.objects.create(
+            campaign_id=campaign_id,
+            user_id=target_user.id,
+            invited_by_id=request.user.id,
+            created_at=timezone.now()
+        )
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CampaignInviteDetailApiView(APIView):
+
+    def patch(self, request, campaign_id, invite_id, *args, **kwargs):
+        '''
+        Accepts or rejects the invite with given invite_id
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        invite = CampaignInvite.objects.get(id=invite_id)
+        if not invite:
+            return Response(
+                {"res": "Object with invite id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if invite.user_id != request.user.id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if invite.accepted_at or invite.rejected_at:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if request.data.get('accepted_at'):
+            invite.accepted_at = timezone.now()
+            invite.save()
+            campaign.users.add(invite.user_id)
+            campaign.save()
+            campaign = Campaign.objects.get(
+                id=campaign_id)
+            serializer = CampaignDetailSerializer(campaign)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        if request.data.get('rejected_at'):
+            invite.rejected_at = timezone.now()
+            invite.save()
+            campaign = Campaign.objects.get(
+                id=campaign_id)
+            serializer = CampaignDetailSerializer(campaign)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, campaign_id, invite_id, *args, **kwargs):
+        '''
+        Deletes the invite with given invite_id
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        invite = CampaignInvite.objects.get(id=invite_id)
+        if not invite:
+            return Response(
+                {"res": "Object with invite id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if invite.accepted_at or invite.rejected_at:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        invite.delete()
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)

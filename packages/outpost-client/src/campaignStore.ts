@@ -14,6 +14,9 @@ export type CampaignStore = {
   campaignList: Campaign[];
   fetchCampaignList: () => Promise<void>;
   updatePerk: (campaignId: number, id: number, active: string) => Promise<void>;
+  invitePlayer: (campaignId: number, username: string) => Promise<void>;
+  removeInvite: (campaignId: number, id: number) => Promise<void>;
+  removePlayer: (campaignId: number, id: number) => Promise<void>;
   createEvent: (
     campaignId: number,
     section: string,
@@ -59,6 +62,30 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
     const campaign = response.data;
     set({ campaign });
   },
+  invitePlayer: async (campaignId: number, username: string) => {
+    const response = await axios.post(
+      `${API_URL}/campaigns/${campaignId}/invites`,
+      {
+        username,
+      }
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
+  removeInvite: async (campaignId: number, id: number) => {
+    const response = await axios.delete(
+      `${API_URL}/campaigns/${campaignId}/invites/${id}`
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
+  removePlayer: async (campaignId: number, id: number) => {
+    const response = await axios.delete(
+      `${API_URL}/campaigns/${campaignId}/players/${id}`
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
   createEvent: async (campaignId: number, section: string, week: number) => {
     const response = await axios.post(
       `${API_URL}/campaigns/${campaignId}/events`,
@@ -81,7 +108,7 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
 
 export const defaultCampaign: Omit<
   Campaign,
-  "id" | "perks" | "characters" | "events"
+  "id" | "perks" | "characters" | "events" | "players" | "openInvites"
 > = {
   name: "My new campaign",
   metal: 0,

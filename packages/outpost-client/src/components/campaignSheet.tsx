@@ -15,6 +15,7 @@ import { CampaignMorale } from "./campaignMorale";
 import { TownGuardPerks } from "./townGuardPerks";
 import { ProsperityTrack } from "./prosperityTrack";
 import { Calendar } from "./calendar";
+import { CampaignUsers } from "./campaignUsers";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -156,9 +157,16 @@ export const CampaignSheet = () => {
         >
           <Title title="Perks" />
         </Button>
+        <Button
+          onClick={() => setActiveTab("characters")}
+          className={activeTab === "characters" ? "active" : "inactive"}
+        >
+          <Title title="Characters" />
+        </Button>
       </div>
 
       {activeTab === "calendar" && <Calendar />}
+      {activeTab === "characters" && <CampaignUsers />}
       {activeTab === "resources" && (
         <>
           <CampaignResources />

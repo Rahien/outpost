@@ -85,6 +85,21 @@ class Event(models.Model):
         Campaign, on_delete=models.CASCADE, blank=True, null=True)
 
 
+class CampaignInvite(models.Model):
+    campaign = models.ForeignKey(
+        Campaign, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True)
+    invited_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True, related_name="invited_by")
+    accepted_at = models.DateTimeField("accepted_at", blank=True, null=True)
+    rejected_at = models.DateTimeField("rejected_at", blank=True, null=True)
+    created_at = models.DateTimeField("created_at")
+
+    def __str__(self):
+        return f"{self.campaign.name} [user {self.user.id}"
+
+
 class ActiveTownGuardPerk(models.Model):
     campaign = models.ForeignKey(
         Campaign, on_delete=models.CASCADE, blank=True, null=True)

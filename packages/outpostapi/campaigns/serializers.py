@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from campaigns.models import Campaign, Event, TownGuardPerk, ActiveTownGuardPerk
-from characters.serializers import PerkSerializer
+from campaigns.models import Campaign, CampaignInvite, CampaignUser, Event, TownGuardPerk, ActiveTownGuardPerk
+from django.contrib.auth.models import User
 
 
 class TownGuardPerkSerializer(serializers.ModelSerializer):
@@ -31,6 +31,13 @@ class ActiveTownGuardPerkSerializer(serializers.ModelSerializer):
         read_only_fields = ["id"]
 
 
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+
 class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -47,12 +54,28 @@ class CampaignSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at"]
 
 
+class CampaignInviteSerializer(serializers.ModelSerializer):
+    invited_by = UserSerializer(read_only=True, many=False)
+    user = UserSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = CampaignInvite
+        fields = ['id', 'invited_by', 'user',
+                  'accepted_at', 'created_at', 'rejected_at']
+        read_only_fields = ["id", "created_at", "accepted_at",
+                            "rejected_at", 'invited_by', 'user']
+
+
 class CampaignDetailSerializer(serializers.ModelSerializer):
     perks = ActiveTownGuardPerkSerializer(
         read_only=True, many=True, source="activetownguardperk_set")
     events = EventSerializer(read_only=True, many=True, source="event_set")
+    players = UserSerializer(read_only=True, many=True, source="users")
+    invites = CampaignInviteSerializer(
+        read_only=True, many=True, source="campaigninvite_set")
 
     class Meta:
         model = Campaign
         fields = "__all__"
-        read_only_fields = ["id", "created_at", "perks", "events"]
+        read_only_fields = ["id", "created_at",
+                            "perks", "events", 'players', 'invites']
