@@ -16,6 +16,7 @@ import { TownGuardPerks } from "./townGuardPerks";
 import { ProsperityTrack } from "./prosperityTrack";
 import { Calendar } from "./calendar";
 import { CampaignUsers } from "./campaignUsers";
+import { CampaignCharacters } from "./campaignCharacters";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -166,7 +167,12 @@ export const CampaignSheet = () => {
       </div>
 
       {activeTab === "calendar" && <Calendar />}
-      {activeTab === "characters" && <CampaignUsers />}
+      {activeTab === "characters" && (
+        <>
+          <CampaignCharacters />
+          <CampaignUsers />
+        </>
+      )}
       {activeTab === "resources" && (
         <>
           <CampaignResources />

@@ -1,7 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Character } from "../types";
 import { ClassIcon } from "./characterIcon";
-import { ChevronDown, ChevronUp } from "react-feather";
 import Button from "@mui/material/Button";
 import { Paper } from "@mui/material";
 import { characterClasses, useCharacterStore } from "../characterStore";

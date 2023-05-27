@@ -8,6 +8,8 @@ from campaigns.serializers import CampaignDetailSerializer, CampaignInviteSerial
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+from characters.models import Character
+
 
 def add_campaign_perks(campaign):
     '''
@@ -311,3 +313,27 @@ class CampaignInviteDetailApiView(APIView):
         serializer = CampaignDetailSerializer(campaign)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class CampaignCharacterListApiView(APIView):
+    def post(self, request, campaign_id, *args, **kwargs):
+        '''
+        Adds a character to the campaign
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        character = Character.objects.get(id=request.data['character_id'])
+        if not character:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        if not character.user_id == request.user.id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        campaign.characters.add(character)
+        campaign.save()
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)

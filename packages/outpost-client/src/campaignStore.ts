@@ -17,6 +17,7 @@ export type CampaignStore = {
   invitePlayer: (campaignId: number, username: string) => Promise<void>;
   removeInvite: (campaignId: number, id: number) => Promise<void>;
   removePlayer: (campaignId: number, id: number) => Promise<void>;
+  addCharacterToCampaign: (campaignId: number, id: number) => Promise<void>;
   createEvent: (
     campaignId: number,
     section: string,
@@ -86,6 +87,14 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
     const campaign = response.data;
     set({ campaign });
   },
+  addCharacterToCampaign: async (campaignId: number, characterId: number) => {
+    const response = await axios.post(
+      `${API_URL}/campaigns/${campaignId}/characters`,
+      { characterId }
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
   createEvent: async (campaignId: number, section: string, week: number) => {
     const response = await axios.post(
       `${API_URL}/campaigns/${campaignId}/events`,
@@ -108,7 +117,13 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
 
 export const defaultCampaign: Omit<
   Campaign,
-  "id" | "perks" | "characters" | "events" | "players" | "openInvites"
+  | "id"
+  | "perks"
+  | "characters"
+  | "events"
+  | "players"
+  | "openInvites"
+  | "invites"
 > = {
   name: "My new campaign",
   metal: 0,

@@ -2,6 +2,8 @@ from rest_framework import serializers
 from campaigns.models import Campaign, CampaignInvite, CampaignUser, Event, TownGuardPerk, ActiveTownGuardPerk
 from django.contrib.auth.models import User
 
+from characters.serializers import CharacterSerializer
+
 
 class TownGuardPerkSerializer(serializers.ModelSerializer):
 
@@ -71,6 +73,8 @@ class CampaignDetailSerializer(serializers.ModelSerializer):
         read_only=True, many=True, source="activetownguardperk_set")
     events = EventSerializer(read_only=True, many=True, source="event_set")
     players = UserSerializer(read_only=True, many=True, source="users")
+    characters = CharacterSerializer(
+        read_only=True, many=True)
     invites = CampaignInviteSerializer(
         read_only=True, many=True, source="campaigninvite_set")
 
@@ -78,4 +82,4 @@ class CampaignDetailSerializer(serializers.ModelSerializer):
         model = Campaign
         fields = "__all__"
         read_only_fields = ["id", "created_at",
-                            "perks", "events", 'players', 'invites']
+                            "perks", "events", 'players', 'invites', 'characters']

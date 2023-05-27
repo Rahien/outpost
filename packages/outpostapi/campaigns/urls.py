@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    CampaignCharacterListApiView,
     CampaignListApiView,
     CampaignDetailApiView,
     EventDetailApiView,
@@ -20,4 +21,5 @@ urlpatterns = [
          CampaignInviteListApiView.as_view()),
     path('<int:campaign_id>/invites/<int:invite_id>',
          CampaignInviteDetailApiView.as_view()),
+    path('<int:campaign_id>/characters', CampaignCharacterListApiView.as_view()),
 ]
