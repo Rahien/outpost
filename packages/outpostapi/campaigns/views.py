@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 
-from campaigns.models import Campaign, CampaignInvite, Event, TownGuardPerk, ActiveTownGuardPerk
-from campaigns.serializers import CampaignDetailSerializer, CampaignInviteSerializer, CampaignSerializer, EventSerializer
+from campaigns.models import Campaign, CampaignCharacter, CampaignInvite, Event, TownGuardPerk, ActiveTownGuardPerk
+from campaigns.serializers import CampaignCharacterSerializer, CampaignDetailSerializer, CampaignInviteSerializer, CampaignSerializer, EventSerializer
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -332,6 +332,67 @@ class CampaignCharacterListApiView(APIView):
 
         campaign.characters.add(character)
         campaign.save()
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CampaignCharacterDetailApiView(APIView):
+    def put(self, request, campaign_id, character_id, *args, **kwargs):
+        '''
+        Updates the character with given character_id
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        character = Character.objects.get(id=character_id)
+        if not character:
+            return Response(
+                {"res": "Object with character id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not campaign.characters.filter(id=character_id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        target = CampaignCharacter.objects.get(
+            character_id=character_id, campaign_id=campaign_id)
+        serializer = CampaignCharacterSerializer(
+            target, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            campaign = Campaign.objects.get(
+                id=campaign_id)
+            serializer = CampaignDetailSerializer(campaign)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, campaign_id, character_id, *args, **kwargs):
+        '''
+        Deletes the character with given character_id
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        character = Character.objects.get(id=character_id)
+        if not character:
+            return Response(
+                {"res": "Object with character id does not exists"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not campaign.characters.filter(id=character_id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        target = CampaignCharacter.objects.get(
+            character_id=character_id, campaign_id=campaign_id)
+        target.delete()
 
         campaign = Campaign.objects.get(
             id=campaign_id)

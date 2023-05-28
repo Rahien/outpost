@@ -18,6 +18,15 @@ export type CampaignStore = {
   removeInvite: (campaignId: number, id: number) => Promise<void>;
   removePlayer: (campaignId: number, id: number) => Promise<void>;
   addCharacterToCampaign: (campaignId: number, id: number) => Promise<void>;
+  removeCharacterFromCampaign: (
+    campaignId: number,
+    id: number
+  ) => Promise<void>;
+  toggleRetired: (
+    campaignId: number,
+    id: number,
+    retiredAt: string | null
+  ) => Promise<void>;
   createEvent: (
     campaignId: number,
     section: string,
@@ -91,6 +100,25 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
     const response = await axios.post(
       `${API_URL}/campaigns/${campaignId}/characters`,
       { characterId }
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
+  removeCharacterFromCampaign: async (campaignId: number, id: number) => {
+    const response = await axios.delete(
+      `${API_URL}/campaigns/${campaignId}/characters/${id}`
+    );
+    const campaign = response.data;
+    set({ campaign });
+  },
+  toggleRetired: async (
+    campaignId: number,
+    id: number,
+    retiredAt: string | null
+  ) => {
+    const response = await axios.put(
+      `${API_URL}/campaigns/${campaignId}/characters/${id}`,
+      { retiredAt }
     );
     const campaign = response.data;
     set({ campaign });
