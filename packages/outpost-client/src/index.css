@@ -25,6 +25,12 @@ a:hover {
     url("./assets/PirataOne-Gloomhaven.ttf") format("truetype");
   font-weight: normal;
 }
+
+@font-face {
+  font-family: "Vollkorn-SemiBold";
+  src: local("Vollkorn-SemiBold"),
+    url("./assets/Vollkorn-SemiBold.ttf") format("truetype");
+}
 body {
   margin: 0;
   display: flex;
@@ -34,7 +40,8 @@ body {
   box-sizing: border-box;
   padding: 8px;
   overflow: hidden;
-  font-family: Nyala, Sylfaen, serif;
+  -webkit-font-smoothing: antialiased;
+  font-family: Nyala, Sylfaen, Vollkorn-SemiBold, serif;
   font-weight: bold;
   font-size: 14px;
   line-height: 22px;
