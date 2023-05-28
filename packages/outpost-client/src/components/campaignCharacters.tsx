@@ -78,6 +78,7 @@ const CharacterDetails = ({
               img: {
                 marginLeft: `-${imageSize.medium}`,
               },
+              paddingLeft: imageSize.mlarge,
             }}
           >
             <ClassIcon
@@ -166,7 +167,13 @@ const CharacterDetails = ({
               </div>
             </div>
           </div>
-          <div>
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              gap: spacing.tiny,
+            }}
+          >
             <Button
               onClick={() => {
                 removeCharacterFromCampaign(campaign.id, character.id);
@@ -376,15 +383,17 @@ export const CampaignCharacters = () => {
           }}
         />
         <HorizontalLine upwards />
-        {charactersToShow.length === 0 && (
-          <Title
-            title="No characters yet..."
-            css={{ fontSize: 18, padding: `${spacing.small} 0` }}
-          />
-        )}
-        {charactersToShow.map((character) => (
-          <CharacterListItem character={character} key={character.id} />
-        ))}
+        <div css={{ marginTop: spacing.small }}>
+          {charactersToShow.length === 0 && (
+            <Title
+              title="No characters yet..."
+              css={{ fontSize: 18, padding: `${spacing.small} 0` }}
+            />
+          )}
+          {charactersToShow.map((character) => (
+            <CharacterListItem character={character} key={character.id} />
+          ))}
+        </div>
         <div
           css={{
             display: "flex",

@@ -412,7 +412,12 @@ const EditCalendar = ({ onClose }: { onClose: () => void }) => {
           </div>
         </div>
       ) : (
-        <Title title="No events this week" />
+        <Title
+          title="No events this week"
+          css={{
+            marginBottom: spacing.small,
+          }}
+        />
       )}
       {upComingEvents && upComingEvents.length > 0 && (
         <div css={{ marginTop: spacing.medium }}>

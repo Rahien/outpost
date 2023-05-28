@@ -34,7 +34,11 @@ export const Button = ({
           }
           onClick(e);
         }}
-        css={{ ...((css || {}) as any), opacity: disabled ? 0.5 : 1 }}
+        css={{
+          "&.MuiCard-root": { marginBottom: 0 },
+          ...((css || {}) as any),
+          opacity: disabled ? 0.5 : 1,
+        }}
         className={className}
       >
         {typeof children === "string" ? (

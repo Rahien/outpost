@@ -60,13 +60,14 @@ class CampaignSerializer(serializers.ModelSerializer):
 class CampaignInviteSerializer(serializers.ModelSerializer):
     invited_by = UserSerializer(read_only=True, many=False)
     user = UserSerializer(read_only=True, many=False)
+    campaign = CampaignSerializer(read_only=True, many=False)
 
     class Meta:
         model = CampaignInvite
         fields = ['id', 'invited_by', 'user',
-                  'accepted_at', 'created_at', 'rejected_at']
+                  'accepted_at', 'created_at', 'rejected_at', 'campaign']
         read_only_fields = ["id", "created_at", "accepted_at",
-                            "rejected_at", 'invited_by', 'user']
+                            "rejected_at", 'invited_by', 'user', 'campaign']
 
 
 class CampaignCharacterInfoSerializer(serializers.ModelSerializer):
@@ -109,8 +110,18 @@ class CampaignDetailSerializer(serializers.ModelSerializer):
     players = UserSerializer(read_only=True, many=True, source="users")
     characters = CampaignCharacterSerializer(
         read_only=True, many=True, source="campaigncharacter_set")
-    invites = CampaignInviteSerializer(
-        read_only=True, many=True, source="campaigninvite_set")
+    invites = serializers.SerializerMethodField('get_invites')
+
+    def get_invites(self, campaign):
+        invites = CampaignInvite.objects.all().filter(
+            campaign_id=campaign.id,
+            accepted_at=None,
+            rejected_at=None
+        )
+        serializer = CampaignInviteSerializer(
+            instance=invites, many=True, context=self.context)
+
+        return serializer.data
 
     class Meta:
         model = Campaign

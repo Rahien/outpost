@@ -242,6 +242,43 @@ class CampaignInviteListApiView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class MyCampaignInvitesApiView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        '''
+        Returns all invites for the user
+        '''
+        invites = CampaignInvite.objects.filter(
+            user_id=request.user.id, accepted_at=None, rejected_at=None)
+        serializer = CampaignInviteSerializer(invites, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CampaignUserDetailApiView(APIView):
+
+    def delete(self, request, campaign_id, user_id, *args, **kwargs):
+        '''
+        Removes the user from the campaign
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        if not campaign.users.filter(id=user_id).exists():
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        if campaign.users.count() == 1:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        campaign.users.remove(user_id)
+        campaign.save()
+
+        campaign = Campaign.objects.get(
+            id=campaign_id)
+        serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class CampaignInviteDetailApiView(APIView):
 
     def patch(self, request, campaign_id, invite_id, *args, **kwargs):
@@ -249,8 +286,6 @@ class CampaignInviteDetailApiView(APIView):
         Accepts or rejects the invite with given invite_id
         '''
         campaign = Campaign.objects.get(id=campaign_id)
-        if not campaign.users.filter(id=request.user.id).exists():
-            return Response(status=status.HTTP_403_FORBIDDEN)
 
         invite = CampaignInvite.objects.get(id=invite_id)
         if not invite:

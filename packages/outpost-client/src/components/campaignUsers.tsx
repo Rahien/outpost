@@ -117,39 +117,31 @@ export const DeleteUserDialog = ({ onClose }: { onClose: () => void }) => {
     <Dialog open={true} onClose={onClose}>
       <div css={{ padding: spacing.small, paddingBottom: 0 }}>
         <Card>
-          <div css={{ padding: spacing.small }}>
-            <Title title="Are you sure?" />
-            <p>
-              To remove a player or invite, type the player's username below:
-            </p>
-            <TextField
-              value={name}
-              autoFocus
-              css={{ width: "100%" }}
-              label="Name To Delete"
-              onChange={(e) => setName(e.currentTarget.value)}
-            />
-            <div css={{ marginTop: spacing.medium, color: "red" }}>
-              {errorMessage}
-            </div>
-            <div
-              css={{
-                marginTop: spacing.medium,
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Button
-                color="#800000"
-                disabled={name != name}
-                onClick={onDelete}
-              >
-                Delete
-              </Button>
-              <Button css={{ marginLeft: spacing.small }} onClick={onClose}>
-                Cancel
-              </Button>
-            </div>
+          <Title title="Are you sure?" />
+          <p>To remove a player or invite, type the player's username below:</p>
+          <TextField
+            value={name}
+            autoFocus
+            css={{ width: "100%" }}
+            label="Name To Delete"
+            onChange={(e) => setName(e.currentTarget.value)}
+          />
+          <div css={{ marginTop: spacing.medium, color: "red" }}>
+            {errorMessage}
+          </div>
+          <div
+            css={{
+              marginTop: spacing.medium,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Button color="#800000" disabled={name != name} onClick={onDelete}>
+              Delete
+            </Button>
+            <Button css={{ marginLeft: spacing.small }} onClick={onClose}>
+              Cancel
+            </Button>
           </div>
         </Card>
       </div>
