@@ -92,12 +92,47 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
         marginBottom: spacing.small,
       }}
     >
-      {Array.from({ length: perk.active }).map((_, i) => (
-        <CheckBoxOutlined css={{ marginTop: -2 }} key={i} />
-      ))}
-      {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
-        <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} key={i} />
-      ))}
+      <div
+        css={{
+          display: "flex",
+          ...(perk.connected
+            ? {
+                flexDirection: "column",
+                "> *": {
+                  position: "relative",
+                  marginTop: -14,
+                  "&:before": {
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    left: 9,
+                    content: '""',
+                    width: 6,
+                    height: 3,
+                    background: "white",
+                  },
+                  "&:first-of-type": {
+                    "&:before": {
+                      display: "none",
+                    },
+                    marginTop: 0,
+                  },
+                },
+              }
+            : {}),
+        }}
+      >
+        {Array.from({ length: perk.active }).map((_, i) => (
+          <div>
+            <CheckBoxOutlined css={{ marginTop: -2 }} key={i} />
+          </div>
+        ))}
+        {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
+          <div>
+            <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} key={i} />
+          </div>
+        ))}
+      </div>
       <CustomMarkdown>{perk.description}</CustomMarkdown>
     </div>
   );

@@ -4,6 +4,7 @@ export type Perk = {
   active: number;
   maxActive: number;
   order: number;
+  connected: boolean;
 };
 
 export type TownGuardPerk = {

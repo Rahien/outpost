@@ -44,6 +44,7 @@ export const ClassSelect = () => {
             fontSize: "34px",
             fontWeight: "bold",
             fontFamily: "PirataOne-Gloomhaven",
+            lineHeight: "1em",
           }}
         >
           {characterClasses[character.className]?.name ||
