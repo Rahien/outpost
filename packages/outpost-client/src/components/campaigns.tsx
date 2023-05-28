@@ -40,7 +40,7 @@ export const Campaigns = () => {
           alignItems: "center",
         }}
       >
-        {campaignList.length === 0 && <Title title="No characters yet..." />}
+        {campaignList.length === 0 && <Title title="No campaigns yet..." />}
         {campaignList.map((campaign) => (
           <Card
             key={campaign.id}
