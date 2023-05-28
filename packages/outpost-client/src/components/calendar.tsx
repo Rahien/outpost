@@ -228,12 +228,12 @@ const AddEventModal = ({ onCancel: onClose }: { onCancel: () => void }) => {
             css={{ fontSize: 30, marginBottom: spacing.medium }}
           />
           <div css={{ button: { width: 90 } }}>
-            <Title title="Week:" />
+            <Title title="Weeks from now:" />
             <NumberValueInput
               value={week}
               setValue={setWeek}
-              min={0}
-              max={80}
+              min={1 - campaign.currentWeek}
+              max={80 - campaign.currentWeek}
             />
           </div>
           <div>
@@ -274,7 +274,7 @@ const AddEventModal = ({ onCancel: onClose }: { onCancel: () => void }) => {
           <div css={{ width: "100%", display: "flex", gap: spacing.tiny }}>
             <Button
               onClick={() => {
-                createEvent(campaign.id, section, week);
+                createEvent(campaign.id, section, week + campaign.currentWeek);
                 onClose();
               }}
             >
