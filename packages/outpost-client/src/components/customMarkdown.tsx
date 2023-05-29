@@ -104,7 +104,7 @@ import minus1ModCard from "../assets/attack-modifiers/fh-minus-1-modifier-card-b
 import fast from "../assets/class/fh-blinkblade-fast-bw-icon.png";
 import slow from "../assets/class/fh-blinkblade-slow-bw-icon.png";
 import time from "../assets/class/fh-blinkblade-time-bw-icon.png";
-import tide from "../assets/class/fh-crashing-tide-tide-bw-icon.png";
+import crashingTideTide from "../assets/class/fh-crashing-tide-tide-bw-icon.png";
 import shadow from "../assets/class/fh-deathwalker-shadow-bw-icon.png";
 import trophy from "../assets/class/fh-deepwraith-trophy-bw-icon.png";
 import geminateMelee from "../assets/class/fh-geminate-melee-bw-icon.png";
@@ -112,14 +112,14 @@ import geminateRanged from "../assets/class/fh-geminate-ranged-bw-icon.png";
 import hiveMode from "../assets/class/fh-hive-mode-bw-icon.png";
 import hiveTransfer from "../assets/class/fh-hive-transfer-bw-icon.png";
 import infusion from "../assets/class/fh-infuser-infusion-bw-icon.png";
-import pressureLow from "../assets/class/fh-metal-mosaic-1-pressure-low-bw-icon.png";
-import pressureRegular from "../assets/class/fh-metal-mosaic-2-pressure-regular-bw-icon.png";
-import pressureHigh from "../assets/class/fh-metal-mosaic-3-pressure-high-bw-icon.png";
-import pressureOver from "../assets/class/fh-metal-mosaic-4-pressure-over-bw-icon.png";
-import pressure from "../assets/class/fh-metal-mosaic-pressure-bw-icon.png";
-import pressureDown from "../assets/class/fh-metal-mosaic-pressure-down-bw-icon.png";
-import pressureUp from "../assets/class/fh-metal-mosaic-pressure-up-bw-icon.png";
-import resonance from "../assets/class/fh-shattersong-resonance-bw-icon.png";
+import metalMosaicPressureLow from "../assets/class/fh-metal-mosaic-1-pressure-low-bw-icon.png";
+import metalMosaicPressureRegular from "../assets/class/fh-metal-mosaic-2-pressure-regular-bw-icon.png";
+import metalMosaicPressureHigh from "../assets/class/fh-metal-mosaic-3-pressure-high-bw-icon.png";
+import metalMosaicPressureOver from "../assets/class/fh-metal-mosaic-4-pressure-over-bw-icon.png";
+import metalMosaicPressure from "../assets/class/fh-metal-mosaic-pressure-bw-icon.png";
+import metalMosaicPressureDown from "../assets/class/fh-metal-mosaic-pressure-down-bw-icon.png";
+import metalMosaicPressureUp from "../assets/class/fh-metal-mosaic-pressure-up-bw-icon.png";
+import shattersongResonance from "../assets/class/fh-shattersong-resonance-bw-icon.png";
 
 import { imageSize } from "../tokens";
 import React, { useContext } from "react";
@@ -156,6 +156,7 @@ const icons: Record<string, string | React.ReactElement> = {
   strengthen,
   stun,
   wound,
+  bleed: wound,
   ward,
   rolling,
   push,
@@ -173,6 +174,8 @@ const icons: Record<string, string | React.ReactElement> = {
   damage,
   equipSlotBody,
   equipSlotDualHand,
+  hand: equipSlotSingleHand,
+  twoHand: equipSlotDualHand,
   equipSlotHead,
   equipSlotItem,
   equipSlotLegs,
@@ -200,6 +203,7 @@ const icons: Record<string, string | React.ReactElement> = {
   persistentBonus,
   range,
   recoverCard,
+  recover: recoverCard,
   retaliate,
   returnCard,
   roundBonus,
@@ -221,10 +225,13 @@ const icons: Record<string, string | React.ReactElement> = {
   modMinus2,
   modTimes2,
   minus1ModCard,
+  darkness: dark,
+  frost: ice,
+  cardModMinus1: minus1ModCard,
   fast,
   slow,
   time,
-  tide,
+  crashingTideTide,
   shadow,
   trophy,
   geminateMelee,
@@ -232,14 +239,14 @@ const icons: Record<string, string | React.ReactElement> = {
   hiveMode,
   hiveTransfer,
   infusion,
-  pressureLow,
-  pressureRegular,
-  pressureHigh,
-  pressureOver,
-  pressure,
-  pressureDown,
-  pressureUp,
-  resonance,
+  metalMosaicPressureLow,
+  metalMosaicPressureRegular,
+  metalMosaicPressureHigh,
+  metalMosaicPressureOver,
+  metalMosaicPressure,
+  metalMosaicPressureDown,
+  metalMosaicPressureUp,
+  shattersongResonance,
 };
 
 const components: Record<string, React.ComponentType> = {};
@@ -272,7 +279,7 @@ Object.keys(icons).forEach((icon) => {
           css={{
             height: imageSize.tiny,
             verticalAlign: "middle",
-            width: imageSize.tiny,
+            maxWidth: imageSize.tiny,
             objectFit: "contain",
           }}
         />
@@ -294,7 +301,6 @@ const consumeIcon = (icon: string) => {
         css={{
           height: imageSize.tiny,
           verticalAlign: "middle",
-          width: imageSize.tiny,
           objectFit: "contain",
         }}
       />
@@ -323,7 +329,17 @@ Object.keys(components).forEach((key) => {
   overrides[key] = { component: components[key] };
 });
 
-["any", "dark", "earth", "fire", "ice", "light", "air"].forEach((element) => {
+[
+  "any",
+  "dark",
+  "earth",
+  "fire",
+  "ice",
+  "light",
+  "air",
+  "frost",
+  "darkness",
+].forEach((element) => {
   overrides[`consume${element[0].toUpperCase()}${element.substring(1)}`] = {
     component: () => consumeIcon(element),
   };

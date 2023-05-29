@@ -52,7 +52,7 @@ export const ClassSelect = () => {
         </div>
       </div>
       {isOpen && (
-        <Paper css={{ position: "absolute", top: 0 }}>
+        <Paper css={{ position: "absolute", top: 0, zIndex: 10 }}>
           {Object.values(characterClasses).map((charClass) => (
             <Button
               key={charClass.name}

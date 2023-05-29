@@ -161,4 +161,114 @@ export const characterClasses: Record<string, CharacterClass> = {
     },
     traits: ["Arcane", "Chaotic", "Nimble"],
   },
+  crashingTide: {
+    name: "Lurker Crashing Tide",
+    className: "Crashing Tide",
+    id: "crashingTide",
+    iconOffset: {
+      x: 34,
+      y: -7,
+    },
+    traits: ["Armored", "Chaotic", "Strong"],
+  },
+  deepWraith: {
+    name: "Lurker Deep Wraith",
+    className: "Deep Wraith",
+    id: "deepWraith",
+    iconOffset: {
+      x: 52,
+      y: -7,
+    },
+    traits: ["Armored", "Intimidating", "Nimble"],
+  },
+  frozenFist: {
+    name: "Algox Frozen Fist",
+    className: "Frozen Fist",
+    id: "frozenFist",
+    iconOffset: {
+      x: 96,
+      y: -7,
+    },
+    traits: ["Intimidating", "Persuasive", "Strong"],
+  },
+  hive: {
+    name: "Unfettered HIVE",
+    className: "Hive",
+    id: "hive",
+    iconOffset: {
+      x: 287,
+      y: -7,
+    },
+    traits: ["Armored", "Educated", "Resourceful"],
+  },
+  infuser: {
+    name: "Orchid Infuser",
+    className: "Infuser",
+    id: "infuser",
+    iconOffset: {
+      x: 160,
+      y: -7,
+    },
+    traits: ["Arcane", "Educated", "Strong"],
+  },
+  metalMosaic: {
+    name: "Unfettered Metal Mosaic",
+    className: "Metal Mosaic",
+    id: "metalMosaic",
+    iconOffset: {
+      x: 224,
+      y: -7,
+    },
+    traits: ["Armored", "Resourceful", "Strong"],
+  },
+  painConduit: {
+    name: "Aesther Pain Conduit",
+    className: "Pain Conduit",
+    id: "painConduit",
+    iconOffset: {
+      x: 251,
+      y: -7,
+    },
+    traits: ["Chaotic", "Intimidating", "Outcast"],
+  },
+  pyroclast: {
+    name: "Savvas Pyroclast",
+    className: "Pyroclast",
+    id: "pyroclast",
+    iconOffset: {
+      x: 314,
+      y: -7,
+    },
+    traits: ["Arcane", "Chaotic", "Intimidating"],
+  },
+  shattersong: {
+    name: "Savvas Shattersong",
+    className: "Shattersong",
+    id: "shattersong",
+    iconOffset: {
+      x: 296,
+      y: -7,
+    },
+    traits: ["Educated", "Outcast", "Persuasive"],
+  },
+  snowdancer: {
+    name: "Algox Snowdancer",
+    className: "Snowdancer",
+    id: "snowdancer",
+    iconOffset: {
+      x: 115,
+      y: -7,
+    },
+    traits: ["Chaotic", "Nimble", "Persuasive"],
+  },
+  trapper: {
+    name: "Vermling Trapper",
+    className: "Trapper",
+    id: "trapper",
+    iconOffset: {
+      x: 305,
+      y: -7,
+    },
+    traits: ["Nimble", "Outcast", "Resourceful"],
+  },
 };

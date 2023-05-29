@@ -108,7 +108,7 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
                     left: 9,
                     content: '""',
                     width: 6,
-                    height: 3,
+                    height: 5,
                     background: "white",
                   },
                   "&:first-of-type": {
