@@ -14,19 +14,22 @@ export const Button = ({
   background = "white",
   disabled = false,
   children,
-  css,
   className,
+  inverted = false,
 }: {
   onClick: (e: React.MouseEvent) => void;
   color?: string;
   background?: string;
   disabled?: boolean;
   children: React.ReactNode | React.ReactNode[];
-  css?: Interpolation<Theme>;
   className?: string;
+  inverted?: boolean;
 }) => {
   return (
-    <ThemeProvider color={color}>
+    <ThemeProvider
+      color={inverted ? background : color}
+      background={inverted ? color : background}
+    >
       <Card
         onClick={(e) => {
           if (disabled) {
@@ -36,8 +39,8 @@ export const Button = ({
         }}
         css={{
           "&.MuiCard-root": { marginBottom: 0 },
-          ...((css || {}) as any),
           opacity: disabled ? 0.5 : 1,
+          padding: 2,
         }}
         className={className}
       >

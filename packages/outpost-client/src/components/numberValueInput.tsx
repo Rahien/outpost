@@ -1,17 +1,24 @@
 import { Button } from "@mui/material";
 import { spacing } from "../tokens";
+import { useUserStore } from "../userStore";
 
 export const NumberValueInput = ({
   value,
   setValue,
+  withMultiplier = false,
   max = Number.MAX_SAFE_INTEGER,
   min = Number.MIN_SAFE_INTEGER,
 }: {
   value: number;
+  withMultiplier?: boolean;
   setValue: (v: number) => void;
   max?: number;
   min?: number;
 }) => {
+  const { valueMultiplier } = useUserStore(({ valueMultiplier }) => ({
+    valueMultiplier,
+  }));
+  const multiplier = withMultiplier ? valueMultiplier : 1;
   return (
     <div
       css={{
@@ -29,7 +36,7 @@ export const NumberValueInput = ({
       }}
     >
       <Button
-        onClick={() => setValue(Math.max(value - 1, min))}
+        onClick={() => setValue(Math.max(value - 1 * multiplier, min))}
         css={{ paddingLeft: 100 }}
       >
         -
@@ -47,7 +54,7 @@ export const NumberValueInput = ({
         {value}
       </div>
       <Button
-        onClick={() => setValue(Math.min(value + 1, max))}
+        onClick={() => setValue(Math.min(value + 1 * multiplier, max))}
         css={{ paddingRight: 100 }}
       >
         +

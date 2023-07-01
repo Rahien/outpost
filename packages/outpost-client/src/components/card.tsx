@@ -33,6 +33,7 @@ export const Card = ({
         marginBottom: spacing.small,
         boxShadow: "none",
         color: color,
+        backgroundColor: background,
         ...((css || {}) as any),
       }}
     >

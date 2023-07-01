@@ -6,6 +6,85 @@ import { ResourceIcon } from "./resourceIcon";
 import { Title } from "./Title";
 import { useCampaignStore } from "../campaignStore";
 import { NumberValueInput } from "./numberValueInput";
+import { spacing } from "../tokens";
+import { Card } from "@mui/material";
+import { Button } from "./button";
+import { useUserStore } from "../userStore";
+import { Close } from "@mui/icons-material";
+
+const NumberValueMultiplier = ({ onClose }: { onClose: () => void }) => {
+  const { valueMultiplier, setValueMultiplier } = useUserStore(
+    ({ valueMultiplier, setValueMultiplier }) => ({
+      valueMultiplier,
+      setValueMultiplier,
+    })
+  );
+  return (
+    <Card
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        position: "fixed",
+        width: "90dvw",
+        left: "5dvw",
+        bottom: spacing.medium,
+        padding: spacing.medium,
+        boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.75)",
+        "&.MuiCard-root": { borderRadius: 4 },
+        zIndex: 100,
+      }}
+    >
+      <Title title="Step Multiplier" />
+      <div
+        css={{
+          position: "absolute",
+          top: 0,
+          right: spacing.small,
+          width: "fit-content !important",
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          onClose();
+        }}
+      >
+        <Close />
+      </div>
+      <div
+        css={{
+          display: "flex",
+          gap: spacing.medium,
+          justifyContent: "center",
+          marginTop: spacing.medium,
+          span: {
+            display: "block",
+            width: "100%",
+            textAlign: "center",
+          },
+        }}
+      >
+        <Button
+          inverted={valueMultiplier === 1}
+          onClick={() => setValueMultiplier(1)}
+        >
+          x 1
+        </Button>
+        <Button
+          inverted={valueMultiplier === 5}
+          onClick={() => setValueMultiplier(5)}
+        >
+          x 5
+        </Button>
+        <Button
+          inverted={valueMultiplier === 10}
+          onClick={() => setValueMultiplier(10)}
+        >
+          x 10
+        </Button>
+      </div>
+    </Card>
+  );
+};
 
 const ResourceField = ({
   resource,
@@ -35,6 +114,7 @@ const ResourceField = ({
   useOnClickOutside(ref, () => setEditing(false));
 
   const [editing, setEditing] = useState(edit);
+
   useEffect(() => {
     if (edit !== undefined && edit !== editing) {
       setEditing(edit);
@@ -82,13 +162,19 @@ const ResourceField = ({
         }}
       >
         {editing ? (
-          <NumberValueInput value={value} setValue={setValue} min={0} />
+          <NumberValueInput
+            value={value}
+            setValue={setValue}
+            min={0}
+            withMultiplier
+          />
         ) : (
           <div css={{ fontSize: "24px", fontFamily: "PirataOne-Gloomhaven" }}>
             {value}
           </div>
         )}
       </div>
+      {editing && <NumberValueMultiplier onClose={() => setEditing(false)} />}
     </div>
   );
 };
