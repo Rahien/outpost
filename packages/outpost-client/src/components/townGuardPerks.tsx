@@ -102,7 +102,7 @@ const EditPerk = ({
     <Dialog open={true} onClose={onClose}>
       <div
         css={{
-          width: "90vw",
+          width: "90dvw",
           maxWidth: "100%",
           padding: spacing.medium,
           boxSizing: "border-box",
@@ -177,18 +177,17 @@ const PerkList = () => {
 
 export const TownGuardPerks = () => {
   const [editing, setEditing] = useState(false);
-  const { campaign, updateCampaign, updating } = useCampaignStore(
-    ({ campaign, updateCampaign, updating }) => ({
+  const { campaign, updateCampaign } = useCampaignStore(
+    ({ campaign, updateCampaign }) => ({
       campaign,
       updateCampaign,
-      updating,
     })
   );
   const [perks, setPerks] = useState(campaign?.perkTags || 0);
   const ref = useRef(null);
   const debouncedPerks = useDebounce(perks, 1000);
   useEffect(() => {
-    if (!campaign || campaign.perkTags === perks || updating) {
+    if (!campaign || campaign.perkTags === perks) {
       return;
     }
     updateCampaign({ ...campaign, perkTags: perks });

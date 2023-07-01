@@ -62,7 +62,7 @@ const CharacterDetails = ({
         css={{
           padding: spacing.small,
           paddingBottom: 0,
-          width: "90vw",
+          width: "90dvw",
           maxWidth: "100%",
           boxSizing: "border-box",
         }}
@@ -309,7 +309,7 @@ const AddCharacterDialog = ({ onClose }: { onClose: () => void }) => {
         css={{
           padding: spacing.small,
           paddingBottom: 0,
-          width: "90vw",
+          width: "90dvw",
           maxWidth: "100%",
           boxSizing: "border-box",
         }}
@@ -317,7 +317,7 @@ const AddCharacterDialog = ({ onClose }: { onClose: () => void }) => {
         <Card>
           <Title title="Link Character" />
           <p>Pick a character to add to the campaign</p>
-          <div css={{ maxHeight: "60vh", overflow: "auto" }}>
+          <div css={{ maxHeight: "60dvh", overflow: "auto" }}>
             {availableCharacters.map((character, index) => {
               return (
                 <div

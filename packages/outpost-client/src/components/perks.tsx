@@ -123,13 +123,13 @@ const PerkItem = ({ perk }: { perk: Perk }) => {
         }}
       >
         {Array.from({ length: perk.active }).map((_, i) => (
-          <div>
-            <CheckBoxOutlined css={{ marginTop: -2 }} key={i} />
+          <div key={i}>
+            <CheckBoxOutlined css={{ marginTop: -2 }} />
           </div>
         ))}
         {Array.from({ length: perk.maxActive - perk.active }).map((_, i) => (
-          <div>
-            <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} key={i} />
+          <div key={i}>
+            <CheckBoxOutlineBlankOutlined css={{ marginTop: -2 }} />
           </div>
         ))}
       </div>
@@ -163,17 +163,16 @@ export const Perks = () => {
   const [editing, setEditing] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setEditing(false));
-  const { character, updateCharacter, updating } = useCharacterStore(
-    ({ character, updateCharacter, updating }) => ({
+  const { character, updateCharacter } = useCharacterStore(
+    ({ character, updateCharacter }) => ({
       character,
       updateCharacter,
-      updating,
     })
   );
   const [perks, setPerks] = useState(character?.perkTags || 0);
   const debouncedPerks = useDebounce(perks, 1000);
   useEffect(() => {
-    if (!character || character.perkTags === perks || updating) {
+    if (!character || character.perkTags === perks) {
       return;
     }
     updateCharacter({ ...character, perkTags: perks });

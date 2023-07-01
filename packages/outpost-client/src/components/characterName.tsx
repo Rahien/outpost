@@ -8,21 +8,19 @@ import { useCampaignStore } from "../campaignStore";
 const EntityName = <Entity extends { name: string }>({
   entity,
   update,
-  updating,
 }: {
   entity: Entity;
   update: (newEntity: Entity) => Promise<void>;
-  updating: boolean;
 }) => {
   const { color } = useContext(ThemeContext);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(entity?.name || "");
   const debouncedName = useDebounce(name, 1000);
   useEffect(() => {
-    if (entity && debouncedName !== entity.name && !updating) {
+    if (entity && debouncedName !== entity.name) {
       update({ ...entity, name: debouncedName });
     }
-  }, [entity, debouncedName]);
+  }, [debouncedName]);
 
   if (editing) {
     return (
@@ -57,33 +55,23 @@ const EntityName = <Entity extends { name: string }>({
 };
 
 export const CharacterName = () => {
-  const { character, updateCharacter, updating } = useCharacterStore(
-    ({ character, updateCharacter, updating }) => ({
+  const { character, updateCharacter } = useCharacterStore(
+    ({ character, updateCharacter }) => ({
       character,
       updateCharacter,
-      updating,
     })
   );
   if (!character) return null;
-  return (
-    <EntityName
-      entity={character}
-      update={updateCharacter}
-      updating={updating}
-    />
-  );
+  return <EntityName entity={character} update={updateCharacter} />;
 };
 
 export const CampaignName = () => {
-  const { campaign, updateCampaign, updating } = useCampaignStore(
-    ({ campaign, updateCampaign, updating }) => ({
+  const { campaign, updateCampaign } = useCampaignStore(
+    ({ campaign, updateCampaign }) => ({
       campaign,
       updateCampaign,
-      updating,
     })
   );
   if (!campaign) return null;
-  return (
-    <EntityName entity={campaign} update={updateCampaign} updating={updating} />
-  );
+  return <EntityName entity={campaign} update={updateCampaign} />;
 };

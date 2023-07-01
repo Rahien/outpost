@@ -126,7 +126,7 @@ export const CampaignInvites = () => {
         css={{
           padding: spacing.small,
           paddingBottom: 0,
-          width: "90vw",
+          width: "90dvw",
           maxWidth: "100%",
           boxSizing: "border-box",
         }}
@@ -146,7 +146,7 @@ export const CampaignInvites = () => {
             <HorizontalLine upwards />
             <div
               css={{
-                maxHeight: "60vh",
+                maxHeight: "60dvh",
                 overflow: "auto",
                 marginTop: spacing.small,
                 marginBottom: spacing.small,
