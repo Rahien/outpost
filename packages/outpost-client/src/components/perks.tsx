@@ -12,7 +12,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Input } from "@mui/material";
 import { useDebounce, useOnClickOutside } from "usehooks-ts";
 import { HorizontalLine } from "./horizontalLine";
-import { spacing } from "../tokens";
+import { colors, spacing } from "../tokens";
 import { Perk } from "../types";
 import { CustomMarkdown } from "./customMarkdown";
 import { NumberValueInput } from "./numberValueInput";
@@ -24,7 +24,7 @@ const PerksChecks = ({ checked }: { checked: number }) => {
       css={{
         display: "flex",
         alignItems: "center",
-        ".MuiCheckbox-root": { padding: 0, path: { color: "black" } },
+        ".MuiCheckbox-root": { padding: 0, path: { color: colors.black } },
       }}
     >
       <div css={{ display: "flex", alignItems: "center" }}>

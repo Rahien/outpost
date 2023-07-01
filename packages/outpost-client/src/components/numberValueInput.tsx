@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { spacing } from "../tokens";
+import { colors, spacing } from "../tokens";
 import { useUserStore } from "../userStore";
 
 export const NumberValueInput = ({
@@ -26,7 +26,7 @@ export const NumberValueInput = ({
         justifyContent: "center",
         alignItems: "center",
         button: {
-          color: "black",
+          color: colors.black,
           fontWeight: "bold",
           fontSize: 42,
           lineHeight: "30px",

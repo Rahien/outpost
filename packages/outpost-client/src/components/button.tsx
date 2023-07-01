@@ -7,10 +7,11 @@ import {
 import { Card } from "./card";
 import { ThemeProvider } from "./themeProvider";
 import { Title } from "./Title";
+import { colors } from "../tokens";
 
 export const Button = ({
   onClick,
-  color = "black",
+  color = colors.black,
   background = "white",
   disabled = false,
   children,

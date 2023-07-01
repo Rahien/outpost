@@ -13,3 +13,8 @@ export const spacing = {
 export const mediaqueries = {
   tinyMobile: "@media (max-width: 389px)",
 };
+
+export const colors = {
+  white: "#ffffff",
+  black: "#1d201a",
+};

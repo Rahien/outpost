@@ -1,5 +1,5 @@
 import { ExpandLess, Verified } from "@mui/icons-material";
-import { mediaqueries, spacing } from "../tokens";
+import { colors, mediaqueries, spacing } from "../tokens";
 import { useCharacterStore } from "../characterStore";
 import { Fragment } from "react";
 import { Card } from "./card";
@@ -19,12 +19,12 @@ const LevelBox = ({
   xpRequired: number;
 }) => {
   let background = `rgba(0,0,0,0.3)`;
-  let color = "black";
+  let color = colors.black;
   if (attained === "current") {
-    background = "black";
-    color = "white";
+    background = colors.black;
+    color = colors.white;
   } else if (attained === "no") {
-    background = "white";
+    background = colors.white;
   }
   return (
     <div
@@ -37,7 +37,7 @@ const LevelBox = ({
     >
       <div
         css={{
-          border: `solid 1px black`,
+          border: `solid 1px ${colors.black}`,
           background,
           color,
           width: 20,
@@ -78,7 +78,7 @@ const VerticalSeparator = () => {
       css={{
         height: 67,
         width: 1,
-        borderLeft: `solid 1px black`,
+        borderLeft: `solid 1px ${colors.black}`,
         [mediaqueries.tinyMobile]: { height: 62 },
       }}
     ></div>

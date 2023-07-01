@@ -8,7 +8,7 @@ import { Title } from "./Title";
 import { Card } from "./card";
 import { useCharacterStore } from "../characterStore";
 import { useMemo } from "react";
-import { spacing } from "../tokens";
+import { colors, spacing } from "../tokens";
 import { Mastery } from "../types";
 import { CustomMarkdown } from "./customMarkdown";
 const PerksChecks = ({ checked }: { checked: number }) => {
@@ -19,7 +19,7 @@ const PerksChecks = ({ checked }: { checked: number }) => {
       css={{
         display: "flex",
         alignItems: "center",
-        ".MuiCheckbox-root": { padding: 0, path: { color: "black" } },
+        ".MuiCheckbox-root": { padding: 0, path: { color: colors.black } },
       }}
     >
       <div css={{ display: "flex", alignItems: "center" }}>

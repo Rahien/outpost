@@ -1,13 +1,14 @@
 import { createContext, useState } from "react";
+import { colors } from "../tokens";
 
 export const ThemeContext = createContext({
-  color: "black",
-  background: "white",
+  color: colors.black,
+  background: colors.white,
 });
 
 export const ThemeProvider = ({
-  color = "black",
-  background = "white",
+  color = colors.black,
+  background = colors.white,
   children,
 }: {
   color?: string;

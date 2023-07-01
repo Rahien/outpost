@@ -121,7 +121,7 @@ import metalMosaicPressureDown from "../assets/class/fh-metal-mosaic-pressure-do
 import metalMosaicPressureUp from "../assets/class/fh-metal-mosaic-pressure-up-bw-icon.png";
 import shattersongResonance from "../assets/class/fh-shattersong-resonance-bw-icon.png";
 
-import { imageSize } from "../tokens";
+import { colors, imageSize } from "../tokens";
 import React, { useContext } from "react";
 import { ThemeContext } from "./themeProvider";
 
@@ -314,7 +314,7 @@ const consumeIcon = (icon: string) => {
           position: "absolute",
           bottom: -2,
           right: -2,
-          background: "black",
+          background: colors.black,
           borderRadius: "50%",
           padding: 2,
           filter: "grayscale(100%) brightness(2) ",
