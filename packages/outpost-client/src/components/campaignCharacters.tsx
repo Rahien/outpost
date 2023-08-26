@@ -364,6 +364,17 @@ export const CampaignCharacters = () => {
   const { campaign } = useCampaignStore(({ campaign }) => ({ campaign }));
   const [addingCharacter, setAddingCharacter] = useState(false);
   const [showRetired, setShowRetired] = useState(false);
+  const normalDifficulty = useMemo(() => {
+    let levelSum = 0;
+    let characterCount = 0;
+    campaign?.characters.forEach((character) => {
+      if (character.retiredAt) return;
+      levelSum += xpToLevel(character.xp);
+      characterCount++;
+    });
+    return Math.ceil(levelSum / 2 / characterCount);
+  }, [campaign]);
+
   const charactersToShow = useMemo(() => {
     if (!campaign) return [];
     return campaign.characters.filter(
@@ -383,6 +394,7 @@ export const CampaignCharacters = () => {
           }}
         />
         <HorizontalLine upwards />
+
         <div css={{ marginTop: spacing.small }}>
           {charactersToShow.length === 0 && (
             <Title
@@ -393,6 +405,38 @@ export const CampaignCharacters = () => {
           {charactersToShow.map((character) => (
             <CharacterListItem character={character} key={character.id} />
           ))}
+        </div>
+        <div
+          css={{
+            textAlign: "center",
+            marginTop: spacing.small,
+            fontWeight: "lighter",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <Title
+            title="Suggested campaign difficulty:"
+            css={{ fontSize: 18 }}
+          />
+          <Title
+            icon={<img src={levelIcon} css={{ height: 32 }} />}
+            css={{
+              color: "white",
+              position: "relative",
+              span: {
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                display: "block",
+                width: "100%",
+                textAlign: "center",
+                marginLeft: 0,
+                fontSize: 18,
+              },
+            }}
+            title={`${normalDifficulty}`}
+          />
         </div>
         <div
           css={{
