@@ -30,9 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOSTS'),
-]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(",")
 
 
 # Application definition
@@ -68,6 +66,7 @@ ROOT_URLCONF = 'server.urls'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:5174",
     "http://localhost:8000",
 ]
 CORS_ORIGIN_ALLOW_ALL = False

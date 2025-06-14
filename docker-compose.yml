@@ -16,7 +16,10 @@ services:
       dockerfile: Dockerfile
     environment:
       - DB_HOST=db
-      - ALLOWED_HOSTS=api
+      - ALLOWED_HOSTS=api,localhost
+      - SECRET_KEY=fakesecret
+      - DB_USER=postgres
+      - DB_PASS=postgres
     ports:
       - "8000:8000"
   client:

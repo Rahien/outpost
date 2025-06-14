@@ -10,13 +10,14 @@ import { CampaignResourceField } from "./resourceField";
 import { ThemeContext } from "./themeProvider";
 import { VerticalSeparator } from "./verticalSeparator";
 import { CampaignNotes } from "./characterNotes";
-import { CampaignName, CharacterName } from "./characterName";
+import { CampaignName } from "./characterName";
 import { CampaignMorale } from "./campaignMorale";
 import { TownGuardPerks } from "./townGuardPerks";
 import { ProsperityTrack } from "./prosperityTrack";
 import { Calendar } from "./calendar";
 import { CampaignUsers } from "./campaignUsers";
 import { CampaignCharacters } from "./campaignCharacters";
+import { Scenarios } from "./scenarios";
 
 const HorizontalDivider = () => {
   const { color } = useContext(ThemeContext);
@@ -66,11 +67,11 @@ const CampaignResources = () => {
   );
 };
 
-type tabs = "resources" | "calendar" | "perks";
+type tabs = "city" | "calendar" | "characters" | "scenarios";
 
 export const CampaignSheet = () => {
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState("resources");
+  const [activeTab, setActiveTab] = useState("city");
   const navigate = useNavigate();
   const [deleting, setDeleting] = useState(false);
   const { campaign, fetchCampaign, deleteCampaign } = useCampaignStore(
@@ -141,10 +142,10 @@ export const CampaignSheet = () => {
         }}
       >
         <Button
-          onClick={() => setActiveTab("resources")}
-          className={activeTab === "resources" ? "active" : "inactive"}
+          onClick={() => setActiveTab("city")}
+          className={activeTab === "city" ? "active" : "inactive"}
         >
-          <Title title="Resources" />
+          <Title title="City" />
         </Button>
         <Button
           onClick={() => setActiveTab("calendar")}
@@ -153,10 +154,10 @@ export const CampaignSheet = () => {
           <Title title="Calendar" />
         </Button>
         <Button
-          onClick={() => setActiveTab("perks")}
-          className={activeTab === "perks" ? "active" : "inactive"}
+          onClick={() => setActiveTab("scenarios")}
+          className={activeTab === "scenarios" ? "active" : "inactive"}
         >
-          <Title title="Perks" />
+          <Title title="Scenarios" />
         </Button>
         <Button
           onClick={() => setActiveTab("characters")}
@@ -173,7 +174,7 @@ export const CampaignSheet = () => {
           <CampaignUsers />
         </>
       )}
-      {activeTab === "resources" && (
+      {activeTab === "city" && (
         <>
           <CampaignResources />
           <Card
@@ -196,12 +197,13 @@ export const CampaignSheet = () => {
           </Card>
           <CampaignMorale />
           <ProsperityTrack />
+          <TownGuardPerks />
           <Card>
             <CampaignNotes />
           </Card>
         </>
       )}
-      {activeTab === "perks" && <TownGuardPerks />}
+      {activeTab === "scenarios" && <Scenarios />}
       <div
         css={{
           display: "flex",
