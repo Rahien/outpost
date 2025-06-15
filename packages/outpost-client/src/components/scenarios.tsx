@@ -169,7 +169,7 @@ export function MarkScenarioStateModal({
                 onClose();
               }}
             >
-              Mark Scenario
+              {initialScenario ? "Update Scenario" : "Unlock"}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </div>

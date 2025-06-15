@@ -15,6 +15,7 @@ scenarios = {
   },
   "4": {
       "name": "Heart of Ice",
+      "icons": ["boss"],
       "links": [ "5", "6", "7" ]
   },
   "5": {
@@ -39,11 +40,14 @@ scenarios = {
   },
   "10": {
       "name": "Crystal Enclosure",
-      "links": [ "18" ]
+      "links": [ "18" ],
+      "icons": ["sled"]
+
   },
   "11": {
       "name": "Snowscorn Peak",
       "links": [ "19" ],
+      "icons": ["climbing", "boss"]
   },
   "12": {
       "name": "Temple Entrance",
@@ -56,6 +60,7 @@ scenarios = {
   "14": {
       "name": "Jagged Shoals",
       "links": [ "22" ],
+      "icons": ["boat"]
   },
   "15": {
       "name": "Ancient Spire",
@@ -83,10 +88,12 @@ scenarios = {
   },
   "21": {
       "name": "Realm of Endless Frost",
+      "icons": ["sled", "boss"]
   },
   "22": {
       "name": "Ice Floes",
-      "links": [ "33" ]
+      "links": [ "33" ],
+      "icons": ["boat"]
   },
   "23": {
       "name": "Spire Basement",
@@ -106,6 +113,7 @@ scenarios = {
   },
   "27": {
       "name": "Depths of Delirium",
+      "icons": ["shard"]
   },
   "28": {
       "name": "Summit Meeting",
@@ -132,6 +140,7 @@ scenarios = {
   },
   "34": {
       "name": "Top of the Spire",
+      "icons": ["boss"],
   },
   "35": {
       "name": "Scrap Pit",
@@ -159,10 +168,12 @@ scenarios = {
   },
   "41": {
       "name": "Unfettered Shard",
+      "icons": ["shard"],
   },
   "42": {
       "name": "Sunless Trench",
-      "links": [ "49", "50" ]
+      "links": [ "49", "50" ],
+      "icons": ["boat"]
   },
   "43": {
       "name": "Overrun Barricade",
@@ -174,11 +185,13 @@ scenarios = {
   },
   "45": {
       "name": "Living Glacier",
-      "links": [ "52" ]
+      "links": [ "52" ],
+      "icons": ["climbing"]
   },
   "46": {
       "name": "Dead Pass",
-      "links": [ "52" ]
+      "links": [ "52" ],
+      "icons": ["sled"]
   },
   "47": {
       "name": "Carrion Ridge",
@@ -186,14 +199,17 @@ scenarios = {
   },
   "48": {
       "name": "Blizzard island",
-      "links": [ "57" ]
+      "links": [ "57" ],
+      "icons": ["boat"]
   },
   "49": {
       "name": "Beneath Sea and Stone",
+      "icons": ["boat"],
   },
   "50": {
       "name": "Explosive Descent",
-      "links": [ "54" ]
+      "links": [ "54" ],
+      "icons": ["boat"]
   },
   "51": {
       "name": "Orphan's Halls",
@@ -205,29 +221,36 @@ scenarios = {
   },
   "53": {
       "name": "Underwater Throne",
-      "links": [ "60" ]
+      "links": [ "60" ],
+      "icons": ["boat"]
   },
   "54": {
-      "name": "Among the Wreckage",
-      "links": [ "60" ]
+      "name": "Among th Wreckage",
+      "links": [ "60" ],
+      "icons": ["boat", "boss"]
   },
   "55": {
       "name": "Change of Heart",
+      "icons": ["boss"],
   },
   "56": {
       "name": "Call of the Harbinger",
+      "icons": ["boss"],
   },
   "57": {
       "name": "Sanctuary of Snow",
+      "icons": ["boat", "boss"],
   },
   "58": {
       "name": "Orphan's Core",
+      "icons": ["boss"]
   },
   "59": {
       "name": "Automation Uprising",
   },
   "60": {
       "name": "Uniting the Crown",
+      "icons": ["boss", "boat", "crown"],
   },
   "61": {
       "name": "Life and Death",
@@ -243,6 +266,7 @@ scenarios = {
   },
   "64": {
       "name": "The Frosthaven Seal",
+      "icons": ["boss"]
   },
   "65": {
       "name": "A Strong Foundation",
@@ -258,6 +282,7 @@ scenarios = {
   },
   "68": {
       "name": "The Face of Torment",
+      "icons": ["boss"],
   },
   "69": {
       "name": "Sacred Soil",
@@ -277,6 +302,7 @@ scenarios = {
   "73": {
       "name": "Flotsam",
       "links": [ "74" ],
+      "icons": ["boss"]
   },
   "74": {
       "name": "Gaps in the Road",
@@ -284,24 +310,30 @@ scenarios = {
   },
   "75": {
       "name": "Infiltrating the Lair",
-      "links": [ "77" ]
+      "links": [ "77" ],
+      "icons": ["boat"]
   },
   "76": {
       "name": "Apotheosis",
-      "links": [ "77" ]
+      "links": [ "77" ],
+      "icons": ["boat", "boss"]
   },
   "77": {
       "name": "Fish King's Ascension",
+      "icons": ["boss", "boat"],
   },
   "78": {
       "name": "The Lurker Problem",
+      "icons": ["climbing"]
   },
   "79": {
       "name": "Relic",
-      "links": [ "80" ]
+      "links": [ "80" ],
+      "icons": ["sled"]
   },
   "80": {
       "name": "Relic Renewed",
+      "icons": ["boss"],
   },
   "81": {
       "name": "Ruinous Research Lab",
@@ -311,12 +343,15 @@ scenarios = {
   },
   "83": {
       "name": "Rising Brine",
+      "icons": ["boat", "boss"],
   },
   "84": {
       "name": "Here There Be Oozes",
+      "icons": ["boss"]
   },
   "85": {
       "name": "Deadly Pastimes",
+      "icons": ["climbing"]
   },
   "86": {
       "name": "The Lady in White",
@@ -327,6 +362,7 @@ scenarios = {
   },
   "88": {
       "name": "Collection's Capstone",
+      "icons": ["boss"],
   },
   "89": {
       "name": "A Contained Fire",
@@ -354,10 +390,12 @@ scenarios = {
   "96": {
       "name": "Underground Station",
       "links": [ "97" ],
+      "icons": ["climbing"]
   },
   "97": {
       "name": "Program Control Nexus",
       "links": ["98"],
+      "icons": ["boss"]
   },
   "98": {
       "name": "Collapsing Vent",
@@ -383,29 +421,35 @@ scenarios = {
   },
   "104": {
       "name": "Ruins of the Solstice",
-      "links": [ "105" ]
+      "links": [ "105" ],
+      "icons": ["sled"]
   },
   "105": {
       "name": "Ruins of the Equinox",
-      "links": [ "106" ]
+      "links": [ "106" ],
+      "icons": ["climbing"]
   },
   "106": {
       "name": "The Tempus Forge",
   },
   "107": {
       "name": "My Private Empire",
+      "icons": ["climbing"]
   },
   "108": {
       "name": "Lustrous Pit",
   },
   "109": {
       "name": "Furious Factory",
+      "icons": ["sled"]
   },
   "110": {
       "name": "Guardian's Temple",
+      "icons": ["climbing"]
   },
   "111": {
       "name": "Ice Cave",
+      "icons": ["sled"]
   },
   "112": {
       "name": "Raised by Wolves",
@@ -429,6 +473,7 @@ scenarios = {
   },
   "118": {
       "name": "Lurker Necromancy",
+      "icons": ["sled"]
   },
   "119": {
       "name": "Radiant Dust",
@@ -476,6 +521,7 @@ scenarios = {
   "132": {
       "name": "Temple of Feline Power",
       "links": [ "133" ],
+      "icons": ["climbing"]
   },
   "133": {
       "name": "Bolt",
@@ -488,9 +534,11 @@ scenarios = {
   },
   "136": {
       "name": "Abandoned Hideout",
+      "icons": ["boat"]
   },
   "137": {
       "name": "Pirate Queen's Haul",
+      "icons": ["boat"]
   },
 }
 
