@@ -1,6 +1,7 @@
 import { Card } from "./card";
 import { Title } from "./Title";
 import sledIcon from "../assets/outpost/fh-sled-bw-icon.png";
+import bossIcon from "../assets/outpost/fh-skull-bw-icon.png";
 import climbingIcon from "../assets/outpost/fh-climbing-gear-bw-icon.png";
 import boatIcon from "../assets/outpost/fh-boat-bw-icon.png";
 import { Fragment, useContext, useEffect, useMemo, useState } from "react";
@@ -199,8 +200,8 @@ export function Scenario({
     });
   const otherIcons = (scenario.icons || [])
     .map((icon, index) => {
-      if (icon === "calendar") {
-        return <img key={index} src={sledIcon} />; // todo missing icon
+      if (icon === "boss") {
+        return <img key={index} src={bossIcon} />;
       }
       return null;
     })
