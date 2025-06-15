@@ -114,3 +114,14 @@ class ActiveTownGuardPerk(models.Model):
 
     def __str__(self):
         return f"{self.campaign.name} [perk {self.perk.id}: {self.active}]"
+
+
+class ActiveScenario(models.Model):
+    campaign = models.ForeignKey(
+        Campaign, on_delete=models.CASCADE, blank=True, null=True
+    )
+    scenario = models.CharField(max_length=200)
+    status = models.CharField(max_length=200, default='active')
+
+    def __str__(self):
+        return f"{self.campaign.name} [scenario {self.scenario}: {self.status}]"

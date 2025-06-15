@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Campaign } from "./types";
+import { Campaign, Scenario } from "./types";
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -12,6 +12,13 @@ export type CampaignStore = {
   updateCampaign: (newCampaign: Campaign) => Promise<void>;
   deleteCampaign: (id: number) => Promise<void>;
   campaignList: Campaign[];
+  scenarioList: Scenario[];
+  fetchScenarioList: (campaignId: number) => Promise<void>;
+  updateScenario: (
+    campaignId: number,
+    scenarioId: string,
+    status: string
+  ) => Promise<void>;
   fetchCampaignList: () => Promise<void>;
   updatePerk: (campaignId: number, id: number, active: string) => Promise<void>;
   invitePlayer: (campaignId: number, username: string) => Promise<void>;
@@ -39,6 +46,7 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
   campaign: null,
   updating: false,
   campaignList: [] as Campaign[],
+  scenarioList: [] as Scenario[],
   setCampaign: (campaign: Campaign | null) => set({ campaign }),
   fetchCampaign: async (id: string) => {
     const response = await axios(`${API_URL}/campaigns/${id}`);
@@ -49,6 +57,27 @@ export const useCampaignStore = create<CampaignStore>((set) => ({
     const response = await axios(`${API_URL}/campaigns`);
     const campaignList = response.data;
     set({ campaignList });
+  },
+  fetchScenarioList: async (campaignId: number) => {
+    const response = await axios(
+      `${API_URL}/campaigns/${campaignId}/scenarios`
+    );
+    const scenarioList = response.data;
+    set({ scenarioList });
+  },
+  updateScenario: async (
+    campaignId: number,
+    scenarioId: string,
+    status: string
+  ) => {
+    const response = await axios.put(
+      `${API_URL}/campaigns/${campaignId}/scenarios/${scenarioId}`,
+      { status }
+    );
+    const scenarioList = response.data;
+    set({
+      scenarioList,
+    });
   },
   updateCampaign: async (newCampaign: Campaign) => {
     set({ updating: true });

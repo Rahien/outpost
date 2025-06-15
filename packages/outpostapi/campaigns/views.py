@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 
-from campaigns.models import Campaign, CampaignCharacter, CampaignInvite, Event, TownGuardPerk, ActiveTownGuardPerk
-from campaigns.serializers import CampaignCharacterSerializer, CampaignDetailSerializer, CampaignInviteSerializer, CampaignSerializer, EventSerializer
+from campaigns.models import Campaign, CampaignCharacter, CampaignInvite, Event, TownGuardPerk, ActiveTownGuardPerk, ActiveScenario
+from campaigns.serializers import CampaignCharacterSerializer, CampaignDetailSerializer, CampaignInviteSerializer, CampaignSerializer, EventSerializer, ActiveScenarioSerializer
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -432,4 +432,44 @@ class CampaignCharacterDetailApiView(APIView):
         campaign = Campaign.objects.get(
             id=campaign_id)
         serializer = CampaignDetailSerializer(campaign)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CampaignScenarioApiListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, campaign_id, *args, **kwargs):
+        '''
+        Retrieves the scenario map for the campaign
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        scenarios = ActiveScenario.objects.filter(campaign_id=campaign_id)
+        serializer = ActiveScenarioSerializer(scenarios, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class CampaignScenarioApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def put(self, request, campaign_id, scenario_number, *args, **kwargs):
+        '''
+        Updates the scenario with given scenario_id
+        '''
+        campaign = Campaign.objects.get(id=campaign_id)
+        if not campaign.users.filter(id=request.user.id).exists():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        matches = ActiveScenario.objects.filter(scenario=scenario_number, campaign_id=campaign_id)
+        if not matches.exists():
+            # create it
+            scenario = ActiveScenario(campaign_id=campaign_id, scenario=scenario_number, status=request.data.get('status', 'active'))
+        else:
+            # update it
+            scenario = matches.first()
+            scenario.status = request.data.get('status', 'active')
+        scenario.save()
+
+        scenarios = ActiveScenario.objects.filter(campaign_id=campaign_id)
+        serializer = ActiveScenarioSerializer(scenarios, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

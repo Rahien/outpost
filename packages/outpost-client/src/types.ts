@@ -112,3 +112,15 @@ export const RESOURCES = [
   "rockroot",
   "snowthistle",
 ];
+
+export type Scenario = {
+  id: number;
+  number: string;
+  name: string;
+  icons?: string[];
+  links?: Scenario[];
+  origins?: Scenario[];
+  length?: number;
+  step?: number;
+  status?: "active" | "completed" | "failed" | "locked" | "removed";
+};

@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from campaigns.models import Campaign, CampaignCharacter, CampaignInvite, CampaignUser, Event, TownGuardPerk, ActiveTownGuardPerk
+from campaigns.models import Campaign, CampaignCharacter, CampaignInvite, CampaignUser, Event, TownGuardPerk, ActiveTownGuardPerk, ActiveScenario
 from django.contrib.auth.models import User
-
+from campaigns.scenario_map import scenarios
 from characters.serializers import CharacterMasterySerializer, CharacterPerkSerializer, CharacterSerializer
 from characters.models import Character
 
@@ -128,3 +128,21 @@ class CampaignDetailSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["id", "created_at",
                             "perks", "events", 'players', 'invites', 'characters']
+
+
+class ActiveScenarioSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        scenario = super().to_representation(instance)
+
+        merged_scenario = scenario | scenarios[scenario['scenario']]
+        merged_scenario["links"] = [
+            scenarios[link] for link in merged_scenario.get("links", [])
+        ]
+        merged_scenario["origins"] = [
+            scenarios[origin] for origin in merged_scenario.get("origins", [])
+        ]
+        return merged_scenario
+    class Meta:
+        model = ActiveScenario
+        fields = "__all__"
+        read_only_fields = ["id", "created_at"]
