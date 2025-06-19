@@ -4,12 +4,12 @@ import sledIcon from "../assets/outpost/fh-sled-bw-icon.png";
 import bossIcon from "../assets/outpost/fh-skull-bw-icon.png";
 import climbingIcon from "../assets/outpost/fh-climbing-gear-bw-icon.png";
 import boatIcon from "../assets/outpost/fh-boat-bw-icon.png";
-import { Fragment, useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Scenario as ScenarioType } from "../types";
 import { useCampaignStore } from "../campaignStore";
 import { Button } from "./button";
 import { Dialog, TextField } from "@mui/material";
-import { spacing } from "../tokens";
+import { spacing, colors } from "../tokens";
 import { ThemeContext } from "./themeProvider";
 import {
   CheckBoxOutlineBlankOutlined,
@@ -67,9 +67,11 @@ export function MarkScenarioStateModal({
   initialScenario,
 }: {
   onClose: () => void;
-  initialScenario?: string;
+  initialScenario?: ScenarioType;
 }) {
-  const [scenarioNumber, setScenarioNumber] = useState(initialScenario || "1");
+  const [scenarioNumber, setScenarioNumber] = useState(
+    initialScenario?.number || "1"
+  );
   const [status, setStatus] = useState("active");
   const { color } = useContext(ThemeContext);
   const { updateScenario, campaign } = useCampaignStore(
@@ -99,11 +101,33 @@ export function MarkScenarioStateModal({
             <Title
               title={
                 initialScenario
-                  ? `Update Scenario ${initialScenario}`
+                  ? `Update Scenario ${initialScenario.number}`
                   : "Unlock Scenario"
               }
               css={{ fontSize: 30, marginBottom: spacing.medium }}
             />
+            {initialScenario ? (
+              <div
+                css={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: spacing.small,
+                  justifyContent: "space-between",
+                  marginBottom: spacing.medium,
+                }}
+              >
+                <Title
+                  title={initialScenario.name}
+                  css={{
+                    fontSize: 24,
+                    marginBottom: 0,
+                  }}
+                />
+                <div css={{ fontSize: 16 }}>
+                  ({initialScenario.step} / {initialScenario.length})
+                </div>
+              </div>
+            ) : null}
             {initialScenario ? (
               <div>
                 {statusOptions.map((option) => (
@@ -180,13 +204,58 @@ export function MarkScenarioStateModal({
   );
 }
 
-export function Scenario({
+function ScenarioSteps({
   scenario,
-  muted,
+  done,
 }: {
   scenario: ScenarioType;
-  muted?: boolean;
+  done: boolean;
 }) {
+  const steps = done
+    ? new Array((scenario.step || 1) - 1).fill(1)
+    : new Array((scenario.length || 1) - (scenario.step || 1)).fill(1);
+  if (steps.length === 0) {
+    return null;
+  }
+  return (
+    <div
+      css={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        gap: "2px",
+      }}
+    >
+      {steps.map((_, index) => {
+        return (
+          <div
+            key={index}
+            css={{
+              border: `solid 2px ${colors.black}`,
+              width: "0.5em",
+              height: "0.5em",
+              padding: "2px",
+              transformOrigin: "center",
+              transform: "rotate(45deg) scale(0.7)",
+            }}
+          >
+            {done ? (
+              <div
+                css={{
+                  width: "100%",
+                  height: "100%",
+                  background: colors.black,
+                }}
+              ></div>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export function Scenario({ scenario }: { scenario: ScenarioType }) {
   const origins = scenario.origins || [];
   const links = scenario.links || [];
   const [editingScenario, setEditingScenario] = useState(false);
@@ -211,7 +280,7 @@ export function Scenario({
       {editingScenario ? (
         <MarkScenarioStateModal
           onClose={() => setEditingScenario(false)}
-          initialScenario={scenario.number}
+          initialScenario={scenario}
         />
       ) : null}
       <div
@@ -220,40 +289,16 @@ export function Scenario({
           alignItems: "center",
           justifyContent: "flex-start",
           gap: "8px",
-          opacity: muted ? 0.7 : 1,
-          overflowX: muted ? undefined : "auto",
+          overflowX: "auto",
+          marginBottom: "8px",
         }}
         onClick={() => {
-          if (muted) {
-            return;
-          }
           setEditingScenario(true);
         }}
       >
-        {!muted && origins.length > 0 && (
-          <div
-            css={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: "2px",
-              transform: "scale(0.66)",
-              marginLeft: `-${5 * origins.length}px`,
-              marginRight: `-${5 * origins.length}px`,
-            }}
-          >
-            {origins.map((origin, index) => {
-              return (
-                <Fragment key={origin.number}>
-                  {index > 0 ? <span>/</span> : null}
-                  <Scenario scenario={origin} muted />
-                </Fragment>
-              );
-            })}
-          </div>
-        )}
+        <ScenarioSteps scenario={scenario} done={true} />
         <Card
-          css={{ width: "auto" }}
+          css={{ width: "auto", marginBottom: "0 !important" }}
           coreCss={{
             display: "flex",
             alignItems: "center",
@@ -276,7 +321,7 @@ export function Scenario({
             {transports}
           </div>
           <div css={{ paddingRight: "4px", fontSize: "1.3em" }}>
-            {scenario.number}
+            {scenario.number}: {scenario.name}
           </div>
           <div
             css={{
@@ -293,34 +338,7 @@ export function Scenario({
             {otherIcons}
           </div>
         </Card>
-        {!muted && links.length > 0 && (
-          <div
-            css={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: "2px",
-              transform: "scale(0.66)",
-              marginLeft: `-${5 * links.length}px`,
-              marginRight: `-${5 * links.length}px`,
-            }}
-          >
-            {links.map((followUp, index) => {
-              return (
-                <Fragment key={followUp.number}>
-                  {index > 0 ? <span>/</span> : null}
-                  <Scenario scenario={followUp} muted />
-                </Fragment>
-              );
-            })}
-          </div>
-        )}
-
-        {muted ? null : (
-          <div>
-            ({scenario.step || 1}/{scenario.length || 1})
-          </div>
-        )}
+        <ScenarioSteps scenario={scenario} done={false} />
       </div>
     </>
   );
